@@ -33,20 +33,8 @@
       <v-toolbar-title>DRII Project</v-toolbar-title>
     </v-app-bar>
 
-    <v-content>
-      <v-container
-        class="fill-height"
-        fluid
-      >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col class="shrink">
-            <router-view/>
-          </v-col>
-        </v-row>
-      </v-container>
+    <v-content > 
+            <router-view/> 
     </v-content>
 
     <v-footer app>
@@ -64,7 +52,7 @@
       drawer: false,
     }),
     created () {
-      this.$vuetify.theme.dark = true
+      //this.$vuetify.theme.dark = true
     },
   }
 </script>

@@ -1,7 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
+import DialogGrid from  '../components/Buttons/DialogGridOption.vue'
+import DialogSelect from '../components/Buttons/DialogSelect.vue'
+import DialogShortAnswer from '../components/Buttons/DialogShortAnswer.vue'
+import OptionPalettes from '../components/Buttons/OptionPalettes.vue'
+import  DialogDate from '../components/Buttons/DialogDate.vue'
+import  DialogUpload from '../components/Buttons/DialogUploadFile.vue' 
+import Principal from  '../components/Principal/Principal.vue'
+import CardShortAnswer from  '../components/Principal/CardShortAnswer.vue'
 Vue.use(VueRouter)
 
   const routes = [
@@ -11,6 +18,42 @@ Vue.use(VueRouter)
     component: Home
   },
   {
+    path:'/ShortAnswer',
+    name: 'ShortAnswer',
+    component: DialogShortAnswer
+  },
+  {
+    path:'/Select',
+    name: 'Select',
+    component: DialogSelect
+  },
+  {
+    path:'/Grid',
+    name: 'Grid',
+    component: DialogGrid
+  },
+  {
+    path:'/UploadFile',
+    name: 'UploadFile',
+    component: DialogUpload
+  },
+  {
+    path:'/Date',
+    name: 'Date',
+    component: DialogDate 
+  },
+  {
+    path:'/OptionPalettes',
+    name: 'OptionPalettes',
+    component: OptionPalettes
+  },
+  {
+    path:'/Principal',
+    name: 'Principal',
+    component: Principal
+  },
+
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -18,7 +61,7 @@ Vue.use(VueRouter)
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
-  
+
   
 ]
 
