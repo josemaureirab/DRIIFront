@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="inspire" class="Bground">
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -56,3 +56,9 @@
     },
   }
 </script>
+
+<style scoped>
+  .Bground {
+    background-color: rgb(39, 39, 39, 1) !important;
+  }
+</style>
