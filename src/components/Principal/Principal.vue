@@ -1,24 +1,27 @@
-
 <template>
   <v-row>
     <v-col cols="2">
       <OptionPalettes />
     </v-col>
-
-<v-list-item
-         v-for ="(item, i) in questions"
-          :key="i" >
+    <v-list-item v-for="(item, i) in info" :key="i">
       <v-list-item-content>
-            <v-col cols="9" justify="center">
-            <CardShortAnswer v-if="item.type == 1" v-bind:title-question="item.question" v-bind:setting="item.setting" />
-            <CardSelect v-if="item.type == 2" v-bind:title-question="item.question" v-bind:setting="item.setting" />
-            <CardUploadFile v-if="item.type == 3"  v-bind:title-question="item.question" v-bind:setting="item.setting" />
-            <CardDate v-if="item.type == 4"  v-bind:title-question="item.question" v-bind:setting="item.setting"  />
-            <CardGridOption v-if="item.type == 5"  v-bind:title-question="item.question" v-bind:setting="item.setting"  />
+        <v-col cols="9" justify="center">
+          <CardShortAnswer   v-if="item.questionType == '1'" v-bind:item="item" />
 
+
+          <CardSelect
+            v-if="item.questionType == '2'" v-bind:item="item"
+          />
+
+    
+          <CardGridOption
+            v-if="item.questionType == '3'"
+            v-bind:title-question="item.question"
+             v-bind:item="item"
+          />
         </v-col>
       </v-list-item-content>
- </v-list-item>
+    </v-list-item>
   </v-row>
 </template>
 
@@ -26,50 +29,35 @@
 import OptionPalettes from "../Buttons/OptionPalettes.vue";
 import CardShortAnswer from "./CardShortAnswer.vue";
 import CardSelect from "./CardSelect.vue";
-import CardUploadFile from "./CardUploadFile.vue";
-import CardDate from "./CardDate.vue";
 import CardGridOption from "./CardGridOption.vue";
+import axios from "axios";
 
 export default {
   components: {
-    CardShortAnswer,
     OptionPalettes,
-    CardSelect, 
-    CardUploadFile,
-    CardDate,
-    CardGridOption,
+    CardShortAnswer,
+    CardSelect,
+    CardGridOption
   },
+
+  /* methods: {
+   },*/
+
+  mounted() {
+    axios
+      .get("http://142.93.79.50:8080/backend-drii/questions/")
+      .then(response => (this.info = response.data))
+      .catch(error => console.log(error));
+  },
+
   data: () => ({
-      questions: [
-          { 
-                question: "¿Titulo Pregunta Simple?",
-                type:  1,
-                setting: Object,
-          },
-          {   
-                question: '¿Titulo Pregunta Selección Simple?',
-                type:  2,
-                setting: Object,
-          },
-           { 
-                question: '¿ Titulo Pregunta Upload File?',
-                type:  3,
-                 setting: Object,
-          },
-          { 
-                question: '¿Titulo Pregunta Date ?',
-                type:  4,
-                setting: Object,
-          },
-          { 
-                question: '¿ Titulo Cuadricula? ',
-                type:  5,
-                 setting: Object,
-          }
-      ],
-    }),
+    info: null
+  })
+
+// TODO: AL AGREGAR UN NUEVO ELEMENTO REINICIAR LA PAGINA O QUE SE MUESTRE
+// TODO: AL COPIAR UN ELEMENTO QUE SE AGREGA ABAJO AUTOMATICAMENTE..
+// TODO: AL BORRAR UN ELEMENTO QUE SE BORRE AUTOMATICAMENTE.
 
   // TODO: Arreglar cHILD COMPONENTS..
-
 };
 </script>

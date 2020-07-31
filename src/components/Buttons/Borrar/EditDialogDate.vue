@@ -58,33 +58,43 @@
         <v-divider></v-divider>
         <v-list three-line subheader>
           <v-subheader>Configuración de Respuesta</v-subheader>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Obligatorio</v-list-item-title>
-              <v-list-item-subtitle>La respuesta debe responderse obligatoriamente</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Maximo de caracteres</v-list-item-title>
-              <v-list-item-subtitle>Maximo de caracters por respuesta (te envia para escribir maximo de caracteres)</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Ayuda</v-list-item-title>
-              <v-list-item-subtitle>Crear un boton de ayuda ( te envia para escribir un texto)</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+             <v-card flat>
+            <v-card-text>
+              
+                <v-col cols="10" sm="10" md="10">
+                <v-switch
+                  v-model="ex11"
+                  label="Selección Multiple"
+                  color="green"
+                  value="green"
+                  hide-details
+                ></v-switch>
+              </v-col>
+
+           
+               <v-col cols="10" sm="10" md="10">
+                <v-switch
+                  v-model="ex11"
+                  label="Respuesta No Obligatoria"
+                  color="red"
+                  value="red"
+                  hide-details
+                ></v-switch>
+              </v-col>
+
+              <v-col cols="10" sm="10" md="10">
+                <v-card-text>
+                  <v-row align="center">
+                    <v-checkbox v-model="includeFiles" hide-details class="shrink mr-2 mt-0"></v-checkbox>
+                    <v-text-field label="Ayuda"></v-text-field>
+                  </v-row>
+                </v-card-text>
+              </v-col>
+              
+            </v-card-text>
+          </v-card>
+        
+      
         </v-list>
       </v-card>
     </v-dialog>
@@ -100,15 +110,17 @@ export default {
 
   methods: {
       add(index) {
+        console.log('hola')
         this.inputs.push({ name: "" });
         this.count += 1;
       },
       remove(index) {
+            console.log('hola')
         this.inputs.splice(this.count - 1, 1);
         this.count -= 1;
       }
-    },
-    
+    }
+    ,
   computed: {
     
     show: {

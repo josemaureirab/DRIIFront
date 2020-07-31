@@ -16,41 +16,30 @@
         </v-list-item>
       </v-list-item-group>
 
-       <div id="example" class="text-center">
-          <v-btn   v-bind:disabled="disableButton" class="mx-4 mt-4" fab dark v-bind:color="colorButton">
-        <v-icon dark>mdi-plus</v-icon>
-        </v-btn>
-        </div>
+     
 
     </v-list>
-    <DialogShortAnswer v-model="showDialogShort"/>
-    <DialogSelect v-model="showDialogSelect"/>
-    <DialogUploadFile v-model="showDialogUploadFile"/>
-    <DialogDate v-model="showDialogDate"/>
-    <DialogGridOption v-model="showDialogGridOption"/>
+      <DialogShortAnswer v-model="showDialogShort"/>
+      <DialogSelect v-model="showDialogSelect"/>
+      <DialogGridOption v-model="showDialogGridOption"/>
+    
    </v-navigation-drawer>
 </template>
 
 <script>
  import DialogShortAnswer from './DialogShortAnswer.vue';
- import DialogSelect from './DialogSelect.vue';
- import DialogUploadFile from './DialogUploadFile.vue';
- import DialogDate from './DialogDate.vue';
+ import DialogSelect from './DialogSelect.vue'; 
  import DialogGridOption from './DialogGridOption.vue';
 
   export default {
  components: {
            DialogShortAnswer,
            DialogSelect,
-           DialogUploadFile,
-           DialogDate,
            DialogGridOption,
     },
 
  methods:  {
-
        chickButton: function (i){
-          console.log(i);
           switch (i){
             case 0:
               this.showDialogShort = true;
@@ -66,7 +55,6 @@
                 break;
             case 4:
                 this.showDialogDate = true;
-
           }
        }         
 
@@ -99,11 +87,8 @@
       // TODO: al momento de apretar nuevamente el ultimo select (ya seleccionado y enviado) no cambia de color el select
       showDialogShort: false,
       showDialogSelect: false,
-      showDialogUploadFile: false,
-      showDialogDate: false,
       showDialogGridOption: false,
 
-      disabledButton: true,
       isClick: false,
       idClick: -1,
       colorSelect: "",
@@ -123,16 +108,20 @@
         text: 'Cuadricula Opciones',
         },
         {
-        icon: 'mdi-cloud-upload-outline',
-        text: 'Subir Archivo',
+        icon: 'mdi-shape-rectangle-plus',
+        text: 'Sección',
         },
-        {
-        icon: 'mdi-calendar-month',
-        text: 'Fecha',
+        { 
+        icon: 'mdi-shape-rectangle-plus',
+        text: 'Visualizar Arbol',
         },
           {
         icon: 'mdi-shape-rectangle-plus',
-        text: 'Sección',
+        text: 'Guardar',
+        },
+          {
+        icon: 'mdi-shape-rectangle-plus',
+        text: 'Publicar',
         },
 
       ],

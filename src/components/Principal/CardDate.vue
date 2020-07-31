@@ -79,7 +79,6 @@
 <script>
 //TODO: CAMBIAR COMPONENTES A CARD PARA REUTILIZAR!
 import Card from './Card.vue';
-import EditDialogDate from '../Buttons/EditDialogDate.vue';
 
 export default {
   components:{

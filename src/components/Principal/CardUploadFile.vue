@@ -53,16 +53,15 @@
         </v-col>
       </v-row>
     </v-container>
-    <EditDialogUploadFile  v-model="showDialogUploadFile"/>
+    
   </v-card>
 </template>
 
 <script>
-import EditDialogUploadFile from '../Buttons/EditDialogUploadFile';
 
   export default {
   components:{
-    EditDialogUploadFile
+
   },
     props: {
      titleQuestion: String,

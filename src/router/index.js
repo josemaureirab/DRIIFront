@@ -5,10 +5,9 @@ import DialogGrid from  '../components/Buttons/DialogGridOption.vue'
 import DialogSelect from '../components/Buttons/DialogSelect.vue'
 import DialogShortAnswer from '../components/Buttons/DialogShortAnswer.vue'
 import OptionPalettes from '../components/Buttons/OptionPalettes.vue'
-import  DialogDate from '../components/Buttons/DialogDate.vue'
-import  DialogUpload from '../components/Buttons/DialogUploadFile.vue' 
+import  DialogDate from '../components/Buttons/Borrar/DialogDate.vue'
+import  DialogUpload from '../components/Buttons/Borrar/DialogUploadFile.vue' 
 import Principal from  '../components/Principal/Principal.vue'
-import CardShortAnswer from  '../components/Principal/CardShortAnswer.vue'
 Vue.use(VueRouter)
 
   const routes = [

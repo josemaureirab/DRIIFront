@@ -1,8 +1,5 @@
 <template>
    <div class="home"> 
-    <!-- <img alt="Drii logo" src="../assets/logo-drii_0_0.png"> -->
-     <!-- <MoreSecction/> -->
- <!-- </div> --> 
   <Principal/>
 </div>
 </template>

@@ -9,7 +9,7 @@
           <v-toolbar-title>Nueva Pregunta Selección</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text @click="dialog = false">Agregar</v-btn>
+            <v-btn dark text @click="submit">Agregar</v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <v-list three-line subheader>
@@ -20,7 +20,16 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12" sm="12">
-                      <v-text-field v-model="first" label="Pregunta" outlined shaped></v-text-field>
+                      <v-text-field
+                        v-model="name"
+                        :error-messages="nameErrors"
+                        label="Pregunta"
+                        required
+                        @input="$v.name.$touch()"
+                        @blur="$v.name.$touch()"
+                        outlined
+                        shaped
+                      ></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -36,19 +45,14 @@
             <v-container>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field
-                    v-label="k"
-                    required
-                    prepend-icon="mdi-map-marker"
-                    v-model="input.name"
-                  ></v-text-field>
+                  <v-text-field required prepend-icon="mdi-tooltip-edit" v-model="input.name"></v-text-field>
                 </v-col>
               </v-row>
             </v-container>
           </v-form>
 
           <div class="text-center">
-            <v-btn class="ma-2" @click="add(k)" tile outlined color="success">
+            <v-btn class="ma-2" @click="add" tile outlined color="success">
               <v-icon left>mdi-plus</v-icon>Agregar
             </v-btn>
             <v-btn class="ma-2" @click="remove(k)" tile color="red" dark>Eliminar</v-btn>
@@ -58,33 +62,31 @@
         <v-divider></v-divider>
         <v-list three-line subheader>
           <v-subheader>Configuración de Respuesta</v-subheader>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Obligatorio</v-list-item-title>
-              <v-list-item-subtitle>La respuesta debe responderse obligatoriamente</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Maximo de caracteres</v-list-item-title>
-              <v-list-item-subtitle>Maximo de caracters por respuesta (te envia para escribir maximo de caracteres)</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-action>
-              <v-checkbox></v-checkbox>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Ayuda</v-list-item-title>
-              <v-list-item-subtitle>Crear un boton de ayuda ( te envia para escribir un texto)</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+          <v-card flat>
+            <v-card-text>
+              <v-col cols="10" sm="10" md="10">
+                <v-switch
+                  v-model="option"
+                  label="Selección Multiple"
+                  color="green"
+                  value="Multiple"
+                  hide-details
+                ></v-switch>
+              </v-col>
+
+              <v-col cols="10" sm="10" md="10">
+                <v-switch v-model="answerRequired" label="No Obligatoria" color="red" hide-details></v-switch>
+              </v-col>
+
+              <v-col cols="10" sm="10" md="10">
+                <v-card-text>
+                  <v-row align="center">
+                    <v-text-field v-model="help" label="Ayuda"></v-text-field>
+                  </v-row>
+                </v-card-text>
+              </v-col>
+            </v-card-text>
+          </v-card>
         </v-list>
       </v-card>
     </v-dialog>
@@ -93,39 +95,130 @@
 
 
 <script>
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
+import axios  from "axios";
 export default {
   props: {
-    value: Boolean
+    value: Boolean,
   },
-  computed: {
-    methods: {
-      add(index) {
-        this.inputs.push({ name: "" });
-        this.count += 1;
-      },
-      remove(index) {
+
+  mixins: [validationMixin],
+
+  validations: {
+    name: { required },
+    //inputs: {required},
+  },
+
+  methods: {
+    submit(){
+      this. $v.$touch();
+      if (this.$v.$error == false) {
+        this.show = false;
+        this.createQuestion().then( ({data})=> {
+             this.createOptions(data);
+        });
+      }
+
+
+    },
+
+    partitionInputs(){
+      let cols = [];
+      this.inputs.forEach(function (valor) {
+        cols.push(valor.name);
+      });
+      return cols;
+    },
+
+    selectOption(el) {
+      if (el == "Multiple") return el;
+      else return "Simple";
+    },
+
+    createOptions(data) {
+          let cols = this.partitionInputs();
+          let op = []
+          let promises   = []
+          for (var i = 0; i < cols.length; i++) {
+            promises.push (this.axios.post("http://142.93.79.50:8080/backend-drii/options/create", {
+                text: cols[i],
+                position: i,
+                question: data,
+              })
+              .then(response => {
+                  op.push(response)
+              })
+            )
+          }
+          Promise.all(promises).then(() => console.log(op));
+    },
+
+
+ createQuestion(){
+    return axios.post("http://142.93.79.50:8080/backend-drii/questions/create", {
+            tittle: this.name,
+            questionType: 1,
+            selectionType: this.option,
+            required: this.answerRequired,
+            help: this.help
+        });     
+    },
+
+    add(index) {
+      this.inputs.push({ name: "" });
+      this.count += 1;
+    },
+    remove(index) {
+      if (this.count !== 1) {
         this.inputs.splice(this.count - 1, 1);
         this.count -= 1;
       }
     },
+  },
+  computed: {
+    nameErrors() {
+      const errors = [];
+      if (!this.$v.name.$dirty) return errors;
+      !this.$v.name.required && errors.push("Pregunta es requerida");
+      return errors;
+    },
+
+    inputErrors() {
+      /*const errors = [];
+        if (!this.$v.inputs.name.$dirty) return errors;
+        !this.$v.inputs.required && errors.push("Seleccionar una pregunta");
+        return errors; */
+    },
+
     show: {
       get() {
         return this.value;
       },
       set(value) {
         this.$emit("input", value);
-      }
-    }
+      },
+    },
   },
 
   data: () => ({
     count: 1,
+    question: null,
+    // tittle: "", // titulo
+    option: "simple", // multiple o no.
+    answerRequired: false, // requerido o no.
+    name: "",
+    help: "",
     inputs: [
       {
-        name: ""
-      }
-    ]
-  })
+        name: "",
+      },
+    ], // preguntas para la  selección
+  }),
 };
+
+// TODO:  VALIDAR INPUTS ANTES DE ENVIARSE
+
+// TODO: AL CERRAR NO SE BORRA TODO... FUNCION CLEAR QUE BORRE QUE REINICIE TODO LOS PARAMETROS!.
 </script>
 
