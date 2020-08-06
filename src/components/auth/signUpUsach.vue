@@ -3,7 +3,7 @@
     <v-row justify="center">
     <v-card class="my-5" raised :width="cardWidth" min-width="300" max-width="800" min-height="500" max-height="1800">
       <v-card-text>
-        <h1 class="text-center mt-3">International Student Register</h1>
+        <h1 class="text-center mt-3">Registro estudiante USACH</h1>
       </v-card-text>
       <v-card-text>
         <v-row justify="center">
@@ -18,14 +18,14 @@
                 outlined
                 v-model="signUpInformation.firstName"
                 :rules="[rules.required]"
-                label="First name"/>
+                label="Nombres"/>
               <v-text-field
                 dense
                 required
                 outlined
                 v-model="signUpInformation.lastName"
                 :rules="[rules.required]"
-                label="Last name"/>
+                label="Apellidos"/>
               <v-text-field
                 dense
                 required
@@ -33,7 +33,7 @@
                 v-model="signUpInformation.phoneNumber"
                 :rules="[rules.required, rules.min]"
                 auto-complete=false
-                label="College"/>
+                label="Número telefónico (+569)"/>
                 
               <v-text-field
                 dense
@@ -42,43 +42,43 @@
                 auto-complete=false
                 v-model="signUpInformation.rut"
                 :rules="[rules.required, rules.min]"
-                label="Passport"/>
+                label="Rut"/>
               <v-text-field
                 dense
                 outlined
                 required
                 v-model="signUpInformation.streetName"
                 :rules="[rules.required]"
-                label="Street name (Address)"/>
+                label="Calle (Dirección)"/>
               <v-text-field
                 dense
                 outlined
                 required
                 :rules="[rules.required]"
                 v-model="signUpInformation.directionNumber"
-                label="Nº (Address)"/>
+                label="Nº calle (Dirección)"/>
               <v-text-field
                 dense
                 outlined
                 v-model="signUpInformation.complement"
-                label="Postal Code"/>
+                label="Nº dpto. (Opcional)"/>
               <v-text-field
                 dense
                 outlined
                 required
                 :rules="[rules.required, rules.email]"
                 v-model="signUpInformation.email"
-                label="E-mail"/>
+                label="Correo electrónico"/>
               <v-text-field
                 dense
                 outlined
                 required
                 v-model="signUpInformation.password"
-                label="Password"
+                label="Contraseña"
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="[rules.required, rules.min]"
                 :type="show ? 'text' : 'password'"
-                hint="Min 6 characters"
+                hint="6 caracteres mínimo"
                 counter
                 @click:append="show = !show"/>
               <v-text-field
@@ -86,20 +86,20 @@
                 outlined
                 required
                 v-model="signUpInformation.passwordConfirmation"
-                label="Confirm password"
+                label="Confirmar contraseña"
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="[rules.required, rules.min, confirmRules]"
                 :type="show ? 'text' : 'password'"
-                hint="Min 6 characters"
+                hint="6 caracteres mínimo"
                 counter
                 @click:append="show = !show"/>
-              <v-select dense outlined :rules="[rules.required]" v-model="selectedRegion" :items="addressStuffs"  item-text="regionName" return-object required label="Select your country"/>
-              <v-select dense outlined :rules="[rules.required]" @change="saveAddress" v-show="typeof selectedRegion.communeListString !== 'undefined'" required v-model="selectedCommune" :items="selectedRegion.communeListString" return-object label="Select your region"/>
+              <v-select dense outlined :rules="[rules.required]" v-model="selectedRegion" :items="addressStuffs"  item-text="regionName" return-object required label="Seleccionar región"/>
+              <v-select dense outlined :rules="[rules.required]" @change="saveAddress" v-show="typeof selectedRegion.communeListString !== 'undefined'" required v-model="selectedCommune" :items="selectedRegion.communeListString" return-object label="Seleccionar comuna"/>
               <v-row justify="center">
                 <v-checkbox
                   color="primary"
-                  :rules="[v => !!v || 'You need to accept to continue!']"
-                  label="I agree with the terms and conditions"
+                  :rules="[v => !!v || 'Es necesario aceptar para continuar!']"
+                  label="Estoy de acuerdo con terminos y condiciones"
                   required/>
               </v-row>
               <v-row justify="center">
@@ -148,9 +148,9 @@ export default {
     selectedRegion: {},
     selectedCommune: {},
     rules: {
-      email: value => /.+@.+\..+/.test(value) || 'Enter a valid email',
-      required: value => !!value || 'Required field',
-      min: value => value.length >= 6 || 'Min 6 characters'
+      email: value => /.+@.+\..+/.test(value) || 'Ingrese un correo electrónico valido',
+      required: value => !!value || 'Campo requerido',
+      min: value => value.length >= 6 || '6 caracteres mínimo'
     }
   }),
   mounted () {

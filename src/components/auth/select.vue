@@ -12,7 +12,7 @@
     </v-row>
     <v-row
     justify="center">
-      <v-col cols="6" sm="2" class="marginWindow">
+      <v-col @click="goToLoginEU()" cols="6" sm="2" class="marginWindow">
         <v-img
           class="imageSelect"
           src="@/assets/ventana1.png"
@@ -23,7 +23,7 @@
           <h1 class="fontSelect">USACH</h1>
         </center>
       </v-col>
-      <v-col cols="6" sm="2" class="marginWindow">
+      <v-col  @click="goToLoginEI()" cols="6" sm="2" class="marginWindow">
         <v-img
         class="imageSelect"
           src="@/assets/ventana2.png"
@@ -34,7 +34,7 @@
           <h1 class="fontSelect">internacionales</h1>
         </center>
       </v-col>
-      <v-col cols="6" sm="2" class="marginWindow">
+      <v-col @click="goToLoginFU()" cols="6" sm="2" class="marginWindow">
         <v-img
         class="imageSelect"
           src="@/assets/ventana2.png"
@@ -59,6 +59,17 @@ export default {
   },
   data: () => ({
     }),
+  methods: {
+    goToLoginEU () {
+      console.log('aaaaa');
+    },
+    goToLoginEI () {
+      console.log('bbbbb');
+    },
+    goToLoginFU () {
+      console.log('cccc');
+    }
+  }
 };
 </script>
 
@@ -66,10 +77,14 @@ export default {
 .fontSelect{
   color: white;
   line-height: 1.1;
+  cursor: pointer;
 }
 .marginWindow{
   margin-left: 2%;
   margin-right: 2%;
+}
+.imageSelect{
+  cursor: pointer;
 }
 .imageSelect:hover{
   transform: scale(1.1);

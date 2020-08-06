@@ -9,6 +9,9 @@ import  DialogDate from '../components/Buttons/DialogDate.vue'
 import  DialogUpload from '../components/Buttons/DialogUploadFile.vue' 
 import Principal from  '../components/Principal/Principal.vue'
 import CardShortAnswer from  '../components/Principal/CardShortAnswer.vue'
+import SignIn from '../views/SignIn.vue'
+import SignUp from '../views/SignUp.vue'
+import SignUpUsach from '../views/SignUpUsach.vue'
 Vue.use(VueRouter)
 
   const routes = [
@@ -48,11 +51,25 @@ Vue.use(VueRouter)
     component: OptionPalettes
   },
   {
+    path: '/SignIn',
+    name: 'SignIn',
+    component: SignIn
+  },
+  {
+    path: '/SignUp',
+    name: 'SignUp',
+    component: SignUp
+  },
+  {
+    path: '/SignUpUsach',
+    name: 'SignUpUsach',
+    component: SignUpUsach
+  },
+  {
     path:'/Principal',
     name: 'Principal',
     component: Principal
   },
-
   {
     path: '/about',
     name: 'About',

@@ -22,23 +22,20 @@
                 dense
                 outlined
                 :rules="[rules.required]"
-                v-model="signInInformation.username"
                 label="Nombre de Usuario"
-                prepend-inner-icon="account_circle"/>
+              />
               <v-text-field
                 dense
                 outlined
-                v-model="signInInformation.password"
                 label="Contraseña"
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="[rules.required]"
                 :type="show ? 'text' : 'password'"
-                prepend-inner-icon="https"
                 counter
                 @keyup.enter="trySignIn"
                 @click:append="show = !show"/>
               <v-row justify="center">
-                <v-btn @keyup.enter="trySignIn" @click="trySignIn" :disabled="signInLoader" :loading="signInLoader" class="mt-2" color="primary">
+                <v-btn @keyup.enter="trySignIn" @click="trySignIn" :disabled="signInLoader" :loading="signInLoader" class="btn-enter mt-2">
                   Entrar
                 </v-btn>
               </v-row>
@@ -46,7 +43,7 @@
           </v-row>
         </v-card-text>
         <v-card-text>
-          <v-row v-if="authDialog" justify="center">
+          <v-row justify="center">
             <v-btn @click="goAuth" class="nim-btn" color="secondary" text>
               ¿Aún no tienes cuenta? ¡Has click aquí!
             </v-btn>
@@ -55,7 +52,11 @@
             <v-btn @click="goForget" class="nim-btn" color="secondary" text>
               ¿Has olvidado tu contraseña?
             </v-btn>
-            <br><br>
+          </v-row>
+          <v-row justify="center">
+            <v-btn @click="goForget" class="nim-btn" color="secondary" text>
+              Volver
+            </v-btn>
           </v-row>
         </v-card-text>
       </v-card>
@@ -150,5 +151,8 @@ export default {
 <style scoped>
   .nim-btn {
     text-transform: none !important;
+  }
+  .btn-enter {
+    background-color: #f98a01 !important;
   }
 </style>
