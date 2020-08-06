@@ -35,7 +35,7 @@
                 @keyup.enter="trySignIn"
                 @click:append="show = !show"/>
               <v-row justify="center">
-                <v-btn @keyup.enter="trySignIn" @click="trySignIn" :disabled="signInLoader" :loading="signInLoader" class="btn-enter mt-2">
+                <v-btn @keyup.enter="trySignIn" @click="goToAccountUsach()" :disabled="signInLoader" :loading="signInLoader" class="btn-enter mt-2">
                   Entrar
                 </v-btn>
               </v-row>
@@ -44,7 +44,7 @@
         </v-card-text>
         <v-card-text>
           <v-row justify="center">
-            <v-btn @click="goAuth" class="nim-btn" color="secondary" text>
+            <v-btn @click="goToRegisterInt()" class="nim-btn" color="secondary" text>
               ¿Aún no tienes cuenta? ¡Has click aquí!
             </v-btn>
           </v-row>
@@ -115,6 +115,12 @@ export default {
     goAuth () {
       this.authDialog = false
       router.push({ name: 'auth' })
+    },
+    goToAccountUsach () {
+      router.push({ name: 'AccountUSACH' })
+    },
+    goToRegisterInt () {
+      router.push({ name: 'SignUp' })
     },
     goForget () {
       this.authDialog = false

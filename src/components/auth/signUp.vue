@@ -103,8 +103,8 @@
                   required/>
               </v-row>
               <v-row justify="center">
-                <v-btn @keyup.enter="trySignUp" @click="trySignUp" :disabled="signUpLoader" :loading="signUpLoader" class="dea2-btn my-5" color="primary">
-                  Registrarse
+                <v-btn @keyup.enter="trySignUp" @click="goToAccountInt()" :disabled="signUpLoader" :loading="signUpLoader" class="dea2-btn my-5" color="primary">
+                  Sign Up
                 </v-btn>
               </v-row>
             </v-form>
@@ -119,6 +119,7 @@
 <script>
 
 import { mapActions, mapState } from 'vuex'
+import router from '@/router'
 
 export default {
   name: 'auth-signUp',
@@ -171,6 +172,9 @@ export default {
       'signUp',
       'getAddressStuffs'
     ]),
+    goToAccountInt(){
+      router.push({ name: 'AccountINT' })
+    },
     saveAddress () {
       this.signUpInformation.region = this.selectedRegion.regionName
       this.signUpInformation.commune = this.selectedCommune

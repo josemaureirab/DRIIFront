@@ -12,7 +12,7 @@
     </v-row>
     <v-row
     justify="center">
-      <v-col @click="goToLoginEU()" cols="6" sm="2" class="marginWindow">
+      <v-col @click="goToEU()" cols="6" sm="2" class="marginWindow">
         <v-img
           class="imageSelect"
           src="@/assets/ventana1.png"
@@ -52,6 +52,8 @@
 
 <script>
 
+import router from '@/router'
+
 
 export default {
   components: {
@@ -60,14 +62,14 @@ export default {
   data: () => ({
     }),
   methods: {
-    goToLoginEU () {
-      console.log('aaaaa');
-    },
+    goToEU () {
+        router.push({ name: 'SignIn' })
+      },
     goToLoginEI () {
-      console.log('bbbbb');
+      router.push({ name: 'SignIn' })
     },
     goToLoginFU () {
-      console.log('cccc');
+      router.push({ name: 'AccountAdmin' })
     }
   }
 };

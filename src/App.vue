@@ -8,6 +8,14 @@
       <v-list dense>
         <v-list-item link>
           <v-list-item-action>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Inicio</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-action>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-action>
           <v-list-item-content>
@@ -16,10 +24,26 @@
         </v-list-item>
         <v-list-item link>
           <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
+            <v-icon>mdi-email</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Inicio</v-list-item-title>
+            <v-list-item-title>Mensajes</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-alarm-light</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Notificaciones</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content @click="goToHome()">
+            <v-list-item-title>Cerrar sesión</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -44,6 +68,9 @@
 </template>
 
 <script>
+
+import router from '@/router'
+
   export default {
     props: {
       source: String,
@@ -54,6 +81,12 @@
     created () {
       //this.$vuetify.theme.dark = true
     },
+    methods: {
+      goToHome () {
+        router.push({ name: 'Home' })
+        this.drawer = false
+      }
+    }
   }
 </script>
 

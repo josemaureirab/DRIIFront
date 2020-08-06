@@ -9,9 +9,12 @@ import  DialogDate from '../components/Buttons/DialogDate.vue'
 import  DialogUpload from '../components/Buttons/DialogUploadFile.vue' 
 import Principal from  '../components/Principal/Principal.vue'
 import CardShortAnswer from  '../components/Principal/CardShortAnswer.vue'
-import SignIn from '../views/SignIn.vue'
-import SignUp from '../views/SignUp.vue'
-import SignUpUsach from '../views/SignUpUsach.vue'
+import SignIn from '../views/Auth/SignIn.vue'
+import SignUp from '../views/Auth/SignUp.vue'
+import SignUpUsach from '../views/Auth/SignUpUsach.vue'
+import Account from '../views/Accounts/Account.vue'
+import AccountUsach from '../views/Accounts/AccountUsach.vue'
+import AccountInt from '../views/Accounts/AccountInt.vue'
 Vue.use(VueRouter)
 
   const routes = [
@@ -64,6 +67,21 @@ Vue.use(VueRouter)
     path: '/SignUpUsach',
     name: 'SignUpUsach',
     component: SignUpUsach
+  },
+  {
+    path: '/AccountAdmin',
+    name: 'AccountAdmin',
+    component: Account
+  },
+  {
+    path: '/AccountUSACH',
+    name: 'AccountUSACH',
+    component: AccountUsach
+  },
+  {
+    path: '/AccountINT',
+    name: 'AccountINT',
+    component: AccountInt
   },
   {
     path:'/Principal',
