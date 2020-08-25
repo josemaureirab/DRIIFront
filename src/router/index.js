@@ -17,14 +17,14 @@ import Informativo from '../components/Student/Informativo.vue'
 import Postulaciones from '../components/Student/Postulaciones.vue'
 import Postulacion from '../components/Student/Postulacion.vue'
 import Intercambio from '../components/Student/Intercambio.vue'
-import NewConvocatoria from '../components/Admin/NewConvocatoria.vue'
+// import NewConvocatoria from '../components/Admin/NewConvocatoria.vue'
 import Perfil from '../components/Student/Perfil.vue'
 import MenuAdmin from '../components/Admin/Menu.vue'
 import MenuConvocatorias from '../components/Admin/MenuConvocatorias.vue'
 import MenuFormularios from '../components/Admin/MenuFormulario.vue'
 import PostulacionesAdmin from '../components/Admin/Postulaciones.vue'
 import PostulacionAdmin from '../components/Admin/Postulacion.vue'
-import EditSteps from '../components/Admin/EditSteps.vue'
+// import EditSteps from '../components/Admin/EditSteps.vue'
 import IntercambioAdmin from '../components/Admin/Intercambio.vue'
 
 
@@ -38,15 +38,35 @@ import PostulacionesOutStudent from '../components/OutStudent/Postulaciones.vue'
 import PerfilOutStudent from '../components/OutStudent/Perfil.vue'
 import IntercambioOutStudent from '../components/OutStudent/Intercambio.vue'
 ////
-/// Administrador ///
+
+
+
+
+/// ADMINISTRATOR ///
 import MenuAdministrator from '../components/Administrator/Menu.vue'
     // Convocatorias //
 import ListConvocatorias from '../components/Administrator/Convocatorias/ListConvocatorias.vue'
-
-
+import NewConvocatoria from '../components/Administrator/Convocatorias/NewConvocatoria.vue'
+import EditConvocatoria from '../components/Administrator/Convocatorias/EditConvocatoria.vue' // NO DEBERIA IR! 
+import ViewConvocatoria from '../components/Administrator/Convocatorias/ViewConvocatoria.vue' // NO DEBERIA IR 
+// Formularios//
+import ListFormularios from '../components/Administrator/Formularios/ListFormularios.vue'
 /////
-
+// Postulaciones //
+import ListPostulaciones from '../components/Administrator/Postulaciones/ListPostulaciones.vue'
+import ViewPostulacionAdministrator from  '../components/Administrator/Postulaciones/ViewPostulacion.vue' // NO DEBERIA IR!
+//// 
+/// Step's // 
+import EditSteps from '../components/Administrator/Steps/EditSteps.vue'
 ////
+/// ADMINISTRATOR/// 
+
+//FORMULARIOS//
+import NewFormulario from '../components/Formulario/NewFormulario.vue'
+import EditFormulario from '../components/Formulario/EditFormulario.vue' // ESTA NO DEBERIA IR! 
+import ViewFormulario from '../components/Formulario/ViewFormulario.vue' // ESTA NO DEBERIA IR! 
+/// 
+
 Vue.use(VueRouter)
 
   const routes = [
@@ -96,13 +116,74 @@ Vue.use(VueRouter)
   name: 'ListConvocatorias',
   component: ListConvocatorias
 },
+{
+  path: '/NewConvocatoria',
+  name: 'NewConvocatoria',
+  component: NewConvocatoria
+},
+{
+  path: '/EditConvocatoria',
+  name: 'EditConvocatoria',
+  component: EditConvocatoria
+},
+{
+  path: '/ViewConvocatoria',
+  name: 'ViewConvocatoria',
+  component: ViewConvocatoria
+},
+
+/// Formulario Administrator
+
+{
+  path: '/ListFormularios',
+  name: 'ListFormularios',
+  component: ListFormularios
+},
+
+/// Postulaciones Administrator
+{
+  path: '/ListPostulaciones',
+  name: 'ListPostulaciones',
+  component: ListPostulaciones
+},
+{
+  path: '/ViewPostulacionAdministrator',
+  name: 'ViewPostulacionAdministrator',
+  component: ViewPostulacionAdministrator
+},
 
 
 
+//// Step's Administrator //
+
+{
+  path: '/EditSteps',
+  name: 'EditSteps',
+  component: EditSteps
+},
+
+// FORMULARIO
+
+{
+  path: '/NewFormulario',
+  name: 'NewFormulario',
+  component: NewFormulario
+},
+{
+  path: '/EditFormulario',
+  name: 'EditFormulario',
+  component: EditFormulario
+},
+
+{
+  path: '/ViewFormulario',
+  name: 'ViewFormulario',
+  component: ViewFormulario
+},
+
+
+//
 ////
-
-
-
 
     {
       path: '/IntercambioAdmin',
@@ -154,11 +235,7 @@ Vue.use(VueRouter)
 
     },
 
-    {
-      path: '/NewConvocatoria',
-      name: 'NewConvocatoria',
-      component: NewConvocatoria
-    },
+
     {
       path: '/Intercambio',
       name: 'Intercambio',

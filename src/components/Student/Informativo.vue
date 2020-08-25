@@ -252,7 +252,7 @@
             </base-body>-->
 
             <div class="d-flex flex-wrap">
-              <basebtn href="\postulaciones">POSTULAR</basebtn>
+              
             </div>
           </v-responsive>
         </v-container>
@@ -265,13 +265,11 @@
 
 <script>
 //TODO: CAMBIAR COMPONENTES A CARD PARA REUTILIZAR!
-import basebtn from "../Extra/Btn.vue";
 import heading from "../Extra/Heading.vue";
 import BaseSection from "../Extra/BaseSection.vue";
 
 export default {
   components: {
-    basebtn,
     heading,
     BaseSection,
   },

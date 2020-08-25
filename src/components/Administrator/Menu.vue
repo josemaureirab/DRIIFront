@@ -19,7 +19,7 @@
               <v-card-title class="headline">Formularios</v-card-title>
               <v-card-subtitle>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</v-card-subtitle>
               <v-card-actions>
-                <v-btn text href="/formulario">Ingresar</v-btn>
+                <v-btn text href="/ListFormularios">Ingresar</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -30,7 +30,7 @@
               <v-card-subtitle>Lorem asipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</v-card-subtitle>
 
               <v-card-actions>
-                <v-btn text href="/PostulacionesAdmin">Ingresar</v-btn>
+                <v-btn text href="/ListPostulaciones">Ingresar</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -41,7 +41,7 @@
               <v-card-title class="headline">Step's</v-card-title>
               <v-card-subtitle>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</v-card-subtitle>
               <v-card-actions>
-                <v-btn text href="/Intercambio">Ingresar</v-btn>
+                <v-btn text href="/EditSteps">Ingresar</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
