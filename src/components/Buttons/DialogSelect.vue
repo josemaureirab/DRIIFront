@@ -158,7 +158,7 @@ export default {
  createQuestion(){
     return axios.post("http://142.93.79.50:8080/backend-drii/questions/create", {
             tittle: this.name,
-            questionType: 1,
+            questionType: 2,
             selectionType: this.option,
             required: this.answerRequired,
             help: this.help

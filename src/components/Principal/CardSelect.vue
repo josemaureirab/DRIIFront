@@ -8,20 +8,20 @@
           <v-card-text>
             <v-subheader class="pa-0">
 
-              {{this.item.tittle}} 
+              {{this.item.tittle}} 3 
 
             </v-subheader>
+        
                <v-select
-            v-model="value"
+             v-model="value"
             :items="items"
             chips
-            label="Chips"
+            label="Seleccione una opcion"
             multiple
             outlined
           ></v-select>
               
-     
-          
+
           </v-card-text>
         </v-col>
 
@@ -37,6 +37,7 @@
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-col>
+
             
 
             <v-col class="px-0">
@@ -61,7 +62,7 @@ import EditDialogSelect from "../Buttons/EditDialogSelect";
 
 export default {  
   components: {
-    EditDialogSelect
+    EditDialogSelect 
   },
   props: {
     item: Object
@@ -69,16 +70,25 @@ export default {
   methods: {
     buttonEdit: function() {
       this.showDialogShort = true;
-    }
+    },
+    buttonDelete: function(){
+          this.axios
+          .delete("http://142.93.79.50:8080/backend-drii/questions/delete/"+this.item.id)
+          .then(function(response) {
+            console.log(response);
+          });
+    },
   },
   data: () => ({
     showDialogShort: false,
-    items: ['foo', 'bar', 'fizz', 'buzz'],
+     items: ['Opcion 1', 'Opcion 2', 'Opcion 3'],
+    value: ['Opcion'],
+
     //TODO: Cambiar items por cols de item.
 
     //TODO: VARIABLE MULTIPLE -> Sacada de item para saber si es o no. 
 
-    value: [], // Vacio al principio.
+    //value: ['foo', 'bar', 'fizz', 'buzz'], // Vacio al principio.
   })
 };
 </script>

@@ -4,10 +4,10 @@
       <v-list-item-group  v-model="model" v-bind:color="colorSelect">
         <v-list-item
          v-for ="(item, i) in items"
-          :key="i" v-on:click="chickButton(i)">
+          :key="i"   v-on:click="chickButton(i)">
         
           <v-list-item-icon >
-            <v-icon  v-text="item.icon"></v-icon>
+            <v-icon   v-text="item.icon"></v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -40,6 +40,7 @@
 
  methods:  {
        chickButton: function (i){
+         console.log(i);
           switch (i){
             case 0:
               this.showDialogShort = true;
@@ -55,6 +56,8 @@
                 break;
             case 4:
                 this.showDialogDate = true;
+
+      
           }
        }         
 
@@ -122,6 +125,11 @@
           {
         icon: 'mdi-shape-rectangle-plus',
         text: 'Publicar',
+        },
+           {
+        icon: 'mdi-shape-rectangle-plus',
+        text: 'Salir',
+        href: '/Formulario'
         },
 
       ],

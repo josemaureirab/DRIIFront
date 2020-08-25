@@ -1,19 +1,12 @@
 <template>
-  <v-row>
-    <v-col cols="2">
-      <OptionPalettes />
-    </v-col>
-    <v-list-item v-for="(item, i) in info" :key="i">
-      <v-list-item-content>
-        <v-col cols="9" justify="center">
-          <CardShortAnswer   v-if="item.questionType == '1'" v-bind:item="item" />
-
-        
+    <div> 
+    <v-list-item v-for="(item, i) in info" :key="i" >     
+      <v-list-item-content >
+        <v-col cols="12" justify="center">
+          <ViewShortAnswer   v-if="item.questionType == '1'" v-bind:item="item" />
           <CardSelect
             v-if="item.questionType == '2'" v-bind:item="item"
           />
-
-    
           <CardGridOption
             v-if="item.questionType == '3'"
             v-bind:title-question="item.question"
@@ -22,20 +15,20 @@
         </v-col>
       </v-list-item-content>
     </v-list-item>
-  </v-row>
+    </div>
 </template>
 
 <script>
-import OptionPalettes from "../Buttons/OptionPalettes.vue";
-import CardShortAnswer from "./CardShortAnswer.vue";
-import CardSelect from "./CardSelect.vue";
-import CardGridOption from "./CardGridOption.vue";
+
+import ViewShortAnswer from "../ViewFormulario/ViewShortAnswer.vue";
+import CardSelect from "../Principal/CardSelect";
+import CardGridOption from "../Principal/CardGridOption.vue";
 import axios from "axios";
 
 export default {
   components: {
-    OptionPalettes,
-    CardShortAnswer,
+
+    ViewShortAnswer,
     CardSelect,
     CardGridOption
   },

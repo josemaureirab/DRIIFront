@@ -8,9 +8,207 @@ import OptionPalettes from '../components/Buttons/OptionPalettes.vue'
 import  DialogDate from '../components/Buttons/Borrar/DialogDate.vue'
 import  DialogUpload from '../components/Buttons/Borrar/DialogUploadFile.vue' 
 import Principal from  '../components/Principal/Principal.vue'
+import Formulario from '../components/Principal/Formulario.vue'
+import FormulariosPublicados  from  '../components/Principal/FormulariosPublicados.vue'
+import FormulariosGuardados from '../components/Principal/FormulariosGuardados.vue'
+import MenuStudent from '../components/Student/Menu.vue'
+import Convocatorias from '../components/Student/Convocatorias.vue'
+import Informativo from '../components/Student/Informativo.vue'
+import Postulaciones from '../components/Student/Postulaciones.vue'
+import Postulacion from '../components/Student/Postulacion.vue'
+import Intercambio from '../components/Student/Intercambio.vue'
+import NewConvocatoria from '../components/Admin/NewConvocatoria.vue'
+import Perfil from '../components/Student/Perfil.vue'
+import MenuAdmin from '../components/Admin/Menu.vue'
+import MenuConvocatorias from '../components/Admin/MenuConvocatorias.vue'
+import MenuFormularios from '../components/Admin/MenuFormulario.vue'
+import PostulacionesAdmin from '../components/Admin/Postulaciones.vue'
+import PostulacionAdmin from '../components/Admin/Postulacion.vue'
+import EditSteps from '../components/Admin/EditSteps.vue'
+import IntercambioAdmin from '../components/Admin/Intercambio.vue'
+
+
+
+// Refactor///
+
+// OUT STUDENT 
+import MenuOutStudent from '../components/OutStudent/Menu.vue'
+import ConvocatoriaOutStudent from '../components/OutStudent/Convocatorias.vue'
+import PostulacionesOutStudent from '../components/OutStudent/Postulaciones.vue'
+import PerfilOutStudent from '../components/OutStudent/Perfil.vue'
+import IntercambioOutStudent from '../components/OutStudent/Intercambio.vue'
+////
+/// Administrador ///
+import MenuAdministrator from '../components/Administrator/Menu.vue'
+    // Convocatorias //
+import ListConvocatorias from '../components/Administrator/Convocatorias/ListConvocatorias.vue'
+
+
+/////
+
+////
 Vue.use(VueRouter)
 
   const routes = [
+
+
+/// Nuevas rutas
+
+
+// OUT STUDENT // 
+{
+  path: '/MenuOutStudent',
+  name: 'MenuOutStudent',
+  component: MenuOutStudent
+},
+{
+  path: '/ConvocatoriaOutStudent',
+  name: 'ConvocatoriaOutStudent',
+  component: ConvocatoriaOutStudent
+},
+{
+  path: '/PostulacionesOutStudent',
+  name: 'PostulacionesOutStudent',
+  component: PostulacionesOutStudent
+},
+{
+  path: '/PerfilOutStudent',
+  name: 'PerfilOutStudent',
+  component: PerfilOutStudent
+},
+{
+  path: '/IntercambioOutStudent',
+  name: 'IntercambioOutStudent',
+  component: IntercambioOutStudent
+},
+
+// ADMINISTRATOR 
+{
+  path: '/MenuAdministrator',
+  name: 'MenuAdministrator',
+  component: MenuAdministrator
+},
+
+// Convocatorias Administrator //
+
+{
+  path: '/ListConvocatorias',
+  name: 'ListConvocatorias',
+  component: ListConvocatorias
+},
+
+
+
+////
+
+
+
+
+    {
+      path: '/IntercambioAdmin',
+      name: 'IntercambioAdmin',
+      component: IntercambioAdmin
+    },
+
+    {
+      path: '/EditSteps',
+      name: 'EditSteps',
+      component: EditSteps
+    },
+    {
+      path: '/PostulacionAdmin',
+      name: 'PostulacionAdmin',
+      component: PostulacionAdmin
+    },
+
+    {
+      path: '/PostulacionesAdmin',
+      name: 'PostulacionesAdmin',
+      component: PostulacionesAdmin
+
+    },
+    {
+      path: '/MenuFormularios',
+      name: 'MenuFormularios',
+      component: MenuFormularios
+
+    },
+    {
+      path: '/MenuConvocatorias',
+      name: 'MenuConvocatorias',
+      component: MenuConvocatorias
+
+    },
+    {
+      path: '/MenuAdmin',
+      name: 'MenuAdmin',
+      component: MenuAdmin
+
+    },
+
+
+    {
+      path: '/Perfil',
+      name: 'Perfil',
+      component: Perfil
+
+    },
+
+    {
+      path: '/NewConvocatoria',
+      name: 'NewConvocatoria',
+      component: NewConvocatoria
+    },
+    {
+      path: '/Intercambio',
+      name: 'Intercambio',
+      component: Intercambio
+    },
+
+    {
+      path: '/Postulaciones',
+      name: 'Postulaciones',
+      component: Postulaciones
+    },
+    {
+      path: '/Postulacion',
+      name: 'Postulacion',
+      component: Postulacion
+    },
+
+    {
+      path: '/Convocatorias',
+      name: 'Convocatorias',
+      component: Convocatorias
+    },
+    {
+      path: '/Informativo',
+      name: 'Informativo',
+      component: Informativo
+    },
+
+    {
+      path: '/MenuStudent',
+      name: 'MenuStudent',
+      component: MenuStudent
+    },
+
+  {
+    path: '/Formulario',
+    name: 'Formulario',
+    component: Formulario
+  },
+  {
+    path: '/FormulariosPublicados',
+    name: 'FormulariosPublicados',
+    component: FormulariosPublicados
+  },
+  {
+    path: '/FormulariosGuardados',
+    name: 'FormulariosGuardados',
+    component: FormulariosGuardados
+  },
+
   {
     path: '/',
     name: 'Home',
