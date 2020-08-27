@@ -50,6 +50,13 @@ Vue.use(VueRouter)
 
 /// Nuevas rutas
 
+// TEMPORAL HOME //
+
+{
+  path: '/',
+  name: 'MenuAdministrator',
+  component: MenuAdministrator
+},
 
 // OUT STUDENT // 
 {
