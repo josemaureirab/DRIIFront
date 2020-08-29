@@ -6,7 +6,7 @@
           <v-btn icon dark @click="show = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Nueva Pregunta de Cuadricula</v-toolbar-title>
+          <v-toolbar-title>Nueva Pregunta Selección</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn dark text @click="submit">Agregar</v-btn>
@@ -40,42 +40,45 @@
 
         <v-divider></v-divider>
         <v-list three-line subheader>
-          <v-subheader>Opciones</v-subheader>
-
           <v-container fluid>
             <v-row>
               <v-col cols="12" sm="6">
-                <h3 class="text-center">Columnas</h3>
-                <v-form v-for="(input,k) in columns" :key="k">
-                  <v-text-field
-                    v-label="k"
-                    required
-                    prepend-icon="mdi-tooltip-edit"
-                    v-model="input.name"
-                  ></v-text-field>
+                <v-subheader>Columnas</v-subheader>
+                <v-form v-for="(input,k) in inputs" :key="k">
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12">
+                        <v-text-field required prepend-icon="mdi-tooltip-edit" v-model="input.name"></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
                 </v-form>
+
                 <div class="text-center">
-                  <v-btn class="ma-2" @click="addColumn(k)" tile outlined color="success">
+                  <v-btn class="ma-2" @click="add" tile outlined color="success">
                     <v-icon left>mdi-plus</v-icon>Agregar
                   </v-btn>
-                  <v-btn class="ma-2" @click="removeColumn(k)" tile color="red" dark>Eliminar</v-btn>
+                  <v-btn class="ma-2" @click="remove(k)" tile color="red" dark>Eliminar</v-btn>
                 </div>
               </v-col>
+
               <v-col cols="12" sm="6">
-                <h3 class="text-center">Filas</h3>
-                <v-form v-for="(input,k) in rows" :key="k">
-                  <v-text-field
-                    v-label="k"
-                    required
-                    prepend-icon="mdi-tooltip-edit"
-                    v-model="input.name"
-                  ></v-text-field>
+                <v-subheader>Filas</v-subheader>
+                <v-form v-for="(rows,k) in rows" :key="k">
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12">
+                        <v-text-field required prepend-icon="mdi-tooltip-edit" v-model="rows.name"></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
                 </v-form>
+
                 <div class="text-center">
-                  <v-btn class="ma-2" @click="addRow(k)" tile outlined color="success">
+                  <v-btn class="ma-2" @click="addRows" tile outlined color="success">
                     <v-icon left>mdi-plus</v-icon>Agregar
                   </v-btn>
-                  <v-btn class="ma-2" @click="removeRow(k)" tile color="red" dark>Eliminar</v-btn>
+                  <v-btn class="ma-2" @click="removeRows(k)" tile color="red" dark>Eliminar</v-btn>
                 </div>
               </v-col>
             </v-row>
@@ -98,7 +101,7 @@
               </v-col>
 
               <v-col cols="10" sm="10" md="10">
-                <v-switch v-model="answerRequired" label="No Obligatoria" color="red"  hide-details></v-switch>
+                <v-switch v-model="answerRequired" label="No Obligatoria" color="red" hide-details></v-switch>
               </v-col>
 
               <v-col cols="10" sm="10" md="10">
@@ -116,87 +119,129 @@
   </v-row>
 </template>
 
-<script>
 
+<script>
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
-
-
-
+import axios from "axios";
 export default {
   props: {
-    value: Boolean
+    value: Boolean,
   },
 
   mixins: [validationMixin],
 
-  validations: {  
+  validations: {
     name: { required },
     //inputs: {required},
   },
 
-
   methods: {
-
     submit() {
       this.$v.$touch();
-      if(this.$v.$error == false){
-        this.createQuestion();
-        this.show = false
+      if (this.$v.$error == false) {
+        this.show = false;
+        this.createQuestion().then(({ data }) => {
+             this.createOptions(data)
+        });
       }
-    },   
+    },
 
-    addColumn(index) {
-      this.columns.push({ name: "" });
-      this.countColumns += 1;
+    partitionInputs() {
+      let cols = [];
+      this.inputs.forEach(function (valor) {
+        cols.push(valor.name);
+      });
+      return cols;
     },
-    removeColumn(index) {
-      this.columns.splice(this.countColumns - 1, 1);
-      this.countColumns -= 1;
+
+     partitionSelections() {
+      let cols = [];
+      this.rows.forEach(function (valor) {
+        cols.push(valor.name);
+      });
+      return cols;
     },
-    addRow(index) {
-      this.rows.push({ name: "" });
-      this.countRow += 1;
+
+    selectOption(el) {
+      if (el == "Multiple") return el;
+      else return "Simple"; // TODO: CAMBIAR EN SELECTION TYPE POR  LINE ABAJODE CRETION QUESTION
     },
-    removeRow(index) {
-      this.rows.splice(this.countRow - 1, 1);
-      this.countRow -= 1;
+
+
+      createSelections(data) {
+      let cols = this.partitionSelections();
+      let op = [];
+      let promises = [];
+      for (var i = 0; i < cols.length; i++) {
+        promises.push(
+          this.axios
+            .post("http://142.93.79.50:8080/backend-drii/selections/create", {
+              text: cols[i],
+              position: i,
+              option: data,
+            })
+            .then((response) => {
+              op.push(response);
+            })
+        );
+      }
+      Promise.all(promises).then(() => console.log(op));
+    },
+
+    createOptions(data) {
+      let cols = this.partitionInputs();
+      let op = [];
+      let promises = [];
+      for (var i = 0; i < cols.length; i++) {
+        promises.push(
+          this.axios
+            .post("http://142.93.79.50:8080/backend-drii/options/create", {
+              text: cols[i],
+              position: i,
+              question: data,
+            })
+            .then((response) => {
+              op.push(response);
+            })
+        );
+      }
+      Promise.all(promises).then(() => console.log(op));
+    },
+
+    createQuestion() {
+      if (this.option == null) this.option = "Simple";
+      return axios.post(
+        "http://142.93.79.50:8080/backend-drii/questions/create",
+        {
+          tittle: this.name,
+          questionType: 3,
+          selectionType: this.selectOption(this.option),
+          required: this.answerRequired,
+          help: this.help,
+        }
+      );
     },
 
     add(index) {
       this.inputs.push({ name: "" });
       this.count += 1;
     },
+     addRows(index) {
+      this.rows.push({ name: "" });
+      this.countRows += 1;
+    },
     remove(index) {
-      this.inputs.splice(this.count - 1, 1);
-      this.count -= 1;
+      if (this.count !== 1) {
+        this.inputs.splice(this.count - 1, 1);
+        this.count -= 1;
+      }
     },
-
-    selectOption(el) {
-      if (el == "Multiple") return el;
-      else return "Simple";
-    },
-
-    createQuestion: function() {
-      this.axios
-        .post("http://142.93.79.50:8080/backend-drii/questions/create", {
-          tittle: this.name,
-          questionType: 3,
-          selectionType: this.selectOption(this.option),
-           // TODO: agregar preguntas en cols string []
-          // utilizar la función = partitionInputs: function()
-          
-            // TODO: agregar opciones en rows string []
-          // utilizar la función = partitionInputs: function()
-          
-           required: this.answerRequired,
-          // TODO: pregunta requerida
-           help: this.help
-          // TODO: string help
-        })
-        .then(function(response) {
-          console.log(response);
-        });
+    removeRows(index){
+       if (this.countRows !== 1) {
+        this.rows.splice(this.countRows - 1, 1);
+        this.countRows -= 1;
+      }
     }
   },
   computed: {
@@ -207,41 +252,48 @@ export default {
       return errors;
     },
 
+    inputErrors() {
+      /*const errors = [];
+        if (!this.$v.inputs.name.$dirty) return errors;
+        !this.$v.inputs.required && errors.push("Seleccionar una pregunta");
+        return errors; */
+    },
+
     show: {
       get() {
         return this.value;
       },
       set(value) {
         this.$emit("input", value);
-      }
-    }
+      },
+    },
   },
 
   data: () => ({
-    countColumns: 1,
-    countRow: 1,
-
-    name: "", // titulo
-    questionType: 3, ///tipo selección.
-    option: "simple", // multiple o no. // multiple o no.
+    count: 1,
+    countRows: 1,
+    question: null,
+    // tittle: "", // titulo
+    option: "Simple", // multiple o no.
     answerRequired: false, // requerido o no.
+    name: "",
     help: "",
-  
- // requerido o no.
-    // preguntas para la  selección
-    columns: [
-      {
-        name: ""
-      }
-    ],
-    // opciones para la selección
     rows: [
       {
-        name: ""
-      }
-    ]
-  })
+        name: "",
+      },
+    ],
+
+    inputs: [
+      {
+        name: "",
+      },
+    ], // preguntas para la  selección
+  }),
 };
-//TODO: de los dialogos reutizar codigo mas compacto.. entre ellos por ejemplo  la primera parte y ultima.
+
+// TODO:  VALIDAR INPUTS ANTES DE ENVIARSE
+
+// TODO: AL CERRAR NO SE BORRA TODO... FUNCION CLEAR QUE BORRE QUE REINICIE TODO LOS PARAMETROS!.
 </script>
 

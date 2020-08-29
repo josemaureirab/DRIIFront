@@ -6,10 +6,10 @@
           <v-btn icon dark @click="show = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Nueva Pregunta Simple</v-toolbar-title>
+          <v-toolbar-title>Editar Pregunta Simple</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text v-on:click="createQuestion">{{item.tittle}}</v-btn>
+            <v-btn dark text @click="submit">Editar</v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <v-list three-line subheader>
@@ -20,7 +20,16 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12" sm="12">
-                      <v-text-field v-model="item.tittle"  required  label="Pregunta" outlined shaped></v-text-field>
+                      <v-text-field
+                        v-model="name"
+                        :error-messages="nameErrors"
+                        label="Pregunta"
+                        required
+                        @input="$v.name.$touch()"
+                        @blur="$v.name.$touch()"
+                        outlined
+                        shaped
+                      ></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -28,7 +37,9 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
+
         <v-divider></v-divider>
+
         <v-list three-line subheader>
           <v-subheader>Configuración de Respuesta</v-subheader>
 
@@ -38,29 +49,25 @@
                 <v-container fluid>
                   <v-row align="center">
                     <v-select
+                      v-model="select"
                       :items="items"
+                      :error-messages="selectErrors"
                       label="Tipo de Respuesta"
-                      v-model="item.selectionType"
+                      required
+                      @change="$v.select.$touch()"
+                      @blur="$v.select.$touch()"
                       outlined
                     ></v-select>
                   </v-row>
                 </v-container>
               </v-col>
-
               <v-col cols="10" sm="10" md="10">
-                <v-switch
-                 
-                  label="Respuesta No Obligatoria"
-                  color="red"
-                  value="red"
-                  hide-details
-                ></v-switch>
+                <v-switch v-model="answerRequired" label="No Obligatoria" color="red" hide-details></v-switch>
               </v-col>
-
               <v-col cols="10" sm="10" md="10">
                 <v-card-text>
                   <v-row align="center">
-                    <v-text-field label="Ayuda"></v-text-field>
+                    <v-text-field v-model="help" label="Ayuda"></v-text-field>
                   </v-row>
                 </v-card-text>
               </v-col>
@@ -73,60 +80,100 @@
 </template>
 
 <script>
-
-/*import { required} from 'vuelidate/lib/validators' */
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
 
 export default {
+  mixins: [validationMixin],
+  validations: {
+    name: { required },
+    select: { required },
+  },
+
   props: {
     value: Boolean,
     item: Object,
   },
 
-/*validations: {
-      question: { required },
-      select: { required },
-}, */ 
-
   methods: {
-
-    createQuestion: function() {
+    editQuestion: function () {
       this.axios
-        .post("http://142.93.79.50:8080/backend-drii/questions/create", {
-          item     
-        })
-        .then(function(response) {
+        .put(
+          "http://142.93.79.50:8080/backend-drii/questions/edit/" +
+            this.item.id,
+          {
+          tittle: this.name,
+          questionType: 1,
+          selectionType: this.select,
+          required: this.answerRequired,
+          help: this.help,
+          }
+        )
+        .then(function (response) {
           console.log(response);
         });
     },
+    submit() {
+       this.$v.$touch();
+         if (this.$v.$error == false) {
+        this.editQuestion();
+        this.show = false;
+        this.name = ""; // Title
+        this.select = ""; // selectionType
+        (this.answerRequired = false), (this.help = "");
+        } 
+    },
+
     /*clear () {
         this.$v.$reset()
         this.name = ''
-    }, */ 
-
+    }, */
+    
   },
-  computed: {
-   /* questionErrors () {
-        const errors = []
-        if (!this.$v.question.$dirty) return errors
-        !this.$v.question.maxLength && errors.push('Name must be at most 10 characters long')
-        !this.$v.question.required && errors.push('Question is required.')
-        return errors
-      }, */ 
+   mounted() {
+         
+          this.name = this.item.tittle,
+          this.select = this.item.selectionType,
+          this.answerRequired = this.item.required,
+          this.help = this.item.help
+   },
 
+  computed: {
+    
+    
+    selectErrors() {
+      const errors = [];
+      if (!this.$v.select.$dirty) return errors;
+      !this.$v.select.required && errors.push("Requerido");
+      return errors;
+    },
+    nameErrors() {
+      const errors = [];
+      if (!this.$v.name.$dirty) return errors;
+      !this.$v.name.required && errors.push("Requerido");
+      return errors;
+    },
     show: {
       get() {
         return this.value;
       },
       set(value) {
         this.$emit("input", value);
-      }
-    }
+      },
+    },
   },
-  data: () => ({
 
+  data: () => ({
     items: ["Respuesta Corta", "Rut", "Correo", "Celular", "Fecha", "Archivo"],
-  
-    
-  })
+    name: null,
+    select: null,
+    answerRequired: null,
+    help: null,
+
+  }),
 };
+
+// TODO: AL CERRAR NO SE BORRA TODO... FUNCION CLEAR QUE BORRE QUE REINICIE TODO LOS PARAMETROS!.
 </script>
+  
+

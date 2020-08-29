@@ -133,8 +133,8 @@ export default {
 
     selectOption(el) {
       if (el == "Multiple") return el;
-      else return "Simple";
-    },
+      else return "Simple"; // TODO: CAMBIAR EN SELECTION TYPE POR  LINE ABAJODE CRETION QUESTION
+    }, 
 
     createOptions(data) {
           let cols = this.partitionInputs();
@@ -156,10 +156,12 @@ export default {
 
 
  createQuestion(){
+    if (this.option == null)
+          this.option = 'Simple'
     return axios.post("http://142.93.79.50:8080/backend-drii/questions/create", {
             tittle: this.name,
             questionType: 2,
-            selectionType: this.option,
+            selectionType: this.selectOption(this.option),
             required: this.answerRequired,
             help: this.help
         });     
@@ -205,7 +207,7 @@ export default {
     count: 1,
     question: null,
     // tittle: "", // titulo
-    option: "simple", // multiple o no.
+    option: "Simple", // multiple o no.
     answerRequired: false, // requerido o no.
     name: "",
     help: "",

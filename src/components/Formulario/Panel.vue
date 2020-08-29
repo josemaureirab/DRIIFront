@@ -17,11 +17,11 @@
       </v-list-item-group>
 
      
-
     </v-list>
       <DialogShortAnswer v-model="showDialogShort"/>
       <DialogSelectAnswer v-model="showDialogSelect"/>
       <DialogGridAnswer v-model="showDialogGridOption"/>
+      <DialogSeccion v-model="showDialogSeccion"/>
     
    </v-navigation-drawer>
 </template>
@@ -29,13 +29,14 @@
 <script>
  import DialogShortAnswer from './ShortAnswer/DialogShortAnswer.vue';
  import DialogSelectAnswer from './SelectAnswer/DialogSelectAnswer.vue'; 
- import DialogGridAnswer from './GridAnswer/DialogGridAnswer';
-
+ import DialogGridAnswer from './GridAnswer/DialogGridAnswer.vue';
+ import DialogSeccion from './Seccion/DialogSeccion.vue';
   export default {
  components: {
            DialogShortAnswer,
            DialogSelectAnswer,
            DialogGridAnswer,
+           DialogSeccion,
     },
 
  methods:  {
@@ -52,7 +53,7 @@
                this.showDialogGridOption = true;
                break;
             case 3:
-                this.showDialogUploadFile = true;
+                this.showDialogSeccion = true;
                 break;
             case 4:
                 this.showDialogDate = true;
@@ -91,6 +92,7 @@
       showDialogShort: false,
       showDialogSelect: false,
       showDialogGridOption: false,
+      showDialogSeccion: false,
 
       isClick: false,
       idClick: -1,
@@ -122,10 +124,7 @@
         icon: 'mdi-shape-rectangle-plus',
         text: 'Guardar',
         },
-          {
-        icon: 'mdi-shape-rectangle-plus',
-        text: 'Publicar',
-        },
+       
            {
         icon: 'mdi-shape-rectangle-plus',
         text: 'Salir',

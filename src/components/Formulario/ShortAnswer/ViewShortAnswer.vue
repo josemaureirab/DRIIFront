@@ -7,11 +7,19 @@
         <v-col>   
           <v-card-text>
             <v-subheader class="pa-0">
-
               {{this.item.tittle}} 
-
-            </v-subheader>
+              <v-tooltip  v-if="item.help !== '' "  v-model="show" top>
+                <template  v-slot:activator="{ on, attrs }">
+                  <v-btn icon v-bind="attrs" v-on="on">
+                    <v-icon color="grey lighten-1">mdi-help</v-icon>
+                  </v-btn>
+                </template>
+                <span>
+                    {{this.item.help}}
+                </span>
+              </v-tooltip>
             
+            </v-subheader>
                 <v-text-field  
                 v-if="item.selectionType == 'Respuesta Corta'" 
                     label="Respuesta Corta" 
@@ -73,7 +81,12 @@
                 <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
               </v-date-picker>
             </v-menu>
-          
+
+                   <v-card-subtitle
+                v-if="item.required == false" 
+                    single-line 
+                    solo > Pregunta Obligatoria </v-card-subtitle>
+            
           </v-card-text>
         </v-col>
 
@@ -118,6 +131,10 @@ import axios from 'axios'
   props: {
      item: Object,
   },
+  
+
+  
+
   methods:{
       buttonEdit: function(){
           this.showDialogShort = true;
@@ -134,6 +151,7 @@ import axios from 'axios'
      showDialogShort: false,
      date: "",
      menu: "",
+     
    }),
 }
 </script>

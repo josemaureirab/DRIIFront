@@ -12,7 +12,6 @@
           />
           <ViewGrid
             v-if="item.questionType == '3'"
-            v-bind:title-question="item.question"
             v-bind:item="item"
           />
         </v-col>
@@ -25,7 +24,7 @@
 import Panel from "./Panel.vue";
 import ViewShortAnswer from "./ShortAnswer/ViewShortAnswer";
 import ViewSelectAnswer from "./SelectAnswer/ViewSelectAnswer";
-import ViewGrid from "./GridAnswer/ViewGrid.Answer";
+import ViewGrid from "./GridAnswer/ViewGridAnswer";
 import axios from "axios";
 
 export default {

@@ -5,25 +5,22 @@
         <v-col>
           <v-card-text>
             <v-subheader class="pa-0">{{this.item.tittle}}</v-subheader>
-             <v-tooltip  v-if="item.help !== '' "  v-model="show" top>
-                <template  v-slot:activator="{ on, attrs }">
-                  <v-btn icon v-bind="attrs" v-on="on">
-                    <v-icon color="grey lighten-1">mdi-help</v-icon>
-                  </v-btn>
-                </template>
-                <span>
-                    {{this.item.help}}
-                </span>
-              </v-tooltip>
+            <v-tooltip v-if="item.help !== '' " v-model="show" top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on">
+                  <v-icon color="grey lighten-1">mdi-help</v-icon>
+                </v-btn>
+              </template>
+              <span>{{this.item.help}}</span>
+            </v-tooltip>
 
-            <v-select
-              v-model="value"
-              :items="options"
-              chips
-              label="Seleccione una opcion"
-              :multiple="boleanMultiple"
-              outlined
-            ></v-select>
+            <v-list-item v-for="(item, i) in options" :key="i">
+              <v-list-item-content>
+                <v-col cols="9" justify="center">
+                  {{item}}
+                </v-col>
+              </v-list-item-content>
+            </v-list-item>
           </v-card-text>
         </v-col>
         <v-col cols="auto" class="text-center pl-0">
@@ -48,23 +45,20 @@
         </v-col>
       </v-row>
     </v-container>
-    <DialogEditSelectAnswer  v-model="showDialogShort"  v-bind:item="item" />
+    <DialogEditGridAnswer v-model="showDialogGrid" v-bind:item="item" />
 
-        <v-card-subtitle
-                v-if="item.required == false" 
-                    single-line 
-                    solo > Pregunta Obligatoria </v-card-subtitle>
+    <v-card-subtitle v-if="item.required == false" single-line solo>Pregunta Obligatoria</v-card-subtitle>
   </v-card>
 </template>
 
 <script>
 //TODO : Arreglar  EDIT para que funcione
 
-import DialogEditSelectAnswer from "./DialogEditSelectAnswer";
+import DialogEditGridAnswer from "./DialogEditGridAnswer";
 import axios from "axios";
 export default {
   components: {
-    DialogEditSelectAnswer,
+    DialogEditGridAnswer,
   },
   props: {
     item: Object,
@@ -77,29 +71,31 @@ export default {
           this.item.id +
           "/options/"
       )
-      .then((response) => (this.options = response.data,this.filter(response.data),this.bMultiple()))
+      .then(
+        (response) => (
+          (this.options = response.data),
+          this.filter(response.data),
+          this.bMultiple()
+        )
+      )
       .catch((error) => console.log(error));
-  
   },
 
   methods: {
-
-    bMultiple(){
-       if (this.item.selectionType =="Multiple")
-          this.boleanMultiple = true
-       else
-          this.boleanMultiple = false
+    bMultiple() {
+      if (this.item.selectionType == "Multiple") this.boleanMultiple = true;
+      else this.boleanMultiple = false;
     },
 
-    filter(data){
-        let opt = [];
-            data._embedded.options.forEach(function (valor) {
+    filter(data) {
+      let opt = [];
+      data._embedded.options.forEach(function (valor) {
         opt.push(valor.text);
       });
-      this.options = opt
+      this.options = opt;
     },
     buttonEdit: function () {
-      this.showDialogShort = true;
+      this.showDialogGrid = true;
     },
     buttonDelete: function () {
       this.axios
@@ -113,7 +109,7 @@ export default {
     },
   },
   data: () => ({
-    showDialogShort: false,
+    showDialogGrid: false,
     items: ["Opcion 1", "Opcion 2", "Opcion 3"],
     value: ["Opcion"],
     options: null,
