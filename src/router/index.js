@@ -16,12 +16,9 @@ import PerfilOutStudent from '../components/OutStudent/Perfil.vue'
 import IntercambioOutStudent from '../components/OutStudent/Intercambio.vue'
 ////
 
-
-
-
 /// ADMINISTRATOR ///
 import MenuAdministrator from '../components/Administrator/Menu.vue'
-    // Convocatorias //
+// Convocatorias //
 import ListConvocatorias from '../components/Administrator/Convocatorias/ListConvocatorias.vue'
 import NewConvocatoria from '../components/Administrator/Convocatorias/NewConvocatoria.vue'
 import EditConvocatoria from '../components/Administrator/Convocatorias/EditConvocatoria.vue' // NO DEBERIA IR! 
@@ -36,6 +33,8 @@ import ViewPostulacionAdministrator from  '../components/Administrator/Postulaci
 /// Step's // 
 import EditSteps from '../components/Administrator/Steps/EditSteps.vue'
 ////
+/// Manage Users // 
+import ShowUsers from '../components/Administrator/Users/ShowUsers.vue'
 /// ADMINISTRATOR/// 
 
 //FORMULARIOS//
@@ -51,6 +50,13 @@ Vue.use(VueRouter)
 
 /// Nuevas rutas
 
+// TEMPORAL HOME //
+
+{
+  path: '/',
+  name: 'MenuAdministrator',
+  component: MenuAdministrator
+},
 
 // OUT STUDENT // 
 {
@@ -84,6 +90,13 @@ Vue.use(VueRouter)
   path: '/MenuAdministrator',
   name: 'MenuAdministrator',
   component: MenuAdministrator
+},
+
+// Gestion de Usuarios Administrador //
+{
+  path: '/ShowUsers',
+  name: 'ShowUsers',
+  component: ShowUsers
 },
 
 // Convocatorias Administrator //
