@@ -35,6 +35,8 @@ import EditSteps from '../components/Administrator/Steps/EditSteps.vue'
 ////
 /// Manage Users // 
 import ShowUsers from '../components/Administrator/Users/ShowUsers.vue'
+/// Manage Users // 
+import ShowCareers from '../components/Administrator/Careers/ShowCareers.vue'
 /// ADMINISTRATOR/// 
 
 //FORMULARIOS//
@@ -98,6 +100,14 @@ Vue.use(VueRouter)
   name: 'ShowUsers',
   component: ShowUsers
 },
+
+// Gestion de Carreras Administrador //
+{
+  path: '/ShowCareers',
+  name: 'ShowCareers',
+  component: ShowCareers
+},
+
 
 // Convocatorias Administrator //
 
