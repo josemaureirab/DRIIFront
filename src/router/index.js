@@ -1,57 +1,181 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import DialogGrid from  '../components/Buttons/DialogGridOption.vue'
-import DialogSelect from '../components/Buttons/DialogSelect.vue'
-import DialogShortAnswer from '../components/Buttons/DialogShortAnswer.vue'
-import OptionPalettes from '../components/Buttons/OptionPalettes.vue'
-import  DialogDate from '../components/Buttons/DialogDate.vue'
-import  DialogUpload from '../components/Buttons/DialogUploadFile.vue' 
-import Principal from  '../components/Principal/Principal.vue'
-import CardShortAnswer from  '../components/Principal/CardShortAnswer.vue'
+
+
+
+
+
+// Refactor///
+
+// OUT STUDENT 
+import MenuOutStudent from '../components/OutStudent/Menu.vue'
+import ConvocatoriaOutStudent from '../components/OutStudent/Convocatorias.vue'
+import PostulacionesOutStudent from '../components/OutStudent/Postulaciones.vue'
+import PerfilOutStudent from '../components/OutStudent/Perfil.vue'
+import IntercambioOutStudent from '../components/OutStudent/Intercambio.vue'
+////
+
+/// ADMINISTRATOR ///
+import MenuAdministrator from '../components/Administrator/Menu.vue'
+// Convocatorias //
+import ListConvocatorias from '../components/Administrator/Convocatorias/ListConvocatorias.vue'
+import NewConvocatoria from '../components/Administrator/Convocatorias/NewConvocatoria.vue'
+import EditConvocatoria from '../components/Administrator/Convocatorias/EditConvocatoria.vue' // NO DEBERIA IR! 
+import ViewConvocatoria from '../components/Administrator/Convocatorias/ViewConvocatoria.vue' // NO DEBERIA IR 
+// Formularios//
+import ListFormularios from '../components/Administrator/Formularios/ListFormularios.vue'
+/////
+// Postulaciones //
+import ListPostulaciones from '../components/Administrator/Postulaciones/ListPostulaciones.vue'
+import ViewPostulacionAdministrator from  '../components/Administrator/Postulaciones/ViewPostulacion.vue' // NO DEBERIA IR!
+//// 
+/// Step's // 
+import EditSteps from '../components/Administrator/Steps/EditSteps.vue'
+////
+/// Manage Users // 
+import ShowUsers from '../components/Administrator/Users/ShowUsers.vue'
+/// ADMINISTRATOR/// 
+
+//FORMULARIOS//
+import NewFormulario from '../components/Formulario/NewFormulario.vue'
+import EditFormulario from '../components/Formulario/EditFormulario.vue' // ESTA NO DEBERIA IR! 
+import ViewFormulario from '../components/Formulario/ViewFormulario.vue' // ESTA NO DEBERIA IR! 
+/// 
+
 Vue.use(VueRouter)
 
   const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path:'/ShortAnswer',
-    name: 'ShortAnswer',
-    component: DialogShortAnswer
-  },
-  {
-    path:'/Select',
-    name: 'Select',
-    component: DialogSelect
-  },
-  {
-    path:'/Grid',
-    name: 'Grid',
-    component: DialogGrid
-  },
-  {
-    path:'/UploadFile',
-    name: 'UploadFile',
-    component: DialogUpload
-  },
-  {
-    path:'/Date',
-    name: 'Date',
-    component: DialogDate 
-  },
-  {
-    path:'/OptionPalettes',
-    name: 'OptionPalettes',
-    component: OptionPalettes
-  },
-  {
-    path:'/Principal',
-    name: 'Principal',
-    component: Principal
-  },
+
+
+/// Nuevas rutas
+
+// TEMPORAL HOME //
+
+{
+  path: '/',
+  name: 'MenuAdministrator',
+  component: MenuAdministrator
+},
+
+// OUT STUDENT // 
+{
+  path: '/MenuOutStudent',
+  name: 'MenuOutStudent',
+  component: MenuOutStudent
+},
+{
+  path: '/ConvocatoriaOutStudent',
+  name: 'ConvocatoriaOutStudent',
+  component: ConvocatoriaOutStudent
+},
+{
+  path: '/PostulacionesOutStudent',
+  name: 'PostulacionesOutStudent',
+  component: PostulacionesOutStudent
+},
+{
+  path: '/PerfilOutStudent',
+  name: 'PerfilOutStudent',
+  component: PerfilOutStudent
+},
+{
+  path: '/IntercambioOutStudent',
+  name: 'IntercambioOutStudent',
+  component: IntercambioOutStudent
+},
+
+// ADMINISTRATOR 
+{
+  path: '/MenuAdministrator',
+  name: 'MenuAdministrator',
+  component: MenuAdministrator
+},
+
+// Gestion de Usuarios Administrador //
+{
+  path: '/ShowUsers',
+  name: 'ShowUsers',
+  component: ShowUsers
+},
+
+// Convocatorias Administrator //
+
+{
+  path: '/ListConvocatorias',
+  name: 'ListConvocatorias',
+  component: ListConvocatorias
+},
+{
+  path: '/NewConvocatoria',
+  name: 'NewConvocatoria',
+  component: NewConvocatoria
+},
+{
+  path: '/EditConvocatoria',
+  name: 'EditConvocatoria',
+  component: EditConvocatoria
+},
+{
+  path: '/ViewConvocatoria',
+  name: 'ViewConvocatoria',
+  component: ViewConvocatoria
+},
+
+/// Formulario Administrator
+
+{
+  path: '/ListFormularios',
+  name: 'ListFormularios',
+  component: ListFormularios
+},
+
+/// Postulaciones Administrator
+{
+  path: '/ListPostulaciones',
+  name: 'ListPostulaciones',
+  component: ListPostulaciones
+},
+{
+  path: '/ViewPostulacionAdministrator',
+  name: 'ViewPostulacionAdministrator',
+  component: ViewPostulacionAdministrator
+},
+
+
+
+//// Step's Administrator //
+
+{
+  path: '/EditSteps',
+  name: 'EditSteps',
+  component: EditSteps
+},
+
+// FORMULARIO
+
+{
+  path: '/NewFormulario',
+  name: 'NewFormulario',
+  component: NewFormulario
+},
+{
+  path: '/EditFormulario',
+  name: 'EditFormulario',
+  component: EditFormulario
+},
+
+{
+  path: '/ViewFormulario',
+  name: 'ViewFormulario',
+  component: ViewFormulario
+},
+
+
+//
+////
+
+
 
   {
     path: '/about',

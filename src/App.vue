@@ -34,7 +34,7 @@
     </v-app-bar>
 
     <v-content > 
-            <router-view/> 
+      <router-view/> 
     </v-content>
 
     <v-footer app>
@@ -52,7 +52,7 @@
       drawer: false,
     }),
     created () {
-      //this.$vuetify.theme.dark = true
+      this.$vuetify.theme.dark = false
     },
   }
 </script>
