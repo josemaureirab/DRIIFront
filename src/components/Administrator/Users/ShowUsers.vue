@@ -24,12 +24,12 @@
                   <v-icon small class="mr-2"
                     @click="editAdmin(item)"
                   >
-                    edit
+                    mdi-pencil
                   </v-icon>
                   <v-icon small
                     @click="deleteAdmin(item)"
                   >
-                    delete
+                    mdi-delete
                   </v-icon>
                 </template>
               </v-data-table>
@@ -52,12 +52,12 @@
                   <v-icon small class="mr-2"
                     @click="editOut(item)"
                   >
-                    edit
+                    mdi-pencil
                   </v-icon>
                   <v-icon small
                     @click="deleteOut(item)"
                   >
-                    delete
+                    mdi-delete
                   </v-icon>
                 </template>
               </v-data-table>
@@ -80,12 +80,12 @@
                   <v-icon small class="mr-2"
                     @click="editIn(item)"
                   >
-                    edit
+                    mdi-pencil
                   </v-icon>
                   <v-icon small
                     @click="deleteIn(item)"
                   >
-                    delete
+                    mdi-delete
                   </v-icon>
                 </template>
               </v-data-table>
