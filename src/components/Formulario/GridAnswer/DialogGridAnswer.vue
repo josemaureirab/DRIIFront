@@ -127,10 +127,10 @@ import axios from "axios";
 export default {
   props: {
     value: Boolean,
+    form: Number,
   },
 
   mixins: [validationMixin],
-
   validations: {
     name: { required },
     //inputs: {required},
@@ -219,6 +219,7 @@ export default {
           selectionType: this.selectOption(this.option),
           required: this.answerRequired,
           help: this.help,
+          form: this.idForm,
         }
       );
     },

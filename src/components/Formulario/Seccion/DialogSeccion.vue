@@ -1,17 +1,17 @@
-<template ref="dialog">
-  <v-row justify="center">
-    <v-dialog v-model="show" fullscreen hide-overlay transition="dialog-bottom-transition">
+<template>
       <v-card>
         <v-toolbar dark color="primary">
-          <v-btn icon dark @click="show = false">
+          <v-btn icon dark @click="close">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Sección</v-toolbar-title>
+          <v-toolbar-title>Nueva Sección</v-toolbar-title>
           <v-spacer></v-spacer>
-         
+          <v-toolbar-items>
+            <v-btn dark text @click="submit">Agregar</v-btn>
+          </v-toolbar-items>
         </v-toolbar>
         <v-list three-line subheader>
-          <v-subheader>Nueva Sección</v-subheader>
+          <v-subheader>Configuración</v-subheader>
           <v-list-item>
             <v-list-item-content>
               <v-form>
@@ -21,18 +21,13 @@
                       <v-text-field
                         v-model="name"
                         :error-messages="nameErrors"
-                        label="Nombre Sección"
+                        label="Nombre de la Sección"
                         required
                         @input="$v.name.$touch()"
                         @blur="$v.name.$touch()"
                         outlined
                         shaped
                       ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="12">
-                      <v-btn class="ma-2" @click="add" tile outlined color="success">
-                        <v-icon left>mdi-plus</v-icon>Agregar
-                      </v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -42,161 +37,111 @@
         </v-list>
 
         <v-divider></v-divider>
+
         <v-list three-line subheader>
-          <v-subheader>Edicionesa</v-subheader>
-          <v-form v-for="(input,k) in inputs" :key="k">
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-select :items="items" label="Standard"></v-select>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-form>
-
-          <div class="text-center">
-            <v-btn class="ma-2" @click="add" tile outlined color="success">
-              <v-icon left>mdi-plus</v-icon>Editar
-            </v-btn>
-            <v-btn class="ma-2" @click="remove(k)" tile color="red" dark>Eliminar</v-btn>
-          </div>
+          <v-subheader>Carreras Asociadas</v-subheader>
+          <v-card flat>
+            <v-card-text>
+              <v-col class="d-flex" cols="10" sm="6">
+                <v-container fluid>
+                  <v-row align="center">
+                    <v-select
+                      v-model="select"
+                      :items="items"
+                      :error-messages="selectErrors"
+                      label="Universidades"
+                      required
+                      @change="$v.select.$touch()"
+                      @blur="$v.select.$touch()"
+                      outlined
+                    ></v-select>
+                  </v-row>
+                </v-container>
+              </v-col> 
+            </v-card-text>
+          </v-card>
         </v-list>
-
-        
       </v-card>
-    </v-dialog>
-  </v-row>
 </template>
 
-
 <script>
+import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
-import axios from "axios";
+import { mapState , mapActions } from "vuex";
+import route from '@/router';
+
+
 export default {
-  props: {
-    value: Boolean,
-  },
-
   mixins: [validationMixin],
-
   validations: {
     name: { required },
-    //inputs: {required},
+    select: { required },
   },
 
   methods: {
-    submit() {
-      this.$v.$touch();
-      if (this.$v.$error == false) {
-        this.show = false;
-        this.createQuestion().then(({ data }) => {
-          this.createOptions(data);
+    ...mapActions(['getQuestions']),
+
+     getIdForm(){
+      return this.axios.get("http://142.93.79.50:8080/backend-drii/forms/"+this.idForm)
+      .then((response) => ((this.formulario = response.data), console.log(response.data)))
+      .catch((error) => console.log(error));
+    },
+    
+    async createSection() {
+      await this.axios
+        .post("http://142.93.79.50:8080/backend-drii/sections/create", {
+          name: this.name,
+          form: this.formulario,
+        })
+        .then(function (response) {
+          console.log(response);
         });
-      }
+        this.getQuestions()
+    },  
+    close(){
+      route.push({
+          name:'NewFormulario',
+      })
     },
-
-    partitionInputs() {
-      let cols = [];
-      this.inputs.forEach(function (valor) {
-        cols.push(valor.name);
-      });
-      return cols;
-    },
-
-    selectOption(el) {
-      if (el == "Multiple") return el;
-      else return "Simple"; // TODO: CAMBIAR EN SELECTION TYPE POR  LINE ABAJODE CRETION QUESTION
-    },
-
-    createOptions(data) {
-      let cols = this.partitionInputs();
-      let op = [];
-      let promises = [];
-      for (var i = 0; i < cols.length; i++) {
-        promises.push(
-          this.axios
-            .post("http://142.93.79.50:8080/backend-drii/options/create", {
-              text: cols[i],
-              position: i,
-              question: data,
+    async submit() {
+      this.$v.$touch();
+      if (this.$v.$error == false) { 
+            await this.getIdForm()
+            await this.createSection()
+            route.push({
+                name:'NewFormulario',
             })
-            .then((response) => {
-              op.push(response);
-            })
-        );
-      }
-      Promise.all(promises).then(() => console.log(op));
-    },
-
-    createQuestion() {
-      if (this.option == null) this.option = "Simple";
-      return axios.post(
-        "http://142.93.79.50:8080/backend-drii/questions/create",
-        {
-          tittle: this.name,
-          questionType: 2,
-          selectionType: this.selectOption(this.option),
-          required: this.answerRequired,
-          help: this.help,
-        }
-      );
-    },
-
-    add(index) {
-      this.inputs.push({ name: "" });
-      this.count += 1;
-    },
-    remove(index) {
-      if (this.count !== 1) {
-        this.inputs.splice(this.count - 1, 1);
-        this.count -= 1;
-      }
+      };
+       /* route.push({
+          name:'NewFormulario',
+        }) */ 
+      
     },
   },
+
   computed: {
+    ...mapState(["idForm"]),
+    selectErrors() {
+      const errors = [];
+      if (!this.$v.select.$dirty) return errors;
+      !this.$v.select.required && errors.push("Requerido");
+      return errors;
+    },
     nameErrors() {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
-      !this.$v.name.required && errors.push("Nombre es requerido");
+      !this.$v.name.required && errors.push("Requerido");
       return errors;
-    },
-
-    inputErrors() {
-      /*const errors = [];
-        if (!this.$v.inputs.name.$dirty) return errors;
-        !this.$v.inputs.required && errors.push("Seleccionar una pregunta");
-        return errors; */
-    },
-
-    show: {
-      get() {
-        return this.value;
-      },
-      set(value) {
-        this.$emit("input", value);
-      },
     },
   },
 
   data: () => ({
-    count: 1,
-    question: null,
-    // tittle: "", // titulo
-    option: "Simple", // multiple o no.
-    answerRequired: false, // requerido o no.
-    name: "",
-    help: "",
-    inputs: [
-      {
-        name: "",
-      },
-    ], // preguntas para la  selección
+    formulario: [],
+    items: ["Respuesta Corta", "Rut", "Correo", "Celular", "Fecha", "Archivo"],
+    name: "", // Title
+   
   }),
 };
 
-// TODO:  VALIDAR INPUTS ANTES DE ENVIARSE
-
-// TODO: AL CERRAR NO SE BORRA TODO... FUNCION CLEAR QUE BORRE QUE REINICIE TODO LOS PARAMETROS!.
 </script>
-

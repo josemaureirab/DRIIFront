@@ -1,9 +1,7 @@
-<template ref="dialog">
-  <v-row justify="center">
-    <v-dialog v-model="show" fullscreen hide-overlay transition="dialog-bottom-transition">
+<template>
       <v-card>
         <v-toolbar dark color="primary">
-          <v-btn icon dark @click="show = false">
+          <v-btn icon dark @click="close">
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>Nueva Pregunta Simple</v-toolbar-title>
@@ -61,6 +59,19 @@
                   </v-row>
                 </v-container>
               </v-col>
+                <v-col class="d-flex" cols="10" sm="6">
+                <v-container fluid>
+                  <v-row align="center">
+                    <v-select
+                      v-model="valueSeccion"
+                      :items="seccion"
+                      required
+                      label="Seccion"
+                      outlined
+            ></v-select>
+                  </v-row>
+                </v-container>
+              </v-col>
               <v-col cols="10" sm="10" md="10">
                 <v-switch v-model="answerRequired" label="No Obligatoria" color="red" hide-details></v-switch>
               </v-col>
@@ -75,14 +86,15 @@
           </v-card>
         </v-list>
       </v-card>
-    </v-dialog>
-  </v-row>
 </template>
 
 <script>
-
+import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
+import { mapState , mapActions } from "vuex";
+import route from '@/router';
+
 
 export default {
   mixins: [validationMixin],
@@ -91,43 +103,78 @@ export default {
     select: { required },
   },
 
-  props: {
-    value: Boolean,
+  async created() {
+     await this.getSeccion()
   },
-
   methods: {
+    ...mapActions(['getQuestions']),
 
-    
-    createQuestion: function () {
-      this.axios
+     getIdForm(){
+      return this.axios.get("http://142.93.79.50:8080/backend-drii/forms/"+this.idForm)
+      .then((response) => ((this.formulario = response.data), console.log(response.data)))
+      .catch((error) => console.log(error));
+    },
+
+    getSeccion(){
+      this.axios.get("http://142.93.79.50:8080/backend-drii/sections/byForm/"+this.idForm)
+      .then((response) => ((this.filter(response.data)), console.log(this.seccion)))
+      .catch((error) => console.log(error));
+    },  
+
+    filter(data) {
+      let opt = [];
+      data.forEach(function (valor) {
+        opt.push(valor.name);
+      });
+      this.seccion = opt;
+    },
+
+
+
+
+    async createQuestion () {
+      await this.axios
         .post("http://142.93.79.50:8080/backend-drii/questions/create", {
           tittle: this.name,
           questionType: 1,
           selectionType: this.select,
           required: this.answerRequired,
-          // TODO: pregunta requerida
+          form: this.formulario,
           help: this.help,
-          // TODO: string help
+          // section: this.valueSeccion
         })
         .then(function (response) {
           console.log(response);
+
         });
+        this.getQuestions()
+    },  
+
+    close(){
+      route.push({
+          name:'NewFormulario',
+      })
     },
 
-    submit() {
+    async submit() {
       this.$v.$touch();
-      if (this.$v.$error == false) {
-        this.createQuestion();
-        this.show = false;
-        this.name =""; // Title
-        this.select = ""; // selectionType
-        this.answerRequired =false,
-        this.help = "";
-      }
+      if (this.$v.$error == false) { 
+            await this.getIdForm()
+            await this.createQuestion()
+          //  await this.getQuestions();
+            route.push({
+                name:'NewFormulario',
+            })
+      };
+       /* route.push({
+          name:'NewFormulario',
+        }) */ 
+      
     },
   },
 
   computed: {
+    ...mapState(["idForm"]),
     selectErrors() {
       const errors = [];
       if (!this.$v.select.$dirty) return errors;
@@ -140,25 +187,20 @@ export default {
       !this.$v.name.required && errors.push("Requerido");
       return errors;
     },
-
-    show: {
-      get() {
-        return this.value;
-      },
-      set(value) {
-        this.$emit("input", value);
-      },
-    },
   },
 
   data: () => ({
+    seccion: [],
+    valueSeccion: [],
+    formulario: [],
+    
     items: ["Respuesta Corta", "Rut", "Correo", "Celular", "Fecha", "Archivo"],
     name: "", // Title
     select: "", // selectionType
     answerRequired: false,
     help: "",
+    
   }),
 };
 
-// TODO: AL CERRAR NO SE BORRA TODO... FUNCION CLEAR QUE BORRE QUE REINICIE TODO LOS PARAMETROS!.
 </script>

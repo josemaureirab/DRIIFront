@@ -131,6 +131,7 @@ export default {
   props: {
     value: Boolean,
     item: Object,
+    form: Object,
   },
 
   mixins: [validationMixin],
@@ -142,7 +143,6 @@ export default {
 
    mounted() {
           console.log(this.item)
-
           this.name = this.item.tittle,
           this.answerRequired = this.item.required,
           this.help = this.item.help,
@@ -203,7 +203,8 @@ export default {
             questionType: 3,
             selectionType: this.selectOption(this.option),
             required: this.answerRequired,
-            help: this.help
+            help: this.help,
+            form: this.form,
         });     
     },
 

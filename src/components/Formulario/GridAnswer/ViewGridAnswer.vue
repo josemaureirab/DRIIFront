@@ -45,7 +45,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <DialogEditGridAnswer v-model="showDialogGrid" v-bind:item="item" />
+    <DialogEditGridAnswer v-bind:idForm="idForm" v-model="showDialogGrid" v-bind:item="item" />
 
     <v-card-subtitle v-if="item.required == false" single-line solo>Pregunta Obligatoria</v-card-subtitle>
   </v-card>
@@ -62,6 +62,8 @@ export default {
   },
   props: {
     item: Object,
+    idForm: Object,
+
   },
 
   mounted() {
