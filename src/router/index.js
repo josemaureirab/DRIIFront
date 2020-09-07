@@ -52,6 +52,13 @@ import DialogSeccion from  '../components/Formulario/Seccion/DialogSeccion.vue'
 
 import DialogSelectAnswer from '../components/Formulario/SelectAnswer/DialogSelectAnswer.vue'
 import DialogEditSelectAnswer from '../components/Formulario/SelectAnswer/DialogEditSelectAnswer.vue'
+
+
+import DialogGridAnswer from  '../components/Formulario/GridAnswer/DialogGridAnswer.vue'
+import DialogEditGridAnswer from  '../components/Formulario/GridAnswer/DialogEditGridAnswer.vue'
+
+import EditNameFormulario from '../components/Formulario/EditNameFormulario.vue'
+
 /// 
 
 Vue.use(VueRouter)
@@ -186,8 +193,16 @@ Vue.use(VueRouter)
   name: 'DialogEditSelectAnswer',
   component: DialogEditSelectAnswer
 },
-
-
+{
+  path: '/DialogGridAnswer',
+  name: 'DialogGridAnswer',
+  component: DialogGridAnswer
+},
+{
+  path: '/DialogEditGridAnswer',
+  name: 'DialogEditGridAnswer',
+  component: DialogEditGridAnswer
+},
 
 {
   path: '/DialogSeccion',
@@ -211,8 +226,11 @@ Vue.use(VueRouter)
   name: 'ViewFormulario',
   component: ViewFormulario
 },
-
-
+{
+  path: '/EditNameFormulario',
+  name: 'EditNameFormulario',
+  component: EditNameFormulario
+},
 
 
 //

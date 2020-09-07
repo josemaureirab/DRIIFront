@@ -90,6 +90,7 @@ export default {
         )
       )
       .catch((error) => console.log(error));
+  
   },
 
   methods: {
@@ -123,7 +124,6 @@ export default {
     },
   },
   data: () => ({
-    items: ["Opcion 1", "Opcion 2", "Opcion 3"],
     value: ["Opcion"],
     options: null,
     mul: null,

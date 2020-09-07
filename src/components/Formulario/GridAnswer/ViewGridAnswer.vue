@@ -16,9 +16,13 @@
 
             <v-list-item v-for="(item, i) in options" :key="i">
               <v-list-item-content>
-                <v-col cols="9" justify="center">
-                  {{item}}
-                </v-col>
+                <v-col cols="2" justify="center">{{item}}</v-col>
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item v-for="(item, i) in selections" :key="i">
+              <v-list-item-content>
+                <v-col cols="9" justify="center">{{selections}}</v-col>
               </v-list-item-content>
             </v-list-item>
           </v-card-text>
@@ -45,8 +49,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <DialogEditGridAnswer v-bind:idForm="idForm" v-model="showDialogGrid" v-bind:item="item" />
-
+    <DialogEditGridAnswer  v-model="showDialogGrid" v-bind:item="item" />
     <v-card-subtitle v-if="item.required == false" single-line solo>Pregunta Obligatoria</v-card-subtitle>
   </v-card>
 </template>
@@ -56,51 +59,69 @@
 
 import DialogEditGridAnswer from "./DialogEditGridAnswer";
 import axios from "axios";
+import { mapState, mapActions } from "vuex";
+
 export default {
   components: {
     DialogEditGridAnswer,
   },
   props: {
     item: Object,
-    idForm: Object,
-
   },
 
-  mounted() {
-    axios
-      .get(
-        "http://142.93.79.50:8080/backend-drii/questions/" +
-          this.item.id +
-          "/options/"
-      )
-      .then(
-        (response) => (
-          (this.options = response.data),
-          this.filter(response.data),
-          this.bMultiple()
-        )
-      )
-      .catch((error) => console.log(error));
+  async created() {
+    await this.getOptions();
+    await this.getSelections();
+    await this.bMultiple();
   },
 
   methods: {
+    ...mapActions(["getQuestions"]),
+    getOptions() {
+      axios
+        .get(
+          "http://142.93.79.50:8080/backend-drii/options/byQuestion/" +
+            this.item.id
+        )
+        .then((response) => this.filterOptions(response.data))
+        .catch((error) => console.log(error));
+    },
+    getSelections() {
+      axios
+        .get(
+          "http://142.93.79.50:8080/backend-drii/options/byQuestion/" +
+            this.item.id
+        )
+        .then((response) => this.filterSelections(response.data))
+        .catch((error) => console.log(error));
+    },
+
     bMultiple() {
       if (this.item.selectionType == "Multiple") this.boleanMultiple = true;
       else this.boleanMultiple = false;
     },
 
-    filter(data) {
+    filterOptions(data) {
       let opt = [];
-      data._embedded.options.forEach(function (valor) {
+      data.forEach(function (valor) {
         opt.push(valor.text);
       });
       this.options = opt;
     },
+
+    filterSelections(data) {
+      let opt = [];
+      data.forEach(function (valor) {
+        opt.push(valor.text);
+      });
+      this.selections = opt;
+    },
+
     buttonEdit: function () {
       this.showDialogGrid = true;
     },
-    buttonDelete: function () {
-      this.axios
+    async buttonDelete() {
+      await this.axios
         .delete(
           "http://142.93.79.50:8080/backend-drii/questions/delete/" +
             this.item.id
@@ -108,13 +129,15 @@ export default {
         .then(function (response) {
           console.log(response);
         });
+      this.getQuestions();
     },
   },
   data: () => ({
     showDialogGrid: false,
     items: ["Opcion 1", "Opcion 2", "Opcion 3"],
     value: ["Opcion"],
-    options: null,
+    options: [],
+    selections: [],
     mul: null,
     boleanMultiple: null,
     //TODO: Cambiar items por cols de item.

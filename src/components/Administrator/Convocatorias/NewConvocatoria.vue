@@ -9,8 +9,53 @@
           <v-text-field v-model="name" label="Nombre del programa" required></v-text-field>
           <v-text-field v-model="semestre" label="Semestre a realizar" required></v-text-field>
           <v-text-field v-model="duracion" label="Duración" required></v-text-field>
-          <v-text-field v-model="inicio" label="Inicio de Postulaciones" required ></v-text-field>
-          <v-text-field v-model="cierre" label="Cierre de Postulaciones" required></v-text-field>
+          
+
+        
+
+
+   
+
+      <v-menu
+        v-model="menu"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        transition="scale-transition"
+        offset-y
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="inicio"
+            label="Inicio Postulación"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker v-model="inicio" @input="menu = false"></v-date-picker>
+      </v-menu>
+
+       <v-menu
+         v-model="menu2"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        transition="scale-transition"
+        offset-y
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="cierre"
+            label="Inicio Postulación"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker v-model="cierre" @input="menu2 = false"></v-date-picker>
+      </v-menu>
+    
           <v-text-field v-model="link" label="Link Informativo" required></v-text-field>
         </v-form>
       </v-card>
@@ -183,8 +228,10 @@ export default {
                 name: this.name,
                 semester: this.semestre,
                 duration:  this.duracion,
-                //startLine: this.inicio,
-                //deadLine: this.cierre,
+                startLine: new Date(this.inicio),
+                deadLine: new Date(this.cierre),
+                expiration: new Date(this.cierre),
+
                 informationLink: this.link,
                 introductoryText: this.texto,
                 benefits: this.beneficio,
@@ -192,7 +239,7 @@ export default {
                //pagePhoto: this.photoPagina,
                // coverPhoto:  this.photoPortada,
                // university: this.csvUniversidades,
-                published: false,
+                published: true,
                // form: this.formulario */ 
         })
         .then(function (response) {
@@ -219,12 +266,18 @@ export default {
   },
 
   data: () => ({
+    
+      
+    menu: false,
+   
+    menu2: false,
+
     formularios: [],
     name: null,
     semestre: null,
     duracion: null,
-    //inicio: null, // TIENE UQE SER TIPO DATA.
-    // cierre: null, // TIENE QUE SER TIPO DATA.
+    inicio: new Date().toISOString().substr(0, 10), // TIENE UQE SER TIPO DATA.
+    cierre: new Date().toISOString().substr(0, 10), // TIENE QUE SER TIPO DATA.
     link: null,
     texto: null,
     beneficio: null,

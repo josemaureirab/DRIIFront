@@ -10,7 +10,7 @@
       <span >Selección</span>
       <v-icon>mdi-format-list-bulleted</v-icon>
     </v-btn>
-     <v-btn  @click="showDialogGridOption = true" >
+     <v-btn  @click="showDialogGrid" >
       <span >Grid</span>
       <v-icon>mdi-grid</v-icon>
     </v-btn>
@@ -20,9 +20,9 @@
       <v-icon>mdi-format-color-text</v-icon>
     </v-btn>
 
-<v-btn @click="close" >
+<v-btn @click="showDialogName" >
       <span>Nombre</span>
-      <v-icon>mdi-close</v-icon>
+      <v-icon>mdi-format-title</v-icon>
     </v-btn>
   
 
@@ -30,36 +30,21 @@
       <span>Guardar</span>
       <v-icon>mdi-content-save-all</v-icon>
     </v-btn>
-   
-
-  </v-bottom-navigation>
-   
-  
-    <DialogGridAnswer v-model="showDialogGridOption" />
-   <!-- <DialogSeccion v-model="showDialogSeccion"  /> -->
+  </v-bottom-navigation>  
 </div>
 </template>
   
 
 
 <script>
-import DialogGridAnswer from "./GridAnswer/DialogGridAnswer.vue";
 import route from '@/router';
 
 export default {
 
-  components: {
-    DialogGridAnswer,
-    //DialogSeccion,
-  },
+
 
   methods: {
     submit() {
-      route.push({
-          name:'ListFormularios',
-      })
-    },
-    close() {
       route.push({
           name:'ListFormularios',
       })
@@ -78,7 +63,20 @@ export default {
         route.push({
           name:'DialogSelectAnswer',
       })
+     },
+    showDialogGrid (){
+        route.push({
+          name:'DialogGridAnswer',
+      })
+     },
+     showDialogName(){
+          route.push({
+          name:'EditNameFormulario',
+      })
      }
+
+    
+
   },
   
 
@@ -87,7 +85,6 @@ export default {
  
   data: () => ({
  
-    showDialogGridOption: false,
 
     isClick: false,
     idClick: -1,
