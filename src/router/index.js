@@ -26,6 +26,8 @@ import ViewConvocatoria from '../components/Administrator/Convocatorias/ViewConv
 // Formularios//
 import ListFormularios from '../components/Administrator/Formularios/ListFormularios.vue'
 /////
+
+
 // Postulaciones //
 import ListPostulaciones from '../components/Administrator/Postulaciones/ListPostulaciones.vue'
 import ViewPostulacionAdministrator from  '../components/Administrator/Postulaciones/ViewPostulacion.vue' // NO DEBERIA IR!
@@ -43,6 +45,22 @@ import ShowCareers from '../components/Administrator/Careers/ShowCareers.vue'
 import NewFormulario from '../components/Formulario/NewFormulario.vue'
 import EditFormulario from '../components/Formulario/EditFormulario.vue' // ESTA NO DEBERIA IR! 
 import ViewFormulario from '../components/Formulario/ViewFormulario.vue' // ESTA NO DEBERIA IR! 
+
+import DialogShortAnswer from '../components/Formulario/ShortAnswer/DialogShortAnswer.vue'
+import DialogEditShortAnswer from '../components/Formulario/ShortAnswer/DialogEditShortAnswer.vue'
+import DialogSeccion from  '../components/Formulario/Seccion/DialogSeccion.vue'
+
+
+
+import DialogSelectAnswer from '../components/Formulario/SelectAnswer/DialogSelectAnswer.vue'
+import DialogEditSelectAnswer from '../components/Formulario/SelectAnswer/DialogEditSelectAnswer.vue'
+
+
+import DialogGridAnswer from  '../components/Formulario/GridAnswer/DialogGridAnswer.vue'
+import DialogEditGridAnswer from  '../components/Formulario/GridAnswer/DialogEditGridAnswer.vue'
+
+import EditNameFormulario from '../components/Formulario/EditNameFormulario.vue'
+
 /// 
 
 Vue.use(VueRouter)
@@ -165,6 +183,44 @@ Vue.use(VueRouter)
 // FORMULARIO
 
 {
+  path: '/DialogShortAnswer',
+  name: 'DialogShortAnswer',
+  component: DialogShortAnswer
+},
+{
+  path: '/DialogEditShortAnswer',
+  name: 'DialogEditShortAnswer',
+  component: DialogEditShortAnswer
+},
+
+{
+  path: '/DialogSelectAnswer',
+  name: 'DialogSelectAnswer',
+  component: DialogSelectAnswer
+},
+{
+  path: '/DialogEditSelectAnswer',
+  name: 'DialogEditSelectAnswer',
+  component: DialogEditSelectAnswer
+},
+{
+  path: '/DialogGridAnswer',
+  name: 'DialogGridAnswer',
+  component: DialogGridAnswer
+},
+{
+  path: '/DialogEditGridAnswer',
+  name: 'DialogEditGridAnswer',
+  component: DialogEditGridAnswer
+},
+
+{
+  path: '/DialogSeccion',
+  name: 'DialogSeccion',
+  component: DialogSeccion
+},
+
+{
   path: '/NewFormulario',
   name: 'NewFormulario',
   component: NewFormulario
@@ -179,6 +235,11 @@ Vue.use(VueRouter)
   path: '/ViewFormulario',
   name: 'ViewFormulario',
   component: ViewFormulario
+},
+{
+  path: '/EditNameFormulario',
+  name: 'EditNameFormulario',
+  component: EditNameFormulario
 },
 
 

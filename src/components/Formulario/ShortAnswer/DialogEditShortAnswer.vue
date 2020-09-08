@@ -1,9 +1,7 @@
-<template ref="dialog">
-  <v-row justify="center">
-    <v-dialog v-model="show" fullscreen hide-overlay transition="dialog-bottom-transition">
+<template>
       <v-card>
         <v-toolbar dark color="primary">
-          <v-btn icon dark @click="show = false">
+          <v-btn icon dark @click="close">
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>Editar Pregunta Simple</v-toolbar-title>
@@ -75,13 +73,14 @@
           </v-card>
         </v-list>
       </v-card>
-    </v-dialog>
-  </v-row>
 </template>
 
 <script>
+import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
+import { mapState , mapActions } from "vuex";
+import route from '@/router';
 
 export default {
   mixins: [validationMixin],
@@ -90,37 +89,56 @@ export default {
     select: { required },
   },
 
-  props: {
-    value: Boolean,
-    item: Object,
+ async created(){
+      console.log(this.idQuestion)
+      await this.getQuestion(),
+      await this.setData()
   },
 
   methods: {
-    editQuestion: function () {
-      this.axios
+      ...mapActions(['getQuestions','getQuestion']),
+
+    setData(){
+        this.name = this.infoQuestion.tittle,
+        this.select = this.infoQuestion.selectionType,
+        this.answerRequired = this.infoQuestion.required,
+        this.help = this.infoQuestion.help
+    },
+
+    close(){
+      route.push({
+          name:'NewFormulario',
+      })
+    },
+
+    async editQuestion (){
+      console.log(this.formulario)
+      await this.axios
         .put(
           "http://142.93.79.50:8080/backend-drii/questions/edit/" +
-            this.item.id,
+            this.infoQuestion.id,
           {
           tittle: this.name,
           questionType: 1,
           selectionType: this.select,
           required: this.answerRequired,
           help: this.help,
+          form:  this.infoQuestion.form
           }
         )
         .then(function (response) {
           console.log(response);
         });
+        this.getQuestions();
     },
-    submit() {
+
+    async submit() {
        this.$v.$touch();
          if (this.$v.$error == false) {
-        this.editQuestion();
-        this.show = false;
-        this.name = ""; // Title
-        this.select = ""; // selectionType
-        (this.answerRequired = false), (this.help = "");
+            await this.editQuestion()
+            route.push({
+                name:'NewFormulario',
+            })
         } 
     },
 
@@ -130,16 +148,9 @@ export default {
     }, */
     
   },
-   mounted() {
-         
-          this.name = this.item.tittle,
-          this.select = this.item.selectionType,
-          this.answerRequired = this.item.required,
-          this.help = this.item.help
-   },
-
+  
   computed: {
-    
+    ...mapState(["infoQuestion",'idQuestion']),
     
     selectErrors() {
       const errors = [];
@@ -152,14 +163,6 @@ export default {
       if (!this.$v.name.$dirty) return errors;
       !this.$v.name.required && errors.push("Requerido");
       return errors;
-    },
-    show: {
-      get() {
-        return this.value;
-      },
-      set(value) {
-        this.$emit("input", value);
-      },
     },
   },
 

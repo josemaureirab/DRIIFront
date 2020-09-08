@@ -49,6 +49,21 @@
 
 <!-- TODO: * Si Status =  Aceptado => Intercambio es visible -->
 
+<script>
+
+import { mapState, mapActions } from "vuex";
+export default {
+  async created(){
+    await this.getAccount()
+  },
+  methods: {
+    ...mapActions(["getAccount"]),
+  }
+}
+</script>
+
+
+
 <style scoped>
 .nim-btn {
   text-transform: none !important;

@@ -5,20 +5,17 @@
         <v-col>
           <v-card-text>
             <v-subheader class="pa-0">{{this.item.tittle}}</v-subheader>
-             <v-tooltip  v-if="item.help !== '' "  v-model="show" top>
-                <template  v-slot:activator="{ on, attrs }">
-                  <v-btn icon v-bind="attrs" v-on="on">
-                    <v-icon color="grey lighten-1">mdi-help</v-icon>
-                  </v-btn>
-                </template>
-                <span>
-                    {{this.item.help}}
-                </span>
-              </v-tooltip>
-
+            <v-tooltip v-if="item.help !== '' " v-model="show" top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on">
+                  <v-icon color="grey lighten-1">mdi-help</v-icon>
+                </v-btn>
+              </template>
+              <span>{{this.item.help}}</span>
+            </v-tooltip>
             <v-select
               v-model="value"
-              :items="options"
+              :items="this.options"
               chips
               label="Seleccione una opcion"
               :multiple="boleanMultiple"
@@ -48,20 +45,17 @@
         </v-col>
       </v-row>
     </v-container>
-    <DialogEditSelectAnswer  v-model="showDialogShort"  v-bind:item="item" />
-
-        <v-card-subtitle
-                v-if="item.required == false" 
-                    single-line 
-                    solo > Pregunta Obligatoria </v-card-subtitle>
+    <v-card-subtitle v-if="item.required == false" single-line solo>Pregunta Obligatoria</v-card-subtitle>
   </v-card>
 </template>
-
 <script>
 //TODO : Arreglar  EDIT para que funcione
 
 import DialogEditSelectAnswer from "./DialogEditSelectAnswer";
 import axios from "axios";
+import { mapState, mapActions } from "vuex";
+import route from "@/router";
+
 export default {
   components: {
     DialogEditSelectAnswer,
@@ -70,36 +64,53 @@ export default {
     item: Object,
   },
 
-  mounted() {
-    axios
+  computed: {
+    ...mapState(["infoQuestion"]),
+    idQuestion: {
+      get() {
+        return this.$store.state.idQuestion;
+      },
+      set(payload) {
+        this.$store.commit("updateIdQuestion", payload);
+      },
+    },
+  },
+
+  async created() {
+    await axios
       .get(
-        "http://142.93.79.50:8080/backend-drii/questions/" +
-          this.item.id +
-          "/options/"
+        "http://142.93.79.50:8080/backend-drii/options/byQuestion/" +
+          this.item.id
       )
-      .then((response) => (this.options = response.data,this.filter(response.data),this.bMultiple()))
+      .then(
+        (response) => (
+          (this.options = response.data),
+          this.filter(response.data),
+          this.bMultiple()
+        )
+      )
       .catch((error) => console.log(error));
   
   },
 
   methods: {
-
-    bMultiple(){
-       if (this.item.selectionType =="Multiple")
-          this.boleanMultiple = true
-       else
-          this.boleanMultiple = false
+    bMultiple() {
+      if (this.item.selectionType == "Multiple") this.boleanMultiple = true;
+      else this.boleanMultiple = false;
     },
 
-    filter(data){
-        let opt = [];
-            data._embedded.options.forEach(function (valor) {
+    filter(data) {
+      let opt = [];
+      data._embedded.options.forEach(function (valor) {
         opt.push(valor.text);
       });
-      this.options = opt
+      this.options = opt;
     },
     buttonEdit: function () {
-      this.showDialogShort = true;
+      this.idQuestion = this.item.id;
+      route.push({
+        name: "DialogEditSelectAnswer",
+      });
     },
     buttonDelete: function () {
       this.axios
@@ -113,8 +124,6 @@ export default {
     },
   },
   data: () => ({
-    showDialogShort: false,
-    items: ["Opcion 1", "Opcion 2", "Opcion 3"],
     value: ["Opcion"],
     options: null,
     mul: null,

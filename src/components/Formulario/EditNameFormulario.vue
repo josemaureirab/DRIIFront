@@ -7,7 +7,7 @@
           <v-toolbar-title>Nueva Sección</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text @click="submit">Agregar</v-btn>
+            <v-btn dark text @click="submit">Editar</v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <v-list three-line subheader>
@@ -21,7 +21,7 @@
                       <v-text-field
                         v-model="name"
                         :error-messages="nameErrors"
-                        label="Nombre de la Sección"
+                        label="Nombre Formulario"
                         required
                         @input="$v.name.$touch()"
                         @blur="$v.name.$touch()"
@@ -34,36 +34,9 @@
               </v-form>
             </v-list-item-content>
           </v-list-item>
-        </v-list>
-
-        <v-divider></v-divider>
-
-        <v-list three-line subheader>
-          <v-subheader>Carreras Asociadas</v-subheader>
-          <v-card flat>
-            <v-card-text>
-              <v-col class="d-flex" cols="10" sm="6">
-                <v-container fluid>
-                  <v-row align="center">
-                    <v-select
-                      v-model="select"
-                      :items="items"
-                      :error-messages="selectErrors"
-                      label="Universidades"
-                      required
-                      @change="$v.select.$touch()"
-                      @blur="$v.select.$touch()"
-                      outlined
-                    ></v-select>
-                  </v-row>
-                </v-container>
-              </v-col> 
-            </v-card-text>
-          </v-card>
-        </v-list>
+        </v-list>      
       </v-card>
 </template>
-
 <script>
 import axios from "axios";
 import { validationMixin } from "vuelidate";
@@ -79,55 +52,53 @@ export default {
     select: { required },
   },
 
-  methods: {
-    ...mapActions(['getQuestions']),
 
+   async created(){
+          await this.getIdForm(),
+          await this.setData()
+  },
+  methods: {
+  
+     setData(){
+           this.name  = this.formulario.tittle
+     },
      getIdForm(){
       return this.axios.get("http://142.93.79.50:8080/backend-drii/forms/"+this.idForm)
       .then((response) => ((this.formulario = response.data), console.log(response.data)))
       .catch((error) => console.log(error));
     },
     
-    async createSection() {
-      await this.axios
-        .post("http://142.93.79.50:8080/backend-drii/sections/create", {
-          name: this.name,
-          form: this.formulario,
-        })
-        .then(function (response) {
-          console.log(response);
-        });
-        this.getQuestions()
-    },  
     close(){
       route.push({
           name:'NewFormulario',
       })
     },
-    async submit() {
-      this.$v.$touch();
-      if (this.$v.$error == false) { 
-            await this.getIdForm()
-            await this.createSection()
-            route.push({
-                name:'NewFormulario',
-            })
-      };
-       /* route.push({
-          name:'NewFormulario',
-        }) */ 
-      
+
+    async editForm() {
+        console.log(this.name),
+        console.log(this.formulario)
+        await this.axios
+        .put("http://142.93.79.50:8080/backend-drii/forms/edit/"+this.idForm,{
+          deleted: this.formulario.deleted,
+          created: this.formulario.created,
+          tittle: this.name,
+          published: this.formulario.published
+        }).then(function (response) {
+            console.log(response.data)
+        });
     },
+
+    async submit() {
+            await this.editForm()
+           /* route.push({
+                name:'NewFormulario',
+            }) */ 
+    }
   },
 
   computed: {
     ...mapState(["idForm"]),
-    selectErrors() {
-      const errors = [];
-      if (!this.$v.select.$dirty) return errors;
-      !this.$v.select.required && errors.push("Requerido");
-      return errors;
-    },
+  
     nameErrors() {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;

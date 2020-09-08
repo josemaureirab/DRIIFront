@@ -3,22 +3,20 @@
     <BaseSection>
       <v-row  justify="center">
         <v-col cols="12" align="center">
-          <v-text>Primer Semestre 2021</v-text>
+          <v-text>{{convocatoria.semester}}</v-text>
         </v-col>
 
         <v-col cols="12" align="center">
   
-            <h1 > Programa Escala de Grado AUGM</h1>    <br> 
-             <v-text>   Cierre de postulaciones: domingo 23 de marzo 2020 a las 23:59 horas</v-text> <br> <br> 
+            <h1 > {{convocatoria.name}}</h1>    <br> 
+             <v-text>Cierre de postulaciones: {{convocatoria.deadLine}}</v-text> <br> <br> 
         </v-col>
 
 
         <v-col cols="4">
           <br> <br>  
             <p>
-              El Departamento de Relaciones Internacionales e Interuniversitarios invita a estudiantes de pregrado a postular al programar
-              de movilidad ESCALA estudiantil de Grado (PEEG) de la Asociación de Universidades Grupo Montevideo (AUGM). Este programa permetirá
-              a estudiantes de pregrado realizar intercambios durante el primer semestre 2021.
+              {{convocatoria.introductoryText }}
             </p>
         </v-col>
         <v-col cols="1">
@@ -28,10 +26,9 @@
             <h2  align="center"> Condiciones</h2> <br>  
             <p> 
               <ul>
-                 <li> Dirigido a: estudiantes de pregrado toda las carreras (diurnas o vespertinas) </li>
-                 <li> Semestre de intercambio: Semestre 1-2021</li>
-                 <li> Beneficios: Exención de matrícula y arancel en la universidad de destino, alojamiento y alimentación entregados programa
-               universidad de destino. Ayuda para pasaje ida y vuelta.</li>
+                 <li> Dirigido a: {{convocatoria.guided}} </li>
+                 <li> Semestre de intercambio: {{convocatoria.semester}}</li>
+                 <li> Beneficios: {{convocatoria.benefits}}</li>
                </ul>
               </p> 
         </v-col>
@@ -240,15 +237,17 @@
       >
         <v-container class="fill-height px-4 py-12">
           <v-responsive class="d-flex align-center" height="100%" max-width="700" width="100%">
-            <heading title="POSTULA AL PROGRAMA" />
-            <heading title="AUGM" />
+             <heading title="POSTULAS A LA "/>  
+               <heading title="CONVOCATORIA "/>  
+         <!--   <heading title="AUGM" /> 
+        
 
-            <!-- <base-body>
+           <base-body>
          TEXTO!
             </base-body>-->
 
             <div class="d-flex flex-wrap">
-                <v-btn href="/PostulacionesOutStudent" small>Postular</v-btn>
+                <v-btn @click="postular" small>Postular</v-btn>
            
             </div>
           </v-responsive>
@@ -264,12 +263,43 @@
 //TODO: Si no es estudiante entonces boton postulado desactivado 
 import heading from "../../Extra/Heading.vue";
 import BaseSection from "../../Extra/BaseSection.vue";
+import { mapState , mapActions } from "vuex";
+import route from "@/router";
+import axios from "axios";
+
 
 export default {
-  components: {
+components: {
     heading,
     BaseSection,
   },
+
+  async created(){
+    await this.getAgressment();
+    await this.getAccount()
+  },
+ methods: {
+  ...mapActions(['getAgressment','getAccount']),
+
+  async postular(){
+      await axios.post("http://142.93.79.50:8080/backend-drii/postulations/create",{
+          "agreement": this.convocatoria,  
+           "suitor": this.account,
+
+      }).then((response) => (console.log(response.data)))
+        .catch((error) => console.log(error));
+      route.push({
+        name: "PostulacionesOutStudent",
+      });
+  },
+
+
+  },
+  computed: {
+    ...mapState(["convocatoria","account"]),
+  },
+
+
   data: () => ({
     Universidad: [
       {

@@ -40,22 +40,15 @@
               <v-file-input show-size counter label="Carta de Compromiso" />
           </v-col>
           
-          <v-col cols="2"  align="right">
-            <v-btn class="ma-2" color="green" dark>
-              Enviar Archivo
-              <v-icon dark right>mdi-upload</v-icon>
-            </v-btn>
-
-          </v-col>
-
-           <v-col cols="1"  align="right">
+       
+           <v-col cols="2"  align="right">
             <v-btn class="ma-2" color="green" dark>
               Descargar
               <v-icon dark right>mdi-upload</v-icon>
             </v-btn>
 
           </v-col>
-          <v-col cols="1"  align="right">
+          <v-col cols="2"  align="right">
             <v-btn class="ma-2" color="green" dark>
               Verificar
               <v-icon dark right>mdi-upload</v-icon>
@@ -69,7 +62,8 @@
           </v-col>
         </v-row>
 
-         <v-row justify="center">
+         
+        <v-row justify="center">
 
             <v-col cols="1" align="right" class="ma-4">
               <v-tooltip  v-model="show" top>
@@ -89,13 +83,15 @@
               <v-file-input show-size counter label="Carta de Compromiso" />
           </v-col>
           
-          <v-col cols="2"  align="right">
+       
+           <v-col cols="2"  align="right">
             <v-btn class="ma-2" color="green" dark>
-              Enviar Archivo
+              Descargar
               <v-icon dark right>mdi-upload</v-icon>
             </v-btn>
+
           </v-col>
-          <v-col cols="1"  align="right">
+          <v-col cols="2"  align="right">
             <v-btn class="ma-2" color="green" dark>
               Verificar
               <v-icon dark right>mdi-upload</v-icon>
@@ -108,7 +104,7 @@
             </v-btn>
           </v-col>
         </v-row>
-       <v-row justify="center">
+        <v-row justify="center">
 
             <v-col cols="1" align="right" class="ma-4">
               <v-tooltip  v-model="show" top>
@@ -128,13 +124,15 @@
               <v-file-input show-size counter label="Carta de Compromiso" />
           </v-col>
           
-          <v-col cols="2"  align="right">
+       
+           <v-col cols="2"  align="right">
             <v-btn class="ma-2" color="green" dark>
-              Enviar Archivo
+              Descargar
               <v-icon dark right>mdi-upload</v-icon>
             </v-btn>
+
           </v-col>
-          <v-col cols="1"  align="right">
+          <v-col cols="2"  align="right">
             <v-btn class="ma-2" color="green" dark>
               Verificar
               <v-icon dark right>mdi-upload</v-icon>
@@ -147,7 +145,9 @@
             </v-btn>
           </v-col>
         </v-row>
-
+       
+          
+         
 
         <v-btn color="primary" @click="e1 = 2">Continuar</v-btn>
       </v-stepper-content>
