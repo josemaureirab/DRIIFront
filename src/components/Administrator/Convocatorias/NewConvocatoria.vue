@@ -9,13 +9,6 @@
           <v-text-field v-model="name" label="Nombre del programa" required></v-text-field>
           <v-text-field v-model="semestre" label="Semestre a realizar" required></v-text-field>
           <v-text-field v-model="duracion" label="Duración" required></v-text-field>
-          
-
-        
-
-
-   
-
       <v-menu
         v-model="menu"
         :close-on-content-click="false"

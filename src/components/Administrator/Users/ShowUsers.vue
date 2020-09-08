@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-col cols="12" align="right">
-      <v-btn href="/" class="mx-2" fab dark color="indigo">
+      <v-btn @click="goShowUser" class="mx-2" fab dark color="indigo">
         <v-icon dark>mdi-plus</v-icon>
       </v-btn>
     </v-col>
@@ -97,6 +97,9 @@
 </template>
 
 <script>
+
+import router from "@/router";
+
 export default {
   data: () => ({
     headersAdministratorsList: [
@@ -130,6 +133,9 @@ export default {
     usersIn: []
   }),
   methods: {
+    goShowUser(){
+      router.push({name: 'AddAdministrator'})
+    },
     editAdministrator(){
 
     },
