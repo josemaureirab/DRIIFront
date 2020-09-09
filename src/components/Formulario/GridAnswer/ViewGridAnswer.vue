@@ -14,18 +14,54 @@
               <span>{{this.item.help}}</span>
             </v-tooltip>
 
+
+        
+            
+          </v-card-text>
+
+     <v-card flat>
+    <v-card-text>
+      <v-container fluid>
+        <v-row cols="12" sm="6" md="6" v-for="(item, i) in options" :key="i">
+          
+        
+
+
+          <v-col cols="12" sm="6" md="6" v-for="(item, i) in selections" :key="i">
+              {{item}}
+
+            <v-radio-group v-model="ex8" column>
+              <v-radio
+                label="primary"
+                color="primary"
+                value="primary"
+              ></v-radio>
+            </v-radio-group>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card-text>
+  </v-card>
+
+
+
+
+
+            <v-list-item v-for="(item, i) in selections" :key="i">
+              <v-list-item-content>
+                <v-col cols="6" justify="center">{{item}}</v-col>
+              </v-list-item-content>
+            </v-list-item>
+
+
             <v-list-item v-for="(item, i) in options" :key="i">
               <v-list-item-content>
                 <v-col cols="2" justify="center">{{item}}</v-col>
               </v-list-item-content>
             </v-list-item>
 
-            <v-list-item v-for="(item, i) in selections" :key="i">
-              <v-list-item-content>
-                <v-col cols="9" justify="center">{{selections}}</v-col>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
+          
+           
         </v-col>
         <v-col cols="auto" class="text-center pl-0">
           <v-row class="flex-column ma-0 fill-height" justify="center">
@@ -72,6 +108,7 @@ export default {
   async created() {
     await this.getOptions();
     await this.getSelections();
+    //await this.generateSelect();
     await this.bMultiple();
   },
 
@@ -89,7 +126,7 @@ export default {
     getSelections() {
       axios
         .get(
-          "http://142.93.79.50:8080/backend-drii/options/byQuestion/" +
+          "http://142.93.79.50:8080/backend-drii/selections/byQuestion/" +
             this.item.id
         )
         .then((response) => this.filterSelections(response.data))
@@ -100,6 +137,13 @@ export default {
       if (this.item.selectionType == "Multiple") this.boleanMultiple = true;
       else this.boleanMultiple = false;
     },
+
+    
+    /*generateSelect(){
+        let i = this.option.length;
+        let j = this.selections.length;
+
+    },*/
 
     filterOptions(data) {
       let opt = [];
@@ -140,6 +184,7 @@ export default {
     selections: [],
     mul: null,
     boleanMultiple: null,
+
     //TODO: Cambiar items por cols de item.
 
     //TODO: VARIABLE MULTIPLE -> Sacada de item para saber si es o no.

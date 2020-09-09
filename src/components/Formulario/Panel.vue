@@ -74,18 +74,11 @@ export default {
           name:'EditNameFormulario',
       })
      }
-
-    
-
   },
   
 
-
-
  
   data: () => ({
- 
-
     isClick: false,
     idClick: -1,
     colorSelect: "",

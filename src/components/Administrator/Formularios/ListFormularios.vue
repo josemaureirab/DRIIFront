@@ -109,7 +109,7 @@
                 <v-list-item-action>
                   <v-row cols="12" justify="center">
                     <v-col cols="2" align="center">
-                      <v-btn icon @click="submit" href="/ViewFormulario" color="orange">
+                      <v-btn icon @click="view(item.id)"  color="orange">
                         <v-icon>mdi-eye</v-icon>
                       </v-btn>
                     </v-col>
@@ -184,6 +184,12 @@ export default {
       this.name  = '';
     },
 
+    async view(id){
+        this.idForm = id;
+      route.push({
+        name: "ViewFormulario",
+      });
+    },
 
     async publish(id) {
       await this.axios
