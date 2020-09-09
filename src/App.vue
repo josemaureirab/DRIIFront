@@ -30,7 +30,7 @@
       clipped-left
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>DRII Project</v-toolbar-title>
+      <v-toolbar-title class="linkeable" @click="goToHome">DRII Project</v-toolbar-title>
     </v-app-bar>
 
     <v-content > 
@@ -44,6 +44,9 @@
 </template>
 
 <script>
+
+import router from "@/router";
+
   export default {
     props: {
       source: String,
@@ -54,5 +57,16 @@
     created () {
       this.$vuetify.theme.dark = false
     },
+    methods: {
+      goToHome () {
+        router.push({name: 'MenuAdministrator'})
+      }
+    }
   }
 </script>
+
+<style>
+.linkeable{
+  cursor: pointer;
+}
+</style>
