@@ -8,6 +8,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
 
+    //documents
+
+    rutFileUser: '',
+    actualFileName: '',
+
     //user
 
     rutUser: '',
@@ -55,6 +60,21 @@ export default new Vuex.Store({
 
     updateActualAlert(state, payload) {
       state.actualAlert = payload;
+    },
+
+    //documents
+
+    updateRutFileUSer(state, payload) {
+      state.rutFileUser = payload;
+    },
+    updateActualFileName(state, payload) {
+      state.actualFileName = payload;
+    },
+
+    //user
+
+    updateActualFileName(state, payload) {
+      state.actualFileName = payload;
     },
 
   },
@@ -111,7 +131,44 @@ export default new Vuex.Store({
           console.log(e.response);
         })
     },
+
+    async createAlert() {
+      await axios
+        .post(this.state.serverURL + '/alerts/create', this.state.actualAlert)
+        .then(response => {
+          const result = response.data
+          if (result.length !== 0) {
+            console.log('Alerta creada');
+          } else {
+            console.log('No se ha podido crear la alerta');
+          }
+        })
+        .catch(e => {
+          console.log(e.response);
+        })
+    },
     
+    // Documents
+
+    async getDocumentByFileName() {
+      await axios
+        .get(this.state.serverURL + '/files/downloadByFileName/' + this.state.rutFileUser + '/' + this.state.actualFileName)
+        .then(response => {
+          const result = response.data
+          if (result.length !== 0) {
+            console.log('Documento obtenido');
+            console.log(response.data);
+          } else {
+            console.log('No se ha podido obtener el documento');
+          }
+        })
+        .catch(e => {
+          console.log(e.response);
+        })
+    },
+
+    
+
 
     // Others
 
