@@ -64,6 +64,13 @@ import EditNameFormulario from '../components/Formulario/EditNameFormulario.vue'
 
 /// 
 
+import SignIn from '../views/Auth/SignIn.vue'
+import SignUp from '../views/Auth/SignUp.vue'
+import SignUpUsach from '../views/Auth/SignUpUsach.vue'
+import Principal from  '../components/Principal/Principal.vue'
+import Account from '../views/Accounts/Account.vue'
+import AccountUsach from '../views/Accounts/AccountUsach.vue'
+import AccountInt from '../views/Accounts/AccountInt.vue'
 Vue.use(VueRouter)
 
   const routes = [

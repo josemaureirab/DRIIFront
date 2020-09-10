@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="inspire" class="Bground">
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -21,6 +21,22 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Cerrar Sesión</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-alarm-light</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Notificaciones</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content @click="goToHome()">
+            <v-list-item-title>Cerrar sesión</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -65,6 +81,12 @@ import router from "@/router";
     }
   }
 </script>
+
+<style scoped>
+  .Bground {
+    background-color: rgb(39, 39, 39, 1) !important;
+  }
+</style>
 
 <style>
 .linkeable{
