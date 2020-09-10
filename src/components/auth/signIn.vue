@@ -117,7 +117,7 @@ export default {
       router.push({ name: 'auth' })
     },
     goToAccountUsach () {
-      router.push({ name: 'AccountUSACH' })
+      router.push({ name: 'MenuOutStudent' })
     },
     goToRegisterInt () {
       router.push({ name: 'SignUp' })

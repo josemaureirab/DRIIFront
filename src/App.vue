@@ -17,14 +17,6 @@
         </v-list-item>
         <v-list-item link>
           <v-list-item-action>
-            <v-icon>mdi-logout</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Cerrar Sesión</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-action>
             <v-icon>mdi-alarm-light</v-icon>
           </v-list-item-action>
           <v-list-item-content>
@@ -35,7 +27,7 @@
           <v-list-item-action>
             <v-icon>mdi-logout</v-icon>
           </v-list-item-action>
-          <v-list-item-content @click="goToHome()">
+          <v-list-item-content @click="goToSelect()">
             <v-list-item-title>Cerrar sesión</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -77,6 +69,10 @@ import router from "@/router";
     methods: {
       goToHome () {
         router.push({name: 'MenuAdministrator'})
+      },
+      goToSelect () {
+        router.push({name: 'Home'})
+        this.drawer = false
       }
     }
   }
