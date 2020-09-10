@@ -6,20 +6,21 @@
       clipped
     >
       <v-list dense>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-view-dashboard</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Mi cuenta</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        
         <v-list-item link>
           <v-list-item-action>
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Inicio</v-list-item-title>
+            <v-list-item-title @click="goToHome">Inicio</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Cerrar Sesión</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

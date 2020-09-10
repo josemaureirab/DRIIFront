@@ -74,6 +74,11 @@ Vue.use(VueRouter)
 // TEMPORAL HOME //
 
 {
+  path: '/home',
+  name: 'Home',
+  component: Home
+},
+{
   path: '/',
   name: 'MenuAdministrator',
   component: MenuAdministrator

@@ -63,7 +63,7 @@
               </v-data-table>
           </v-expansion-panel-content>
         </v-expansion-panel>
-        <v-expansion-panel>
+        <!-- <v-expansion-panel>
           <v-expansion-panel-header>
             <v-alert color="#952175" dark icon="mdi-account" dense>Alumnos Entrantes</v-alert>
           </v-expansion-panel-header>
@@ -90,7 +90,7 @@
                 </template>
               </v-data-table>
           </v-expansion-panel-content>
-        </v-expansion-panel>
+        </v-expansion-panel> -->
       </v-expansion-panels>
     </v-row>
   </div>
