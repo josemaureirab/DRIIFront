@@ -26,11 +26,26 @@
                     @input="$v.name.$touch()"
                     @blur="$v.name.$touch()"
                     outlined
-                    shaped
+                    
                   ></v-text-field>
                 </v-col>
+
+                 <v-col  cols="12" sm="12">
+                    <v-select
+                      v-model="selectSeccion"
+                      :items="seccions"
+                      item-text="name"
+                      return-object
+                      required
+                      label="Seccion"
+                      outlined
+                      />
+              </v-col>
+
               </v-row>
             </v-container>
+
+            
           </v-form>
         </v-list-item-content>
       </v-list-item>
@@ -60,8 +75,11 @@
     <v-divider></v-divider>
     <v-list three-line subheader>
       <v-subheader>Configuración de Respuesta</v-subheader>
+
       <v-card flat>
         <v-card-text>
+
+          
           <v-col cols="10" sm="10" md="10">
             <v-switch
               v-model="option"
@@ -104,6 +122,10 @@ export default {
     //inputs: {required},
   },
 
+  async created() {
+     await this.getSeccion()
+  },
+
   methods: {
     ...mapActions(["getQuestions"]),
 
@@ -126,6 +148,7 @@ export default {
           required: this.answerRequired,
           help: this.help,
           form: this.formulario,
+          section: this.selectSeccion
         }
       );
     },
@@ -161,6 +184,12 @@ export default {
       if (el == "Multiple") return el;
       else return "Simple"; // TODO: CAMBIAR EN SELECTION TYPE POR  LINE ABAJODE CRETION QUESTION
     },
+
+     getSeccion(){
+      this.axios.get("http://142.93.79.50:8080/backend-drii/sections/byForm/"+this.idForm)
+      .then((response) => ( this.seccions = response.data), console.log(this.seccion))
+      .catch((error) => console.log(error)); 
+    },  
 
     async createOptions(data) {
       let cols = this.partitionInputs();
@@ -212,6 +241,12 @@ export default {
   },
 
   data: () => ({
+
+
+    seccions: [],
+    selectSeccion : '',
+
+
     formulario: [],
     count: 1,
     question: null,

@@ -9,8 +9,6 @@
       :vertical="vertical"
       :alt-labels="altLabels"
     >
-      
-     
       <template>
         <v-stepper-header>
           <template v-for="n in steps">
@@ -41,11 +39,11 @@
                 <v-list-item v-for="(item, i) in questions[n-1]" :key="i">
       <v-list-item-content>
         <v-col cols="9" justify="center">
-          <ViewShortAnswer   v-if="item.questionType == '1'" v-bind:item="item" />
-          <ViewSelectAnswer
+          <ViewStudentShortAnswer   v-if="item.questionType == '1'" v-bind:item="item" />
+          <ViewStudentSelectAnswer
             v-if="item.questionType == '2'" v-bind:item="item"
           />
-          <ViewGrid
+          <ViewStudentGrid
             v-if="item.questionType == '3'"
             v-bind:item="item"
           />
@@ -58,16 +56,15 @@
               color="primary"
               @click="nextStep(n)"
             >
-              Continue
+              Siguiente
             </v-btn>
-            <v-btn  text>Guardar</v-btn>
-
-            <v-btn  v-if="n == steps"
+        
+            <v-btn  v-if="n !== 1"
               color="primary"
-              @click="nextStep(n)"
+              @click="nextStep(n-2)"
             >
-              Enviar Formulario
-            </v-btn>
+              Atras
+            </v-btn>  
 
           </v-stepper-content>
         </v-stepper-items>
@@ -78,17 +75,17 @@
 
 <script>
 import { mapState , mapActions } from "vuex";
-import ViewShortAnswer from "./ShortAnswer/ViewShortAnswer";
-import ViewSelectAnswer from "./SelectAnswer/ViewSelectAnswer";
-import ViewGrid from "./GridAnswer/ViewGridAnswer";
+import ViewStudentShortAnswer from "../../Formulario/ShortAnswer/ViewStudentShortAnswer";
+import ViewStudentSelectAnswer from "../../Formulario/SelectAnswer/ViewStudentSelectAnswer";
+import ViewStudentGrid from "../../Formulario/GridAnswer/ViewStudentGrid";
 import axios from "axios";
 
   export default {
     components: {
 
-    ViewShortAnswer,
-    ViewSelectAnswer,
-    ViewGrid
+    ViewStudentShortAnswer,
+    ViewStudentSelectAnswer,
+    ViewStudentGrid
   },
 
     data () {
@@ -136,8 +133,8 @@ import axios from "axios";
       // ...mapActions(['getAgressment','getAccount']),
 
 
-      async getSections(){
-      await this.axios.get("http://142.93.79.50:8080/backend-drii/sections/byForm/"+6)
+  async getSections(){
+      await this.axios.get("http://142.93.79.50:8080/backend-drii/sections/byForm/"+this.idForm)
         .then((response) => (this.sections = response.data))
         .catch((error) => console.log(error));
       },

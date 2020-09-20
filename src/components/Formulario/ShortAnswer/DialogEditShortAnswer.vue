@@ -59,6 +59,22 @@
                   </v-row>
                 </v-container>
               </v-col>
+                
+            <v-col class="d-flex" cols="10" sm="6">
+                <v-container fluid>
+                  <v-row align="center">
+                    <v-select
+                      v-model="selectSeccion"
+                      :items="seccions"
+                      item-text="name"
+                      return-object
+                      required
+                      label="Seccion"
+                      outlined
+            ></v-select>
+                  </v-row>
+                </v-container>
+              </v-col>
               <v-col cols="10" sm="10" md="10">
                 <v-switch v-model="answerRequired" label="No Obligatoria" color="red" hide-details></v-switch>
               </v-col>
@@ -92,7 +108,8 @@ export default {
  async created(){
       console.log(this.idQuestion)
       await this.getQuestion(),
-      await this.setData()
+      await this.setData(),
+      await this.getSeccion()
   },
 
   methods: {
@@ -102,6 +119,7 @@ export default {
         this.name = this.infoQuestion.tittle,
         this.select = this.infoQuestion.selectionType,
         this.answerRequired = this.infoQuestion.required,
+        this.selectSeccion = this.infoQuestion.section,
         this.help = this.infoQuestion.help
     },
 
@@ -110,6 +128,14 @@ export default {
           name:'NewFormulario',
       })
     },
+
+    getSeccion(){
+      this.axios.get("http://142.93.79.50:8080/backend-drii/sections/byForm/"+this.idForm)
+      .then((response) => ( this.seccions = response.data), console.log(this.seccion))
+      .catch((error) => console.log(error)); 
+    },  
+
+
 
     async editQuestion (){
       console.log(this.formulario)
@@ -123,7 +149,8 @@ export default {
           selectionType: this.select,
           required: this.answerRequired,
           help: this.help,
-          form:  this.infoQuestion.form
+          form:  this.infoQuestion.form,
+          section: this.selectSeccion
           }
         )
         .then(function (response) {
@@ -150,8 +177,10 @@ export default {
   },
   
   computed: {
-    ...mapState(["infoQuestion",'idQuestion']),
+    ...mapState(["infoQuestion",'idQuestion','idForm']),
     
+
+
     selectErrors() {
       const errors = [];
       if (!this.$v.select.$dirty) return errors;
@@ -167,7 +196,11 @@ export default {
   },
 
   data: () => ({
-    items: ["Respuesta Corta", "Rut", "Correo", "Celular", "Fecha", "Archivo"],
+
+
+    seccions: [],
+    selectSeccion : '',
+    items: ["Respuesta Corta", "Fecha", "Archivo"],
     name: null,
     select: null,
     answerRequired: null,

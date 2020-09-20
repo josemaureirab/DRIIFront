@@ -63,8 +63,10 @@
                 <v-container fluid>
                   <v-row align="center">
                     <v-select
-                      v-model="valueSeccion"
-                      :items="seccion"
+                      v-model="selectSeccion"
+                      :items="seccions"
+                      item-text="name"
+                      return-object
                       required
                       label="Seccion"
                       outlined
@@ -117,19 +119,9 @@ export default {
 
     getSeccion(){
       this.axios.get("http://142.93.79.50:8080/backend-drii/sections/byForm/"+this.idForm)
-      .then((response) => ((this.filter(response.data)), console.log(this.seccion)))
-      .catch((error) => console.log(error));
+      .then((response) => ( this.seccions = response.data), console.log(this.seccion))
+      .catch((error) => console.log(error)); 
     },  
-
-    filter(data) {
-      let opt = [];
-      data.forEach(function (valor) {
-        opt.push(valor.name);
-      });
-      this.seccion = opt;
-    },
-
-
 
 
     async createQuestion () {
@@ -141,7 +133,7 @@ export default {
           required: this.answerRequired,
           form: this.formulario,
           help: this.help,
-          // section: this.valueSeccion
+          section: this.selectSeccion
         })
         .then(function (response) {
           console.log(response);
@@ -190,11 +182,13 @@ export default {
   },
 
   data: () => ({
-    seccion: [],
-    valueSeccion: [],
-    formulario: [],
+      formulario: [],
+
+
+    seccions: [],
+    selectSeccion : '',
     
-    items: ["Respuesta Corta", "Rut", "Correo", "Celular", "Fecha", "Archivo"],
+    items: ["Respuesta Corta", "Fecha", "Archivo"],
     name: "", // Title
     select: "", // selectionType
     answerRequired: false,

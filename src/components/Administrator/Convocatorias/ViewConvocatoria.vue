@@ -304,7 +304,7 @@ components: {
     Universidad: [
       {
         name: "Universidad de Berlin",
-        calories: 'Ingles',
+        calories: 'Ingles, Aleman',
         fat: 'A1',
         carbs: 'Si',
         protein: '5',
@@ -312,38 +312,7 @@ components: {
       },
       {
         name: "Universidad de Koln",
-        calories: 'Ingles',
-        fat: 'A1',
-        carbs: 'Si',
-        protein: '5',
-        iron: "www.universidaddeKoln.cl",
-      },
-      {
-        name: "Universidad de Berlin",
-        calories: 'Aleman',
-        fat: 'A1',
-        carbs: 'Si',
-        protein: '5',
-        iron: "www.universidaddeberlin.cl",
-      },
-      {
-        name: "Universidad de Koln",
-        calories: 'Ingles',
-        fat: 'A1',
-        carbs: 'Si',
-        protein: '5',
-        iron: "www.universidaddeKoln.cl",
-      }, {
-        name: "Universidad de Berlin",
-        calories: 'Aleman',
-        fat: 'A2',
-        carbs: 'No',
-        protein: '10',
-        iron: "www.universidaddeberlin.cl",
-      },
-      {
-        name: "Universidad de Koln",
-        calories: 'Ingles',
+        calories: 'Ingles, Aleman',
         fat: 'A1',
         carbs: 'Si',
         protein: '5',

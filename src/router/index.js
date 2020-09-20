@@ -25,6 +25,7 @@ import EditConvocatoria from '../components/Administrator/Convocatorias/EditConv
 import ViewConvocatoria from '../components/Administrator/Convocatorias/ViewConvocatoria.vue' // NO DEBERIA IR 
 // Formularios//
 import ListFormularios from '../components/Administrator/Formularios/ListFormularios.vue'
+import ViewFormularioAdmin from '../components/Administrator/Formularios/ViewFormulario.vue'
 /////
 
 
@@ -146,6 +147,11 @@ Vue.use(VueRouter)
   path: '/ListFormularios',
   name: 'ListFormularios',
   component: ListFormularios
+},
+{
+  path: '/ViewFormularioAdmin',
+  name: 'ViewFormularioAdmin',
+  component: ViewFormularioAdmin
 },
 
 /// Postulaciones Administrator

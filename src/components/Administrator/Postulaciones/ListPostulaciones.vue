@@ -7,14 +7,13 @@
       <v-expansion-panels color="red" multiple v-model="panel">
         <v-expansion-panel>
           <v-expansion-panel-header>
-            <v-alert color="blue" dark icon="mdi-account-card-details" dense>PROGRAMA 1 </v-alert>
+            <v-alert color="blue" dark icon="mdi-account-card-details" dense>Convocatoria CONAHEC 1</v-alert>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
               <v-list> 
       <v-list-item
         v-for="item in items2"
         :key="item.title"
-     
       >
         <v-list-item-avatar>
          <v-icon color="grey lighten-1">mdi-folder</v-icon>
@@ -29,8 +28,6 @@
 
         <v-list-item-action>
            <v-row cols="12" justify="center">
-
-                        
 
                           
 
@@ -56,12 +53,12 @@
 
         <v-expansion-panel>
           <v-expansion-panel-header>
-            <v-alert color="blue" dark icon="mdi-account-card-details" dense>PROGRAMA 2 </v-alert>
+            <v-alert color="blue" dark icon="mdi-account-card-details" dense>Convocatoria CONAHEC 2</v-alert>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
                    <v-list> 
       <v-list-item
-        v-for="item in items2"
+        v-for="item in items3"
         :key="item.title"
      
       >
@@ -99,6 +96,52 @@
       </v-list-item>
     </v-list>
 
+  </v-list>
+
+                    
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <v-alert color="blue" dark icon="mdi-account-card-details" dense>Convocatoria CONAHEC 2</v-alert>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+                   <v-list> 
+      <v-list-item
+        v-for="item in items3"
+        :key="item.title"
+     
+      >
+        <v-list-item-avatar>
+         <v-icon color="grey lighten-1">mdi-folder</v-icon>
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title v-text="item.title"> </v-list-item-title>
+          <v-list-item-subtitle v-text="item.subtitle +' | Status: '+ item.status"></v-list-item-subtitle>
+
+
+        </v-list-item-content>
+
+        <v-list-item-action>
+           <v-row cols="12" justify="center">     
+
+                          <v-col cols="4" >
+                            <v-btn href="/ViewPostulacionAdministrator" icon color="orange">
+                              <v-icon>mdi-eye</v-icon>
+                            </v-btn>
+                          </v-col>
+                          <v-col cols="4" >
+                            <v-btn icon color="orange">
+                              <v-icon>mdi-download</v-icon>
+                            </v-btn>
+                          </v-col>
+                           
+                        </v-row>
+        </v-list-item-action>
+      </v-list-item>
+    </v-list>
               
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -147,11 +190,13 @@
 <script>
 export default {
   data: () => ({
-    panel: [0, 1],
+    panel: [0],
          dialog: false,
       items2: [
-        {  title: 'Nicolas Alarcón Laserna', status: ' Aceptado', subtitle: 'Universidad de Lisboa' },
-        {  title: 'Tomas Olivares Docher', subtitle: 'Rechazado' },
+        {  title: 'Rut: 19.386.607-7', status: ' Aceptado', subtitle: 'Universidad de Lisboa' },
+        {  title: 'Rut: 18.886.502-1', status: ' Rechazado', subtitle: 'Universidad de Manchester' },
+      ],
+      items3: [
       ],
   }),
 };

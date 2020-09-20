@@ -155,7 +155,7 @@ export default {
     abiertas: [],
     cerradas: [],
     cAbiertas: -1,
-    cCerradas: -1,
+    cCerradas: 0,
     panel: [0, 1],
   }),
 };

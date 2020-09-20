@@ -183,8 +183,8 @@
 
     <v-col cols="12">
       <v-card class="mx-auto" max-width="90%">
-        <v-form ref="form" class="mx-10 py-10" v-model="valid" lazy-validation>
-          <v-select :items="formularios" label="Formulario"></v-select>
+        <v-form ref="form" class="mx-10 py-10"  lazy-validation>
+          <v-select return-object v-model="selectFormulario" :items="formularios"  item-text="tittle"  label="Formulario"></v-select> 
         </v-form>
       </v-card>
     </v-col>
@@ -196,6 +196,8 @@
 </template>
 
 <script>
+import route from "@/router";
+
 export default {
   props: {
     value: Boolean,
@@ -217,7 +219,7 @@ export default {
       let cols = [];
       data.forEach(function (valor) {
           if(valor.published == true)
-                cols.push(valor.tittle);     
+                cols.push(valor);     
       });
       return cols;
     },
@@ -239,17 +241,20 @@ export default {
                //pagePhoto: this.photoPagina,
                // coverPhoto:  this.photoPortada,
                // university: this.csvUniversidades,
-                published: true,
-               // form: this.formulario */ 
+                published: false,
+                 form: this.selectFormulario 
         })
         .then(function (response) {
           console.log(response);
         });
-        //  get convocotorias  this.getQuestions()
+
   },
 
    async submit(){
-      await this.createAgreements()
+      await this.createAgreements();
+      route.push({
+        name: "ListConvocatorias",
+      });
     },
 
     add(index) {
@@ -273,6 +278,8 @@ export default {
     menu2: false,
 
     formularios: [],
+    selectFormulario: '',
+    
     name: null,
     semestre: null,
     duracion: null,

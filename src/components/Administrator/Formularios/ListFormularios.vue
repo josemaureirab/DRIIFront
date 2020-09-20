@@ -45,19 +45,17 @@
           <v-expansion-panel-content>
             <v-list v-for="item in info" :key="item.id">
               <v-list-item v-if="item.published == false">
-                <!-- Cambiar a guardados-->
                 <v-list-item-avatar>
                   <v-icon color="grey lighten-1">mdi-folder</v-icon>
                 </v-list-item-avatar>
-
                 <v-list-item-content>
-                  <v-list-item-title v-text="'title: '+item.tittle"></v-list-item-title>
-                  <v-list-item-subtitle v-text="'date :'+item.id"></v-list-item-subtitle>
+                  <v-list-item-title v-text="item.tittle"></v-list-item-title>
+                  <v-list-item-subtitle v-text="item.created"></v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-row cols="12" justify="center">
                     <v-col cols="2" align="center">
-                      <v-btn icon href="/ViewFormulario" color="orange">
+                      <v-btn icon @click="view(item.id)"  color="orange">
                         <v-icon>mdi-eye</v-icon>
                       </v-btn>
                     </v-col>
@@ -67,7 +65,7 @@
                       </v-btn>
                     </v-col>
                     <v-col cols="2" align="center">
-                      <v-btn icon color="orange">
+                      <v-btn icon @click="copy(item)" color="orange">
                         <v-icon>mdi-content-copy</v-icon>
                       </v-btn>
                     </v-col>
@@ -78,7 +76,7 @@
                       </v-btn>
                     </v-col>
                     <v-col cols="2" align="center">
-                      <v-btn icon @click="publish(item.id)" color="orange">
+                      <v-btn icon @click="publish(item)" color="orange">
                         <v-icon>mdi-clipboard-check</v-icon>
                       </v-btn>
                     </v-col>
@@ -96,14 +94,12 @@
           <v-expansion-panel-content>
             <v-list v-for="item in this.info" :key="item.id">
               <v-list-item v-if="item.published  == true">
-                <!-- Cambiar  a publicados-->
                 <v-list-item-avatar>
                   <v-icon color="grey lighten-1">mdi-folder</v-icon>
                 </v-list-item-avatar>
-
                 <v-list-item-content>
-                  <v-list-item-title v-text="'title: '+item.tittle"></v-list-item-title>
-                  <v-list-item-subtitle v-text="'date :'+item.id"></v-list-item-subtitle>
+                  <v-list-item-title v-text="item.tittle"></v-list-item-title>
+                  <v-list-item-subtitle v-text="item.created"></v-list-item-subtitle>
                 </v-list-item-content>
 
                 <v-list-item-action>
@@ -119,7 +115,7 @@
                       </v-btn>
                     </v-col>
                     <v-col cols="2" align="center">
-                      <v-btn icon color="orange">
+                      <v-btn icon @click="copy(item)" color="orange">
                         <v-icon>mdi-content-copy</v-icon>
                       </v-btn>
                     </v-col>
@@ -130,7 +126,7 @@
                       </v-btn>
                     </v-col>
                     <v-col cols="2" align="center">
-                      <v-btn icon @click="unPublish(item.id)" color="orange">
+                      <v-btn icon @click="unPublish(item)" color="orange">
                         <v-icon>mdi-bookmark-remove</v-icon>
                       </v-btn>
                     </v-col>
@@ -187,28 +183,42 @@ export default {
     async view(id){
         this.idForm = id;
       route.push({
-        name: "ViewFormulario",
+        name: "ViewFormularioAdmin",
       });
     },
 
-    async publish(id) {
-      await this.axios
-        .put("http://142.93.79.50:8080/backend-drii/forms/edit/" + id, {
-          published: true,
+    async publish(data) {
+          await this.axios.put("http://142.93.79.50:8080/backend-drii/forms/edit/" + data.id, {
+              published: true,
+              deleted: data.deleted,
+              typeStep: data.typeStep,
+              created: data.created,
+              tittle: data.tittle 
+            });
+      this.getForm();
+    },
+
+    async copy(data){
+         await this.axios
+        .post("http://142.93.79.50:8080/backend-drii/forms/create", {
+              published: data.published,
+              deleted: data.deleted,
+              typeStep: data.typeStep,
+              tittle: data.tittle 
         })
         .then(function (response) {
           // location.reload();
         });
       this.getForm();
     },
-    async unPublish(id) {
-      await this.axios
-        .put("http://142.93.79.50:8080/backend-drii/forms/edit/" + id, {
-          published: false,
-        })
-        .then(function (response) {
-          // location.reload();
-        });
+    async unPublish(data) {
+        await this.axios.put("http://142.93.79.50:8080/backend-drii/forms/edit/" + data.id, {
+              published: false,
+              deleted: data.deleted,
+              typeStep: data.typeStep,
+              created: data.created,
+              tittle: data.tittle 
+            });
       this.getForm();
     },
 

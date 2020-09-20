@@ -26,26 +26,6 @@
             ></v-select>
           </v-card-text>
         </v-col>
-        <v-col cols="auto" class="text-center pl-0">
-          <v-row class="flex-column ma-0 fill-height" justify="center">
-            <v-col class="px-0">
-              <v-btn icon v-on:click="buttonEdit">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-            </v-col>
-            <v-col class="px-0">
-              <v-btn icon v-on:click="buttonDelete">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </v-col>
-
-            <v-col class="px-0">
-              <v-btn icon v-on:click="buttonCopy">
-                <v-icon>mdi-content-copy</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-col>
       </v-row>
     </v-container>
     <v-card-subtitle v-if="item.required == false" single-line solo>Pregunta Obligatoria</v-card-subtitle>

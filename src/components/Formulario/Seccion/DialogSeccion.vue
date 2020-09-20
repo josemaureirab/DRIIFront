@@ -46,18 +46,22 @@
                 <v-container fluid>
                   <v-row align="center">
                     <v-select
-                      v-model="select"
-                      :items="items"
+                      v-model="selectCarrer"
+                      :items="carrers"
+                      item-text="name"
+                      return-object
                       :error-messages="selectErrors"
-                      label="Universidades"
+                      label="Carreras"
                       required
-                      @change="$v.select.$touch()"
-                      @blur="$v.select.$touch()"
+                      multiple
                       outlined
-                    ></v-select>
+                    > 
+                    </v-select>
+                    {{ selectCarrer}}
                   </v-row>
                 </v-container>
               </v-col> 
+
             </v-card-text>
           </v-card>
         </v-list>
@@ -79,40 +83,55 @@ export default {
     select: { required },
   },
 
+
+  async created() {
+     await this.getCareers()
+  },
+
+
   methods: {
     ...mapActions(['getQuestions']),
 
      getIdForm(){
       return this.axios.get("http://142.93.79.50:8080/backend-drii/forms/"+this.idForm)
-      .then((response) => ((this.formulario = response.data), console.log(response.data)))
+      .then((response) => ( (this.formulario = response.data), console.log(response.data)))
       .catch((error) => console.log(error));
     },
     
+    getCareers(){
+        return this.axios.get("http://142.93.79.50:8080/backend-drii/careers/")
+    .then((response) =>  { this.carrers = response.data ; console.log(this.carrers) })
+      .catch((error) => console.log(error));
+    },
+
     async createSection() {
       await this.axios
         .post("http://142.93.79.50:8080/backend-drii/sections/create", {
           name: this.name,
           form: this.formulario,
+          // career: this.selectCarrer,
         })
         .then(function (response) {
           console.log(response);
         });
         this.getQuestions()
     },  
+
+  
     close(){
       route.push({
           name:'NewFormulario',
       })
     },
     async submit() {
-      this.$v.$touch();
-      if (this.$v.$error == false) { 
+    //  this.$v.$touch();
+      
             await this.getIdForm()
             await this.createSection()
             route.push({
                 name:'NewFormulario',
             })
-      };
+    
        /* route.push({
           name:'NewFormulario',
         }) */ 
@@ -137,9 +156,11 @@ export default {
   },
 
   data: () => ({
+    selectCarrer : '',
+    carrers : [],
+    idCarrers: [],
     formulario: [],
-    items: ["Respuesta Corta", "Rut", "Correo", "Celular", "Fecha", "Archivo"],
-    name: "", // Title
+    name: '', // Title
    
   }),
 };

@@ -19,7 +19,8 @@ export default new Vuex.Store({
     
     idStudent: -1,
 
-    
+   
+
     idConvocatoria: -1,
     convocatoria:[],
     convocatorias:[],
@@ -28,6 +29,8 @@ export default new Vuex.Store({
     question: [],
   },
   mutations: {
+
+
 
     updateIdConvocatoria(state, payload){
       state.idConvocatoria = payload;
