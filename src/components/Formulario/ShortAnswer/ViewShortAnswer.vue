@@ -122,6 +122,8 @@ export default {
 
   methods: {
     ...mapActions(['getQuestions']),
+
+    
      buttonEdit() {
       this.idQuestion = this.item.id
     

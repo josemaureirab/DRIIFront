@@ -1,69 +1,59 @@
  <template>
   <v-card>
     <v-container>
-      <v-row justify="space-between">
+
+        <v-row justify="space-between">
         <v-col>
-          <v-card-text>
-            <v-subheader class="pa-0">{{this.item.tittle}}</v-subheader>
-            <v-tooltip v-if="item.help !== '' " v-model="show" top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs" v-on="on">
-                  <v-icon color="grey lighten-1">mdi-help</v-icon>
-                </v-btn>
-              </template>
-              <span>{{this.item.help}}</span>
-            </v-tooltip>
+           <v-card-text>
+            <v-subheader class="pa-0">
+              {{this.item.tittle}}
+              <v-tooltip v-if="item.help !== ''" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn icon v-bind="attrs" v-on="on">
+                    <v-icon color="grey lighten-1">mdi-help</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{this.item.help}}</span>
+              </v-tooltip>
+            </v-subheader>
 
 
-        
-            
-          </v-card-text>
+      <v-row class="md-12">
+          <v-col :md="2"> 
+          </v-col>
+          <v-col :md="2" v-for="(item, i) in selections" :key="i">
+            {{item}}
+          </v-col>
+      </v-row>
 
-     <v-card flat>
-    <v-card-text>
-      <v-container fluid>
-        <v-row cols="12" sm="6" md="6" v-for="(item, i) in options" :key="i">
-          
-        
-
-
-          <v-col cols="12" sm="6" md="6" v-for="(item, i) in selections" :key="i">
-              {{item}}
-
-            <v-radio-group v-model="ex8" column>
+      <div v-for="(item, i) in options" :key="i">
+        <v-row>
+             <v-col :md="2" class="py-8"  >  {{item}}  </v-col>
+             <v-col :md="2"  v-for="(item, i) in selections" :key="i"> 
+                   <v-radio-group  class="py-0" v-model="ex8" column>
               <v-radio
-                label="primary"
+               
                 color="primary"
                 value="primary"
               ></v-radio>
             </v-radio-group>
-          </v-col>
+              </v-col>
         </v-row>
-      </v-container>
-    </v-card-text>
-  </v-card>
-
-            <v-list-item v-for="(item, i) in selections" :key="i">
-              <v-list-item-content>
-                <v-col cols="6" justify="center">{{item}}</v-col>
-              </v-list-item-content>
-            </v-list-item>
+        </div>
 
 
-            <v-list-item v-for="(item, i) in options" :key="i">
-              <v-list-item-content>
-                <v-col cols="2" justify="center">{{item}}</v-col>
-              </v-list-item-content>
-            </v-list-item>
+    
 
+         </v-card-text>
         </v-col>
+       
       </v-row>
     </v-container>
     <v-card-subtitle v-if="item.required == false" single-line solo>Pregunta Obligatoria</v-card-subtitle>
   </v-card>
 </template>
-
 <script>
+
 //TODO : Arreglar  EDIT para que funcione
 
 import DialogEditGridAnswer from "./DialogEditGridAnswer";
@@ -80,14 +70,12 @@ export default {
 
   async created() {
     await this.getOptions();
-    //await this.generateSelect();
+    await this.getSelections();
     await this.bMultiple();
   },
 
   methods: {
     ...mapActions(["getQuestions"]),
-
-
     getOptions() {
       axios
         .get(
@@ -97,9 +85,15 @@ export default {
         .then((response) => this.filterOptions(response.data))
         .catch((error) => console.log(error));
     },
-
-
-    
+    getSelections() {
+      axios
+        .get(
+          "http://142.93.79.50:8080/backend-drii/selections/byQuestion/" +
+            this.item.id
+        )
+        .then((response) => this.filterSelections(response.data))
+        .catch((error) => console.log(error));
+    },
 
     bMultiple() {
       if (this.item.selectionType == "Multiple") this.boleanMultiple = true;
@@ -107,12 +101,6 @@ export default {
     },
 
     
-    /*generateSelect(){
-        let i = this.option.length;
-        let j = this.selections.length;
-
-    },*/
-
     filterOptions(data) {
       let opt = [];
       data.forEach(function (valor) {
@@ -122,18 +110,33 @@ export default {
     },
 
     filterSelections(data) {
+      
       let opt = [];
       data.forEach(function (valor) {
         opt.push(valor.text);
+        
       });
       this.selections = opt;
+     console.log(selections);
     },
 
+    buttonEdit: function () {
+      this.showDialogGrid = true;
+    },
+    async buttonDelete() {
+      await this.axios
+        .delete(
+          "http://142.93.79.50:8080/backend-drii/questions/delete/" +
+            this.item.id
+        )
+        .then(function (response) {
+          console.log(response);
+        });
+      this.getQuestions();
+    },
   },
   data: () => ({
     showDialogGrid: false,
-    items: ["Opcion 1", "Opcion 2", "Opcion 3"],
-    value: ["Opcion"],
     options: [],
     selections: [],
     mul: null,

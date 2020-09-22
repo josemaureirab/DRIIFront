@@ -205,11 +205,30 @@ export default {
     value: Boolean,
   },
   async created(){
-    console.log(this.idConvocatoria)
-    await this.getFormularios()
+    await this.getAgreement(),
+    await this.getFormularios(),
+    await this.setData()
   },
+  
 
   methods: {
+    ...mapActions(['getAgreement']),    
+     
+     setData(){
+
+       console.log(this.infoConvocatoria)
+                this.name = this.infoConvocatoria.name,
+                this.semestre =this.infoConvocatoria.semester,
+                this.duracion = this.infoConvocatoria.duration,
+                this.inicio = this.infoConvocatoria.startLine,
+                this.cierre = this.infoConvocatoria.deadLine,
+                this.link = this.infoConvocatoria.informationLink,
+                this.texto = this.infoConvocatoria.introductoryText,
+                this.beneficio = this.infoConvocatoria.benefits,
+                this.dirigido = this.infoConvocatoria.guided,
+                this.selectFormulario = this.infoConvocatoria.form
+                
+    },
 
     getFormularios(){
       return this.axios.get("http://142.93.79.50:8080/backend-drii/forms/")
@@ -228,8 +247,8 @@ export default {
 
     async createAgreements(){
      await this.axios
-        .post(" http://142.93.79.50:8080/backend-drii/agreements/create", {
-                name: this.name,
+        .put(" http://142.93.79.50:8080/backend-drii/agreements/edit/"+this.infoConvocatoria.id, {
+                 name: this.name,
                 semester: this.semestre,
                 duration:  this.duracion,
                 startLine: new Date(this.inicio),
@@ -244,7 +263,7 @@ export default {
                // coverPhoto:  this.photoPortada,
                // university: this.csvUniversidades,
                 published: false,
-                 form: this.selectFormulario 
+                form: this.selectFormulario 
         })
         .then(function (response) {
           console.log(response);
@@ -270,7 +289,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["idConvocatoria"]),
+    ...mapState(["infoConvocatoria"]),
   },
 
   data: () => ({

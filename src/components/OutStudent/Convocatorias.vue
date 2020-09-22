@@ -71,7 +71,7 @@
                         <div>Cierre de postulaciones: {{item.deadLine}}</div>
                       </v-card-text>
                       <v-card-actions>
-                        <v-btn color="orange" text href="\ViewConvocatoria">Ingresar</v-btn>
+                        <v-btn color="orange" text @click="submit(item.id)">Ingresar</v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-col>
@@ -112,6 +112,7 @@ export default {
   },
   methods: {
     ...mapActions(["getAgreements"]),
+
 
 
     submit(id) {

@@ -1,67 +1,50 @@
  <template>
   <v-card>
     <v-container>
-      <v-row justify="space-between">
+
+        <v-row justify="space-between">
         <v-col>
-          <v-card-text>
-            <v-subheader class="pa-0">{{this.item.tittle}}</v-subheader>
-            <v-tooltip v-if="item.help !== '' " v-model="show" top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs" v-on="on">
-                  <v-icon color="grey lighten-1">mdi-help</v-icon>
-                </v-btn>
-              </template>
-              <span>{{this.item.help}}</span>
-            </v-tooltip>
+           <v-card-text>
+            <v-subheader class="pa-0">
+              {{this.item.tittle}}
+             <v-tooltip v-if="item.help !== ''" top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn icon v-bind="attrs" v-on="on">
+                    <v-icon color="grey lighten-1">mdi-help</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{this.item.help}}</span>
+              </v-tooltip>
+            </v-subheader>
 
 
-        
-            
-          </v-card-text>
+      <v-row class="md-12">
+          <v-col :md="2"> 
+          </v-col>
+          <v-col :md="2" v-for="(item, i) in selections" :key="i">
+            {{item}}
+          </v-col>
+      </v-row>
 
-     <v-card flat>
-    <v-card-text>
-      <v-container fluid>
-        <v-row cols="12" sm="6" md="6" v-for="(item, i) in options" :key="i">
-          
-        
-
-
-          <v-col cols="12" sm="6" md="6" v-for="(item, i) in selections" :key="i">
-              {{item}}
-
-            <v-radio-group v-model="ex8" column>
+      <div v-for="(item, i) in options" :key="i">
+        <v-row>
+             <v-col :md="2" class="py-8"  >  {{item}}  </v-col>
+             <v-col :md="2"  v-for="(item, i) in selections" :key="i"> 
+                   <v-radio-group  class="py-0" v-model="ex8" column>
               <v-radio
-                label="primary"
+               
                 color="primary"
                 value="primary"
               ></v-radio>
             </v-radio-group>
-          </v-col>
+              </v-col>
         </v-row>
-      </v-container>
-    </v-card-text>
-  </v-card>
+        </div>
 
 
+    
 
-
-
-            <v-list-item v-for="(item, i) in selections" :key="i">
-              <v-list-item-content>
-                <v-col cols="6" justify="center">{{item}}</v-col>
-              </v-list-item-content>
-            </v-list-item>
-
-
-            <v-list-item v-for="(item, i) in options" :key="i">
-              <v-list-item-content>
-                <v-col cols="2" justify="center">{{item}}</v-col>
-              </v-list-item-content>
-            </v-list-item>
-
-          
-           
+         </v-card-text>
         </v-col>
         <v-col cols="auto" class="text-center pl-0">
           <v-row class="flex-column ma-0 fill-height" justify="center">
@@ -77,7 +60,7 @@
             </v-col>
 
             <v-col class="px-0">
-              <v-btn icon>
+              <v-btn icon v-on:click="buttonCopy">
                 <v-icon>mdi-content-copy</v-icon>
               </v-btn>
             </v-col>
@@ -85,22 +68,19 @@
         </v-col>
       </v-row>
     </v-container>
-    <DialogEditGridAnswer  v-model="showDialogGrid" v-bind:item="item" />
     <v-card-subtitle v-if="item.required == false" single-line solo>Pregunta Obligatoria</v-card-subtitle>
   </v-card>
 </template>
-
 <script>
+
 //TODO : Arreglar  EDIT para que funcione
 
-import DialogEditGridAnswer from "./DialogEditGridAnswer";
 import axios from "axios";
 import { mapState, mapActions } from "vuex";
+import route from "@/router";
 
 export default {
-  components: {
-    DialogEditGridAnswer,
-  },
+
   props: {
     item: Object,
   },
@@ -108,9 +88,21 @@ export default {
   async created() {
     await this.getOptions();
     await this.getSelections();
-    //await this.generateSelect();
     await this.bMultiple();
   },
+
+   computed: {
+    ...mapState(["infoQuestion"]),
+    idQuestion: {
+      get() {
+        return this.$store.state.idQuestion;
+      },
+      set(payload) {
+        this.$store.commit("updateIdQuestion", payload);
+      },
+    },
+  },
+  
 
   methods: {
     ...mapActions(["getQuestions"]),
@@ -139,12 +131,6 @@ export default {
     },
 
     
-    /*generateSelect(){
-        let i = this.option.length;
-        let j = this.selections.length;
-
-    },*/
-
     filterOptions(data) {
       let opt = [];
       data.forEach(function (valor) {
@@ -154,15 +140,21 @@ export default {
     },
 
     filterSelections(data) {
+      
       let opt = [];
       data.forEach(function (valor) {
         opt.push(valor.text);
+        
       });
       this.selections = opt;
+     console.log(selections);
     },
 
-    buttonEdit: function () {
-      this.showDialogGrid = true;
+     buttonEdit: function () {
+      this.idQuestion = this.item.id;
+      route.push({
+        name: "DialogEditGridAnswer",
+      });
     },
     async buttonDelete() {
       await this.axios
@@ -175,11 +167,88 @@ export default {
         });
       this.getQuestions();
     },
+
+
+
+
+
+   async copySelect(question){
+        let  op = []
+        await this.axios.get(
+          "http://142.93.79.50:8080/backend-drii/selections/byQuestion/" +
+            this.item.id
+        )
+        .then(function (response) {
+            op = response.data
+        });
+        await Promise.all(op).then(
+          op.map((el) => {
+            console.log(el)
+		            this.axios.post("http://142.93.79.50:8080/backend-drii/selections/create/",{
+                      text: el.text,
+                      position: el.position, 
+                      question: question
+                }).then(function (response) {
+                console.log(response);
+              });
+              // }) 
+          })
+        );
+    },
+
+
+ async copyOptions(question){
+        let  op = []
+        await this.axios.get(
+          "http://142.93.79.50:8080/backend-drii/options/byQuestion/" +
+            this.item.id
+        )
+        .then(function (response) {
+            op = response.data
+        });
+        await Promise.all(op).then(
+          
+          op.map((el) => {
+            console.log(el)
+		            this.axios.post("http://142.93.79.50:8080/backend-drii/options/create/",{
+                      text: el.text,
+                      position: el.position, 
+                      question: question
+                }).then(function (response) {
+                console.log(response);
+              });
+              // }) 
+          })
+        );
+    },
+
+
+    async buttonCopy(){
+
+      let op = ['']
+      await this.axios
+              .post("http://142.93.79.50:8080/backend-drii/questions/create", {
+                tittle: this.item.tittle,
+                questionType: this.item.questionType,
+                selectionType: this.item.selectionType,
+                required: this.item.required,
+                form: this.item.form,
+                help: this.item.help,
+                section: this.item.section
+              })
+              .then(function (response) {
+                  op.push(response.data)
+              });
+              await Promise.all(op).then( 
+                   this.copyOptions(op[1]),
+                   this.copySelect(op[1]));
+              this.getQuestions();      
+        },
+
+
+
   },
   data: () => ({
-    showDialogGrid: false,
-    items: ["Opcion 1", "Opcion 2", "Opcion 3"],
-    value: ["Opcion"],
     options: [],
     selections: [],
     mul: null,

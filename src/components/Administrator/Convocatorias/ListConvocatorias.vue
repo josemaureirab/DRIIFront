@@ -35,7 +35,8 @@
                     <v-card-actions>
                       <v-row cols="12" justify="center">
                         <v-col cols="3" align="center">
-                          <v-btn href="/ViewConvocatoria" icon color="orange">
+                        
+                          <v-btn  @click="viewAgreement(item.id)" icon color="orange">
                             <v-icon>mdi-eye</v-icon>
                           </v-btn>
                         </v-col>
@@ -91,7 +92,7 @@
                     <v-card-actions>
                       <v-row cols="12" justify="center">
                         <v-col cols="3" align="center">
-                          <v-btn href="/ViewConvocatoria" icon color="orange">
+                          <v-btn @click="viewAgreement(item.id)" icon color="orange">
                             <v-icon>mdi-eye</v-icon>
                           </v-btn>
                         </v-col>
@@ -189,6 +190,12 @@ export default {
       this.getForm();
     },
 
+    viewAgreement(id){
+      this.idConvocatoria = id;
+      route.push({
+        name: "ViewConvocatoriaAdmin",
+      });
+    },
     async unPublish(data) {
       await this.axios.put(
         "http://142.93.79.50:8080/backend-drii/agreements/edit/"+ data.id,

@@ -251,8 +251,8 @@
 
 <script>
 //TODO: Si no es estudiante entonces boton postulado desactivado 
-import heading from "../../Extra/Heading.vue";
-import BaseSection from "../../Extra/BaseSection.vue";
+import heading from "../Extra/Heading.vue";
+import BaseSection from "../Extra/BaseSection.vue";
 import { mapState , mapActions } from "vuex";
 import route from "@/router";
 import axios from "axios";

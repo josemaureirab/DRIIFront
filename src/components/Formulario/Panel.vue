@@ -16,7 +16,7 @@
     </v-btn>
 
      <v-btn @click="showDialogSeccion" >
-      <span >Sección</span>
+      <span >Secciones</span>
       <v-icon>mdi-format-color-text</v-icon>
     </v-btn>
 
