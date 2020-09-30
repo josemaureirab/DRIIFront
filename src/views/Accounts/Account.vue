@@ -10,7 +10,6 @@
       </v-img>
       </v-col>
     </v-row>
-  <AccountAdmin/>
 </div>
 </template>
 

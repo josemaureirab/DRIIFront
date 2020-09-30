@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-col cols="12" align="right">
-      <v-btn href="/" class="mx-2" fab dark color="indigo">
+      <v-btn @click="goCreateCarreer" class="mx-2" fab dark color="indigo">
         <v-icon dark>mdi-plus</v-icon>
       </v-btn>
     </v-col>
@@ -41,20 +41,39 @@
 </template>
 
 <script>
+
+import router from "@/router";
+
 export default {
   data: () => ({
     headersCareersList: [
-      { text: 'Nombre', value: 'firstName', align: 'center' },
-      { text: 'Departamento', value: 'lastName', align: 'center' },
-      { text: 'Facultad', value: 'rut', align: 'center' },
-      { text: 'Postgrado', value: 'rut', align: 'center' },
+      { text: 'Nombre', value: 'name', align: 'center' },
+      { text: 'Departamento', value: 'dept', align: 'center' },
+      { text: 'Facultad', value: 'facult', align: 'center' },
+      { text: 'Postgrado', value: 'post', align: 'center' },
       { text: 'Acciones', value: 'action', align: 'center' }
       /* { text: 'Acciones', value: 'action', sortable: false, align: 'center' } */
     ],
     panel: [0],
-    careers: ['Ingeniería Informática','Ingeniería Ambiental','Ingeniería Mecánica'],
+    careers: [
+    {
+      name: 'Ingeniería Civil Informática',
+      dept: 'Informática',
+      facult: 'Ingeniería',
+      post: 'No'
+    },
+    {
+      name: 'Ingeniería Ejecución Mecánica',
+      dept: 'Mecánica',
+      facult: 'Ingeniería',
+      post: 'No'
+    }
+    ],
   }),
   methods: {
+    goCreateCarreer() {
+      router.push({name: 'AddCarreer'})
+    },
     editCareer(){
 
     },

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import SignUp from '@/components/Auth/signUp.vue'
+import SignUp from '@/components/Auth/SignUp.vue'
 export default {
   name: 'Sign',
   components: {

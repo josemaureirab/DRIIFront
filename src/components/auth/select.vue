@@ -69,7 +69,7 @@ export default {
       router.push({ name: 'SignIn' })
     },
     goToLoginFU () {
-      router.push({ name: 'AccountAdmin' })
+      router.push({ name: 'SignInAdm' })
     }
   }
 };

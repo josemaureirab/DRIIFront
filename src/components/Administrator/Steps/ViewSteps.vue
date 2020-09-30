@@ -12,10 +12,6 @@
 
       <v-divider></v-divider>
 
-      <v-stepper-step step="3">Intercambio</v-stepper-step>
-      <v-divider></v-divider>
-
-      <v-stepper-step step="4">Retorno</v-stepper-step>
     </v-stepper-header>
 
     <v-stepper-items>
@@ -42,22 +38,22 @@
           
        
            <v-col cols="2"  align="right">
-            <v-btn class="ma-2" color="green" dark>
+            <v-btn class="ma-2" color="blue" dark>
               Descargar
-              <v-icon dark right>mdi-upload</v-icon>
+              <v-icon dark right>mdi-download</v-icon>
             </v-btn>
 
           </v-col>
           <v-col cols="2"  align="right">
             <v-btn class="ma-2" color="green" dark>
               Verificar
-              <v-icon dark right>mdi-upload</v-icon>
+              <v-icon dark right>mdi-thumb-up</v-icon>
             </v-btn>
           </v-col>
           <v-col cols="1"  align="right">
-            <v-btn class="ma-2" color="green" dark>
+            <v-btn class="ma-2" color="red" dark>
               Rechazar
-              <v-icon dark right>mdi-upload</v-icon>
+              <v-icon dark right>mdi-close-circle</v-icon>
             </v-btn>
           </v-col>
         </v-row>
@@ -85,22 +81,22 @@
           
        
            <v-col cols="2"  align="right">
-            <v-btn class="ma-2" color="green" dark>
+            <v-btn class="ma-2" color="blue" dark>
               Descargar
-              <v-icon dark right>mdi-upload</v-icon>
+              <v-icon dark right>mdi-download</v-icon>
             </v-btn>
 
           </v-col>
           <v-col cols="2"  align="right">
             <v-btn class="ma-2" color="green" dark>
               Verificar
-              <v-icon dark right>mdi-upload</v-icon>
+              <v-icon dark right>mdi-thumb-up</v-icon>
             </v-btn>
           </v-col>
           <v-col cols="1"  align="right">
-            <v-btn class="ma-2" color="green" dark>
+            <v-btn class="ma-2" color="red" dark>
               Rechazar
-              <v-icon dark right>mdi-upload</v-icon>
+              <v-icon dark right>mdi-close-circle</v-icon>
             </v-btn>
           </v-col>
         </v-row>
@@ -126,22 +122,22 @@
           
        
            <v-col cols="2"  align="right">
-            <v-btn class="ma-2" color="green" dark>
+            <v-btn class="ma-2" color="blue" dark>
               Descargar
-              <v-icon dark right>mdi-upload</v-icon>
+              <v-icon dark right>mdi-download</v-icon>
             </v-btn>
 
           </v-col>
           <v-col cols="2"  align="right">
             <v-btn class="ma-2" color="green" dark>
               Verificar
-              <v-icon dark right>mdi-upload</v-icon>
+              <v-icon dark right>mdi-thumb-up</v-icon>
             </v-btn>
           </v-col>
           <v-col cols="1"  align="right">
-            <v-btn class="ma-2" color="green" dark>
+            <v-btn class="ma-2" color="red" dark>
               Rechazar
-              <v-icon dark right>mdi-upload</v-icon>
+              <v-icon dark right>mdi-close-circle</v-icon>
             </v-btn>
           </v-col>
         </v-row>

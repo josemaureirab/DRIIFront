@@ -30,7 +30,7 @@
           <v-col class="d-flex" cols="12" sm="6">
         <v-select
           :items="items"
-          label="Standard"
+          label="Seleccionar"
         ></v-select>
       </v-col>
         </v-list-item-content>
@@ -75,7 +75,7 @@
           <v-col class="d-flex" cols="12" sm="6">
         <v-select
           :items="items"
-          label="Formulario"
+          label="Seleccionar"
         ></v-select>
       </v-col>
         </v-list-item-content>
@@ -147,6 +147,7 @@ export default {
   data: () => ({
     panel: [0, 1],
          dialog: false,
+      items: ['Formulario 1', 'Formulario 2', 'Formulario 3'],
       items2: [
         {  title: 'Universidad de Lisboa', status: ' Aceptado', subtitle: 'Universidad de Lisboa' },
         {  title: 'Universidad de Manchester', subtitle: 'Rechazado' },

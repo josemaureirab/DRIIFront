@@ -36,6 +36,7 @@ import EditSteps from '../components/Administrator/Steps/EditSteps.vue'
 import ShowUsers from '../components/Administrator/Users/ShowUsers.vue'
 /// Manage Users // 
 import ShowCareers from '../components/Administrator/Careers/ShowCareers.vue'
+import AddCarreer from '../components/Administrator/Careers/Create.vue'
 import AddAdministrator from '../components/Auth/create.vue'
 /// ADMINISTRATOR/// 
 
@@ -62,6 +63,7 @@ import EditNameFormulario from '../components/Formulario/EditNameFormulario.vue'
 /// 
 
 import SignIn from '../views/Auth/SignIn.vue'
+import SignInAdm from '../components/Auth/SignInAdm.vue'
 import SignUp from '../views/Auth/SignUp.vue'
 import SignUpUsach from '../views/Auth/SignUpUsach.vue'
 import Account from '../views/Accounts/Account.vue'
@@ -87,9 +89,24 @@ Vue.use(VueRouter)
   component: SignIn
 },
 {
-  path: '/',
-  name: 'MenuAdministrator',
-  component: MenuAdministrator
+  path: '/SignInAdm',
+  name: 'SignInAdm',
+  component: SignInAdm
+},
+{
+  path: '/SignUp',
+  name: 'SignUp',
+  component: SignUp
+},
+{
+  path: '/Account',
+  name: 'Account',
+  component: Account
+},
+{
+  path: '/SignUpUsach',
+  name: 'SignUpUsach',
+  component: SignUpUsach
 },
 
 // OUT STUDENT // 
@@ -143,6 +160,11 @@ Vue.use(VueRouter)
   path: '/ShowCareers',
   name: 'ShowCareers',
   component: ShowCareers
+},
+{
+  path: '/AddCarreer',
+  name: 'AddCarreer',
+  component: AddCarreer
 },
 
 

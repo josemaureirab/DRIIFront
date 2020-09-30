@@ -63,7 +63,7 @@
               </v-data-table>
           </v-expansion-panel-content>
         </v-expansion-panel>
-        <!-- <v-expansion-panel>
+        <v-expansion-panel>
           <v-expansion-panel-header>
             <v-alert color="#952175" dark icon="mdi-account" dense>Alumnos Entrantes</v-alert>
           </v-expansion-panel-header>
@@ -90,7 +90,7 @@
                 </template>
               </v-data-table>
           </v-expansion-panel-content>
-        </v-expansion-panel> -->
+        </v-expansion-panel>
       </v-expansion-panels>
     </v-row>
   </div>
@@ -106,7 +106,7 @@ export default {
       { text: 'Nombre', value: 'firstName', align: 'center' },
       { text: 'Apellido', value: 'lastName', align: 'center' },
       { text: 'Rut', value: 'rut', align: 'center' },
-      { text: 'Cargo', value: 'rut', align: 'center' },
+      { text: 'Cargo', value: 'cargo', align: 'center' },
       { text: 'Acciones', value: 'action', align: 'center' }
       /* { text: 'Acciones', value: 'action', sortable: false, align: 'center' } */
     ],
@@ -114,7 +114,7 @@ export default {
       { text: 'Nombre', value: 'firstName', align: 'center' },
       { text: 'Apellido', value: 'lastName', align: 'center' },
       { text: 'Rut', value: 'rut', align: 'center' },
-      { text: 'Carrera', value: 'rut', align: 'center' },
+      { text: 'Carrera', value: 'carrera', align: 'center' },
       { text: 'Acciones', value: 'action', align: 'center' }
       /* { text: 'Acciones', value: 'action', sortable: false, align: 'center' } */
     ],
@@ -128,8 +128,35 @@ export default {
       /* { text: 'Acciones', value: 'action', sortable: false, align: 'center' } */
     ],
     panel: [0, 1, 2],
-    usersAdministrators: [],
-    usersOut: [],
+    usersAdministrators: [
+      {
+        firstName: 'Macarena',
+        lastName: 'Peréz',
+        rut: '17.074.514-9',
+        cargo: 'Administradora',
+        
+      }
+    ],
+    usersOut: [
+      {
+      firstName: 'José',
+      lastName: 'Maureira ',
+      rut: '18.074.514-9',
+      carrera: 'Ingeniería Ejecución Informática',
+    },
+    {
+      firstName: 'Guillermo',
+      lastName: 'Campos',
+      rut: '19.074.514-9',
+      carrera: 'Ingeniería Ejecución Informática',
+    },
+    {
+      firstName: 'Nicolás',
+      lastName: 'Alarcón',
+      rut: '20.074.514-9',
+      carrera: 'Ingeniería Civil Informática',
+    },
+    ],
     usersIn: []
   }),
   methods: {

@@ -7,7 +7,7 @@
             <h1 class="text-center mt-5">Iniciar Sesión</h1>
           </div>
           <div v-else>
-            <h1 class="text-center mt-5">¿Ya tienes cuenta?</h1>
+            <h1 class="text-center mt-5">Ingreso Funcionario</h1>
             <h2 class="text-center mt-3">Inicia Sesión</h2>
           </div>
         </v-card-text>
@@ -35,7 +35,7 @@
                 @keyup.enter="trySignIn"
                 @click:append="show = !show"/>
               <v-row justify="center">
-                <v-btn @keyup.enter="trySignIn" @click="goToAccountUsach()" :disabled="signInLoader" :loading="signInLoader" class="btn-enter mt-2">
+                <v-btn @keyup.enter="trySignIn" @click="goToAccountAdm()" :disabled="signInLoader" :loading="signInLoader" class="btn-enter mt-2">
                   Entrar
                 </v-btn>
               </v-row>
@@ -116,8 +116,8 @@ export default {
       this.authDialog = false
       router.push({ name: 'auth' })
     },
-    goToAccountUsach () {
-      router.push({ name: 'MenuOutStudent' })
+    goToAccountAdm () {
+      router.push({ name: 'MenuAdministrator' })
     },
     goToRegisterInt () {
       router.push({ name: 'SignUp' })

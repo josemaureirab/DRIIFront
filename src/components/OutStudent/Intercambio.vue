@@ -11,11 +11,6 @@
       <v-stepper-step :complete="e1 > 2" step="2">Trámites</v-stepper-step>
 
       <v-divider></v-divider>
-
-      <v-stepper-step step="3">Intercambio</v-stepper-step>
-      <v-divider></v-divider>
-
-      <v-stepper-step step="4">Retorno</v-stepper-step>
     </v-stepper-header>
 
     <v-stepper-items>
