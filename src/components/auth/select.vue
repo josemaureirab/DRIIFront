@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="Bground">
     <v-row
     justify="center"
     >
@@ -91,4 +91,10 @@ export default {
 .imageSelect:hover{
   transform: scale(1.1);
 }
+</style>
+
+<style scoped>
+  .Bground {
+    background-color: rgb(43, 41, 41) !important;
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-<div class="signUsach">
+<div class="signUsach Bground">
   <v-row
     justify="center"
     >
@@ -23,3 +23,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .Bground {
+    background-color: rgb(43, 41, 41) !important;
+  }
+</style>

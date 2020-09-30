@@ -1,5 +1,5 @@
 <template>
-   <div class="home"> 
+   <div class="home Bground"> 
     <!-- <img alt="Drii logo" src="../assets/logo-drii_0_0.png"> -->
      <!-- <MoreSecction/> -->
  <!-- </div> --> 
@@ -18,3 +18,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .Bground {
+    background-color: rgb(43, 41, 41) !important;
+  }
+</style>
+
