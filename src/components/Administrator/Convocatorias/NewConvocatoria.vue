@@ -78,7 +78,7 @@
         <v-form ref="form" class="mx-10 py-10" v-model="valid" lazy-validation>
           <v-list three-line subheader>
             <v-subheader>Lista de Requisitos</v-subheader>
-            <v-form v-for="(input,k) in inputs" :key="k">
+            <v-form v-for="(input,k) in input_requirements" :key="k">
               <v-container>
                 <v-row>
                   <v-col cols="12">
@@ -94,10 +94,10 @@
             </v-form>
 
             <div class="text-center">
-              <v-btn class="ma-2" @click="add(k)" tile outlined color="success">
+              <v-btn class="ma-2" @click="addR(k)" tile outlined color="success">
                 <v-icon left>mdi-plus</v-icon>Agregar
               </v-btn>
-              <v-btn class="ma-2" @click="remove(k)" tile color="red" dark>Eliminar</v-btn>
+              <v-btn class="ma-2" @click="removeR(k)" tile color="red" dark>Eliminar</v-btn>
             </div>
           </v-list>
         </v-form>
@@ -109,7 +109,7 @@
         <v-form ref="form" class="mx-10 py-10" v-model="valid" lazy-validation>
           <v-list three-line subheader>
             <v-subheader>Lista de Documentos Academicos</v-subheader>
-            <v-form v-for="(input,k) in inputs" :key="k">
+            <v-form v-for="(input,k) in input_requirementsA" :key="k">
               <v-container>
                 <v-row>
                   <v-col cols="12">
@@ -125,10 +125,10 @@
             </v-form>
 
             <div class="text-center">
-              <v-btn class="ma-2" @click="add(k)" tile outlined color="success">
+              <v-btn class="ma-2" @click="addA(k)" tile outlined color="success">
                 <v-icon left>mdi-plus</v-icon>Agregar
               </v-btn>
-              <v-btn class="ma-2" @click="remove(k)" tile color="red" dark>Eliminar</v-btn>
+              <v-btn class="ma-2" @click="removeA(k)" tile color="red" dark>Eliminar</v-btn>
             </div>
           </v-list>
         </v-form>
@@ -140,7 +140,7 @@
         <v-form ref="form" class="mx-10 py-10" v-model="valid" lazy-validation>
           <v-list three-line subheader>
             <v-subheader>Lista de documentos Personales</v-subheader>
-            <v-form v-for="(input,k) in inputs" :key="k">
+            <v-form v-for="(input,k) in input_requirementsP" :key="k">
               <v-container>
                 <v-row>
                   <v-col cols="12">
@@ -156,10 +156,10 @@
             </v-form>
 
             <div class="text-center">
-              <v-btn class="ma-2" @click="add(k)" tile outlined color="success">
+              <v-btn class="ma-2" @click="addP(k)" tile outlined color="success">
                 <v-icon left>mdi-plus</v-icon>Agregar
               </v-btn>
-              <v-btn class="ma-2" @click="remove(k)" tile color="red" dark>Eliminar</v-btn>
+              <v-btn class="ma-2" @click="removeP(k)" tile color="red" dark>Eliminar</v-btn>
             </div>
           </v-list>
         </v-form>
@@ -176,8 +176,8 @@
 
     <v-col cols="12">
       <v-card class="mx-auto" max-width="90%">
-        <v-form ref="form" class="mx-10 py-10" v-model="valid" lazy-validation>
-          <v-select :items="formularios" label="Formulario"></v-select>
+        <v-form ref="form" class="mx-10 py-10"  lazy-validation>
+          <v-select return-object v-model="selectFormulario" :items="formularios"  item-text="tittle"  label="Formulario"></v-select> 
         </v-form>
       </v-card>
     </v-col>
@@ -189,6 +189,8 @@
 </template>
 
 <script>
+import route from "@/router";
+
 export default {
   props: {
     value: Boolean,
@@ -210,21 +212,20 @@ export default {
       let cols = [];
       data.forEach(function (valor) {
           if(valor.published == true)
-                cols.push(valor.tittle);     
+                cols.push(valor);     
       });
       return cols;
     },
 
     async createAgreements(){
-     await this.axios
-        .post(" http://142.93.79.50:8080/backend-drii/agreements/create", {
+      return await this.axios
+        .post("http://142.93.79.50:8080/backend-drii/agreements/create", {
                 name: this.name,
                 semester: this.semestre,
                 duration:  this.duracion,
                 startLine: new Date(this.inicio),
                 deadLine: new Date(this.cierre),
                 expiration: new Date(this.cierre),
-
                 informationLink: this.link,
                 introductoryText: this.texto,
                 benefits: this.beneficio,
@@ -232,26 +233,132 @@ export default {
                //pagePhoto: this.photoPagina,
                // coverPhoto:  this.photoPortada,
                // university: this.csvUniversidades,
-                published: true,
-               // form: this.formulario */ 
+                published: false,
+                form: this.selectFormulario 
         })
-        .then(function (response) {
-          console.log(response);
-        });
-        //  get convocotorias  this.getQuestions()
   },
 
-   async submit(){
-      await this.createAgreements()
+  async createRequirements(data) {
+      console.log(data)
+      let cols = this.partitionRequirements();
+      let op = [];
+      let promises = [];
+      for (var i = 0; i < cols.length; i++) {
+        promises.push(
+          this.axios
+            .post("http://142.93.79.50:8080/backend-drii/requirements/create", {
+              text: cols[i],
+              type: 1,
+              agreement: data,
+            })
+            .then((response) => {
+              op.push(response);
+            })
+        );
+      }
+      Promise.all(promises).then(() => console.log()); 
     },
 
-    add(index) {
-      this.inputs.push({ name: "" });
-      this.count += 1;
+    async createRequirementsAcademics(data) {
+      console.log(data)
+      let cols = this.partitionRequirementsAcademics();
+      let op = [];
+      let promises = [];
+      for (var i = 0; i < cols.length; i++) {
+        promises.push(
+          this.axios
+            .post("http://142.93.79.50:8080/backend-drii/requirements/create", {
+              text: cols[i],
+              type: 2,
+              agreement: data,
+            })
+            .then((response) => {
+              op.push(response);
+            })
+        );
+      }
+      Promise.all(promises).then(() => console.log()); 
     },
-    remove(index) {
-      this.inputs.splice(this.count - 1, 1);
-      this.count -= 1;
+
+    async createRequirementsPersonal(data) {
+      console.log(data)
+      let cols = this.partitionRequirementsPersonal();
+      let op = [];
+      let promises = [];
+      for (var i = 0; i < cols.length; i++) {
+        promises.push(
+          this.axios
+            .post("http://142.93.79.50:8080/backend-drii/requirements/create", {
+              text: cols[i],
+              type: 3,
+              agreement: data,
+            })
+            .then((response) => {
+              op.push(response);
+            })
+        );
+      }
+      Promise.all(promises).then(() => console.log()); 
+    },
+
+
+   async submit(){
+      await this.createAgreements().then(({ data }) => {
+          this.createRequirements(data);
+          this.createRequirementsPersonal(data);
+          this.createRequirementsAcademics(data);
+       });
+      route.push({
+        name: "ListConvocatorias",
+      });
+    },
+
+     partitionRequirements() {
+      let cols = [];
+      this.input_requirements.forEach(function (valor) {
+        cols.push(valor.name);
+      });
+      return cols;
+    },
+
+      partitionRequirementsPersonal() {
+      let cols = [];
+      this.input_requirementsP.forEach(function (valor) {
+        cols.push(valor.name);
+      });
+      return cols;
+    },
+    partitionRequirementsAcademics() {
+      let cols = [];
+      this.input_requirementsA.forEach(function (valor) {
+        cols.push(valor.name);
+      });
+      return cols;
+    },
+
+    addR(index) {
+      this.input_requirements.push({ name: "" });
+      this.countR += 1;
+    },
+    removeR(index) {
+      this.input_requirements.splice(this.count - 1, 1);
+      this.countR -= 1;
+    },
+    addP(index) {
+      this.input_requirementsP.push({ name: "" });
+      this.countP += 1;
+    },
+    removeP(index) {
+      this.input_requirementsP.splice(this.count - 1, 1);
+      this.countP -= 1;
+    },
+    addA(index) {
+      this.input_requirementsA.push({ name: "" });
+      this.countA += 1;
+    },
+    removeA(index) {
+      this.input_requirementsA.splice(this.count - 1, 1);
+      this.countA -= 1;
     },
   },
 
@@ -266,6 +373,8 @@ export default {
     menu2: false,
 
     formularios: [],
+    selectFormulario: '',
+    
     name: null,
     semestre: null,
     duracion: null,
@@ -283,12 +392,24 @@ export default {
     listAcademicos: null,
     listPersonales: null,
 
-    count: 1,
-    inputs: [
+    countR: 1,
+    countA: 1,
+    countP: 1,
+    input_requirements: [
       {
         name: "",
       },
     ],
+    input_requirementsA: [
+      {
+        name: "",
+      },
+      ],
+       input_requirementsP: [
+      {
+        name: "",
+      },
+       ]
   }),
 };
 </script>

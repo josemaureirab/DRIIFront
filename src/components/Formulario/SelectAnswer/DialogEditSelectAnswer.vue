@@ -29,6 +29,21 @@
                     shaped
                   ></v-text-field>
                 </v-col>
+            <v-col class="d-flex" cols="12" sm="6">
+            <v-container fluid>
+              <v-row align="center">
+                <v-select
+                  v-model="selectSeccion"
+                  :items="seccions"
+                  item-text="name"
+                  return-object
+                  required
+                  label="Seccion"
+                  outlined
+                ></v-select>
+              </v-row>
+            </v-container>
+          </v-col>
               </v-row>
             </v-container>
           </v-form>
@@ -43,7 +58,7 @@
         <v-container>
           <v-row>
             <v-col cols="12">
-              <v-text-field required prepend-icon="mdi-tooltip-edit" v-model="input.name"></v-text-field>
+              <v-text-field required prepend-icon="mdi-tooltip-edit" v-model="input.text"></v-text-field>
             </v-col>
           </v-row>
         </v-container>
@@ -106,16 +121,31 @@ export default {
   },
 
   async created() {
-    await this.getQuestion(), await this.setData();
+    await this.getQuestion();
+    await this.setData();
+    await this.getSeccion();
+    await this.getOptions()
+
   },
 
   methods: {
+        ...mapActions(["getQuestions", "getQuestion"]),
+
     setData() {
       (this.name = this.infoQuestion.tittle),
         (this.option = this.infoQuestion.selectionType),
         (this.answerRequired = this.infoQuestion.required),
         (this.help = this.infoQuestion.help);
+        (this.selectSeccion = this.infoQuestion.section)
+
     },
+
+  getSeccion(){
+      this.axios.get("http://142.93.79.50:8080/backend-drii/sections/byForm/"+this.idForm)
+      .then((response) => ( this.seccions = response.data), console.log(this.seccion))
+      .catch((error) => console.log(error)); 
+    },  
+
 
     close() {
       route.push({
@@ -123,7 +153,69 @@ export default {
       });
     },
 
+    async deleteAllOptions(id){
+      let op = ['']  
+       await this.axios
+      .get(
+        "http://142.93.79.50:8080/backend-drii/options/byQuestion/"+this.infoQuestion.id
+      ).then(function (response) {
+         op.push(response.data)
+      });
+      await Promise.all(op).then( 
+          op[1].map((el) => {
+            console.log(el)
+		            this.axios.delete("http://142.93.79.50:8080/backend-drii/options/delete/"+el.id).then(function (response) {
+                console.log(response);  
+          }  )
+          }
+      )) 
+    },
+
+
+    async createOptions(data) {
+        this.deleteAllOptions(data.id)
+      
+
+
+
+      let cols = this.partitionInputs();
+      let op = [];
+      let promises = [];
+      for (var i = 0; i < cols.length; i++) {
+        promises.push(
+          this.axios
+            .post("http://142.93.79.50:8080/backend-drii/options/create", {
+              text: cols[i],
+              position: i,
+              question: data,
+            })
+            .then((response) => {
+              op.push(response);
+            })
+        );
+      }
+      Promise.all(promises).then(() => console.log());
+      this.getQuestions();  
+    },
+
+    async getOptions(){
+      let op = ['']  
+       await this.axios
+      .get(
+        "http://142.93.79.50:8080/backend-drii/options/byQuestion/"+this.infoQuestion.id
+      ).then(function (response) {
+         op.push(response.data)
+      });
+      await Promise.all(op).then( 
+            this.inputs = op[1],
+            this.count = op[1].length,
+            console.log(this.inputs)
+      )  
+                    //this.inputs = response.data , this.count = this.inputs.length */ 
+    },
+
     async editQuestion() {
+      let op = ['']  
       await this.axios.put(
         "http://142.93.79.50:8080/backend-drii/questions/edit/" + this.infoQuestion.id,
         {
@@ -132,31 +224,34 @@ export default {
           selectionType: this.selectOption(this.option),
           required: this.answerRequired,
           help: this.help,
-          form: this.infoQuestion.form
+          form: this.infoQuestion.form,
+          section: this.selectSeccion,
         }
         )
         .then(function (response) {
-          console.log(response);
+          op.push(response.data)
         });
-        this.getQuestions();
+        await Promise.all(op).then( 
+          this.createOptions(op[1]),
+      )
+
+
     },
 
    async submit() {
       this.$v.$touch();
       if (this.$v.$error == false) {
-        await this.editQuestion().then(({ data }) => {
-          // this.createOptions(data);
-        });
-        route.push({
-                name:'NewFormulario',
-        })
+        await this.editQuestion()
       }
-    },
+      route.push({
+          name: "NewFormulario",
+    });
+   },
 
     partitionInputs() {
       let cols = [];
       this.inputs.forEach(function (valor) {
-        cols.push(valor.name);
+        cols.push(valor.text);
       });
       return cols;
     },
@@ -167,7 +262,7 @@ export default {
     },
 
     add(index) {
-      this.inputs.push({ name: "" });
+      this.inputs.push({ text: "" });
       this.count += 1;
     },
     remove(index) {
@@ -178,7 +273,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["infoQuestion", "idQuestion"]),
+    ...mapState(["infoQuestion", "idQuestion",'idForm']),
 
     nameErrors() {
       const errors = [];
@@ -196,15 +291,20 @@ export default {
   },
 
   data: () => ({
+
+    seccions: [],
+    selectSeccion: "",
+
     count: 1,
     name: null,
     answerRequired: null,
     help: null,
     option: null,
 
+  
     inputs: [
       {
-        name: "",
+        text: "",
       },
     ],
   }),

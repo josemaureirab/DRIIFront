@@ -7,7 +7,7 @@
            <v-card-text>
             <v-subheader class="pa-0">
               {{this.item.tittle}}
-             <v-tooltip v-if="item.help !== ''" top>
+              <v-tooltip v-if="item.help !== ''" top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn icon v-bind="attrs" v-on="on">
                     <v-icon color="grey lighten-1">mdi-help</v-icon>
@@ -46,26 +46,7 @@
 
          </v-card-text>
         </v-col>
-        <v-col cols="auto" class="text-center pl-0">
-          <v-row class="flex-column ma-0 fill-height" justify="center">
-            <v-col class="px-0">
-              <v-btn icon v-on:click="buttonEdit">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-            </v-col>
-            <v-col class="px-0">
-              <v-btn icon v-on:click="buttonDelete">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </v-col>
-
-            <v-col class="px-0">
-              <v-btn icon v-on:click="buttonCopy">
-                <v-icon>mdi-content-copy</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-col>
+       
       </v-row>
     </v-container>
     <v-card-subtitle v-if="item.required == false" single-line solo>Pregunta Obligatoria</v-card-subtitle>
@@ -75,12 +56,14 @@
 
 //TODO : Arreglar  EDIT para que funcione
 
+import DialogEditGridAnswer from "./DialogEditGridAnswer";
 import axios from "axios";
 import { mapState, mapActions } from "vuex";
-import route from "@/router";
 
 export default {
-
+  components: {
+    DialogEditGridAnswer,
+  },
   props: {
     item: Object,
   },
@@ -90,19 +73,6 @@ export default {
     await this.getSelections();
     await this.bMultiple();
   },
-
-   computed: {
-    ...mapState(["infoQuestion"]),
-    idQuestion: {
-      get() {
-        return this.$store.state.idQuestion;
-      },
-      set(payload) {
-        this.$store.commit("updateIdQuestion", payload);
-      },
-    },
-  },
-  
 
   methods: {
     ...mapActions(["getQuestions"]),
@@ -150,11 +120,8 @@ export default {
      console.log(selections);
     },
 
-     buttonEdit: function () {
-      this.idQuestion = this.item.id;
-      route.push({
-        name: "DialogEditGridAnswer",
-      });
+    buttonEdit: function () {
+      this.showDialogGrid = true;
     },
     async buttonDelete() {
       await this.axios
@@ -167,88 +134,9 @@ export default {
         });
       this.getQuestions();
     },
-
-
-
-
-
-   async copySelect(question){
-        let  op = []
-        await this.axios.get(
-          "http://142.93.79.50:8080/backend-drii/selections/byQuestion/" +
-            this.item.id
-        )
-        .then(function (response) {
-            op = response.data
-        });
-        await Promise.all(op).then(
-          op.map((el) => {
-            console.log(el)
-		            this.axios.post("http://142.93.79.50:8080/backend-drii/selections/create/",{
-                      text: el.text,
-                      position: el.position, 
-                      question: question
-                }).then(function (response) {
-                console.log(response);
-              });
-              // }) 
-          })
-        );
-    },
-
-
- async copyOptions(question){
-        let  op = []
-        await this.axios.get(
-          "http://142.93.79.50:8080/backend-drii/options/byQuestion/" +
-            this.item.id
-        )
-        .then(function (response) {
-            op = response.data
-        });
-        await Promise.all(op).then(
-          
-          op.map((el) => {
-            console.log(el)
-		            this.axios.post("http://142.93.79.50:8080/backend-drii/options/create/",{
-                      text: el.text,
-                      position: el.position, 
-                      question: question
-                }).then(function (response) {
-                console.log(response);
-              });
-              // }) 
-          })
-        );
-    },
-
-
-    async buttonCopy(){
-
-      let op = ['']
-      await this.axios
-              .post("http://142.93.79.50:8080/backend-drii/questions/create", {
-                tittle: this.item.tittle,
-                questionType: this.item.questionType,
-                selectionType: this.item.selectionType,
-                required: this.item.required,
-                form: this.item.form,
-                help: this.item.help,
-                section: this.item.section
-              })
-              .then(function (response) {
-                  op.push(response.data)
-              });
-              await Promise.all(op).then( 
-                   this.copyOptions(op[1]),
-                   this.copySelect(op[1]));
-              this.getQuestions();      
-        },
-
-
-
   },
   data: () => ({
+    showDialogGrid: false,
     options: [],
     selections: [],
     mul: null,

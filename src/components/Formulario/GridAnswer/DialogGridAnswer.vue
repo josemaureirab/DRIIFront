@@ -29,6 +29,18 @@
                     shaped
                   ></v-text-field>
                 </v-col>
+                  <v-col  cols="12" sm="12">
+                    <v-select
+                      v-model="selectSeccion"
+                      :items="seccions"
+                      item-text="name"
+                      return-object
+                      required
+                      label="Seccion"
+                      outlined
+                      />
+              </v-col>
+
               </v-row>
             </v-container>
           </v-form>
@@ -129,6 +141,11 @@ export default {
     name: { required },
     //inputs: {required},
   },
+  async created() {
+     await this.getSeccion()
+  },
+
+
   methods: {
     ...mapActions(["getQuestions"]),
 
@@ -140,7 +157,7 @@ export default {
     },
 
     async createQuestion() {
-      if (this.option == null) this.option = "Simple";
+      
       return await axios.post(
         "http://142.93.79.50:8080/backend-drii/questions/create",
         {
@@ -150,6 +167,7 @@ export default {
           required: this.answerRequired,
           help: this.help,
           form: this.formulario,
+          section: this.selectSeccion
         }
       );
     },
@@ -207,9 +225,6 @@ export default {
               position: i,
               question: data,
             })
-            .then((response) => {
-              this.createSelections(response.data);
-            })
         );
       }
       await Promise.all(promises).then(() => console.log(op));
@@ -227,9 +242,6 @@ export default {
               text: cols[i],
               position: i,
               question: data,
-            })
-            .then((response) => {
-              this.createSelections(response.data);
             })
         );
       }
@@ -271,9 +283,22 @@ export default {
         !this.$v.inputs.required && errors.push("Seleccionar una pregunta");
         return errors; */
     },
+
+
+     getSeccion(){
+      this.axios.get("http://142.93.79.50:8080/backend-drii/sections/byForm/"+this.idForm)
+      .then((response) => ( this.seccions = response.data), console.log(this.seccion))
+      .catch((error) => console.log(error)); 
+    },  
+
+
   },
 
   data: () => ({
+
+    seccions: [],
+    selectSeccion : '',
+
     count: 1,
     countRows: 1,
     question: null,

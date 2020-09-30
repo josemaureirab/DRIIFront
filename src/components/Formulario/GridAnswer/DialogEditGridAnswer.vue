@@ -1,19 +1,17 @@
-<template ref="dialog">
-  <v-row justify="center">
-    <v-dialog v-model="show" fullscreen hide-overlay transition="dialog-bottom-transition">
-      <v-card>
-        <v-toolbar dark color="primary">
-          <v-btn icon dark @click="show = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-toolbar-title>Editar Pregunta Selección</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn dark text @click="submit">Editar</v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
-        <v-list three-line subheader>
-          <v-subheader>Configuración de Pregunta</v-subheader>
+<template>
+  <v-card>
+    <v-toolbar dark color="primary">
+      <v-btn icon dark @click="close">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <v-toolbar-title>Editar Pregunta Selección</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn dark text @click="submit">Editar</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+    <v-list three-line subheader>
+      <v-subheader>Configuración de Pregunta</v-subheader>
           <v-list-item>
             <v-list-item-content>
               <v-form>
@@ -48,7 +46,7 @@
                   <v-container>
                     <v-row>
                       <v-col cols="12">
-                        <v-text-field required prepend-icon="mdi-tooltip-edit" v-model="input.name"></v-text-field>
+                        <v-text-field required prepend-icon="mdi-tooltip-edit" v-model="input.text"></v-text-field>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -68,7 +66,7 @@
                   <v-container>
                     <v-row>
                       <v-col cols="12">
-                        <v-text-field required prepend-icon="mdi-tooltip-edit" v-model="rows.name"></v-text-field>
+                        <v-text-field required prepend-icon="mdi-tooltip-edit" v-model="rows.text"></v-text-field>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -112,27 +110,20 @@
                 </v-card-text>
               </v-col>
             </v-card-text>
-          </v-card>
-        </v-list>
       </v-card>
-    </v-dialog>
-  </v-row>
+    </v-list>
+  </v-card>
 </template>
 
 
 <script>
+import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
-import axios  from "axios";
+import { mapState, mapActions } from "vuex";
+import route from "@/router";
 export default {
 
-
-  
-  props: {
-    value: Boolean,
-    item: Object,
-    form: Object,
-  },
 
   mixins: [validationMixin],
 
@@ -141,79 +132,226 @@ export default {
     //inputs: {required},
   },
 
-   mounted() {
-          console.log(this.item)
-          this.name = this.item.tittle,
-          this.answerRequired = this.item.required,
-          this.help = this.item.help,
-          this.option = this.item.selectionType 
-   },
+   async created() {
+    await this.getQuestion();
+    await this.setData();
+    await this.getSeccion();
+    await this.getOptions();
+    await this.getSelections()
+
+  },
+
 
   methods: {
-    submit(){
-      this. $v.$touch();
-      if (this.$v.$error == false) {
-        this.show = false;
-        this.editQuestion().then( ({data})=> {
-            // this.createOptions(data);
-        });
+        ...mapActions(["getQuestions", "getQuestion"]),
+
+   setData() {
+        (this.name = this.infoQuestion.tittle),
+        (this.option = this.infoQuestion.selectionType),
+        (this.answerRequired = this.infoQuestion.required),
+        (this.help = this.infoQuestion.help);
+        (this.selectSeccion = this.infoQuestion.section)
+
+    },
+    getSeccion(){
+      this.axios.get("http://142.93.79.50:8080/backend-drii/sections/byForm/"+this.idForm)
+      .then((response) => ( this.seccions = response.data), console.log(this.seccion))
+      .catch((error) => console.log(error)); 
+    },  
+
+
+    close() {
+      route.push({
+        name: "NewFormulario",
+      });
+    },
+
+      async deleteAllOptions(id){
+      let op = ['']  
+       await this.axios
+      .get(
+        "http://142.93.79.50:8080/backend-drii/options/byQuestion/"+this.infoQuestion.id
+      ).then(function (response) {
+         op.push(response.data)
+      });
+      await Promise.all(op).then( 
+          op[1].map((el) => {
+            console.log(el)
+		            this.axios.delete("http://142.93.79.50:8080/backend-drii/options/delete/"+el.id).then(function (response) {
+                console.log(response);  
+          }  )
+          }
+      )) 
+    },
+
+     async deleteAllSelections(id){
+      let op = ['']  
+       await this.axios
+      .get(
+        "http://142.93.79.50:8080/backend-drii/selections/byQuestion/"+this.infoQuestion.id
+      ).then(function (response) {
+         op.push(response.data)
+      });
+      await Promise.all(op).then( 
+          op[1].map((el) => {
+            console.log(el)
+		            this.axios.delete("http://142.93.79.50:8080/backend-drii/selections/delete/"+el.id).then(function (response) {
+                console.log(response);  
+          }  )
+          }
+      )) 
+    },
+
+
+
+async createSelections(data) {
+   this.deleteAllSelections(data.id);
+      let cols = this.partitionSelections();
+      let op = [];
+      let promises = [];
+      for (var i = 0; i < cols.length; i++) {
+        promises.push(
+          this.axios
+            .post("http://142.93.79.50:8080/backend-drii/selections/create", {
+              text: cols[i],
+              position: i,
+              question: data,
+            })
+             .then((response) => {
+              op.push(response);
+            }) 
+        );
       }
+      await Promise.all(promises).then(() => console.log(op));
+      this.getQuestions();
+    },
+
+
+     createOptions(data) {
+        this.deleteAllOptions(data.id);
+      let cols = this.partitionInputs();
+      let op = [];
+      let promises = [];
+      for (var i = 0; i < cols.length; i++) {
+        promises.push(
+          this.axios
+            .post("http://142.93.79.50:8080/backend-drii/options/create", {
+              text: cols[i],
+              position: i,
+              question: data,
+            })
+        );
+      }
+    },
+
+ async getOptions(){
+      let op = ['']  
+       await this.axios
+      .get(
+        "http://142.93.79.50:8080/backend-drii/options/byQuestion/"+this.infoQuestion.id
+      ).then(function (response) {
+         op.push(response.data)
+      });
+      await Promise.all(op).then( 
+            this.inputs = op[1],
+            this.count = op[1].length,
+            console.log(this.inputs)
+      )  
+                    //this.inputs = response.data , this.count = this.inputs.length */ 
+    },
+   async getSelections(){
+      let op = ['']  
+       await this.axios
+      .get(
+        "http://142.93.79.50:8080/backend-drii/selections/byQuestion/"+this.infoQuestion.id
+      ).then(function (response) {
+         op.push(response.data)
+      });
+      await Promise.all(op).then( 
+            this.rows = op[1],
+            this.countRows = op[1].length,
+      )  
+                    //this.inputs = response.data , this.count = this.inputs.length */ 
+    },
+
+
+
+
+
+      async editQuestion() {
+      let op = ['']  
+      await this.axios.put(
+        "http://142.93.79.50:8080/backend-drii/questions/edit/" + this.infoQuestion.id,
+        {
+          tittle: this.name,
+          questionType: 3,
+          selectionType: this.selectOption(this.option),
+          required: this.answerRequired,
+          help: this.help,
+          form: this.infoQuestion.form,
+          section: this.selectSeccion,
+        }
+        )
+        .then(function (response) {
+          op.push(response.data)
+        });
+        await Promise.all(op).then( 
+          this.createOptions(op[1]),
+          this.createSelections(op[1]),
+      )
 
 
     },
 
-    partitionInputs(){
+   async submit() {
+      this.$v.$touch();
+      if (this.$v.$error == false) {
+        await this.editQuestion()
+      }
+      route.push({
+          name: "NewFormulario",
+    });
+   },
+
+    partitionInputs() {
       let cols = [];
       this.inputs.forEach(function (valor) {
-        cols.push(valor.name);
+        cols.push(valor.text);
       });
       return cols;
     },
 
+     partitionSelections() {
+      let cols = [];
+      this.rows.forEach(function (valor) {
+        cols.push(valor.text);
+      });
+      return cols;
+    },
+
+
     selectOption(el) {
       if (el == "Multiple") return el;
       else return "Simple"; // TODO: CAMBIAR EN SELECTION TYPE POR  LINE ABAJODE CRETION QUESTION
-    }, 
-
-    createOptions(data) {
-          let cols = this.partitionInputs();
-          let op = []
-          let promises   = []
-          for (var i = 0; i < cols.length; i++) {
-            promises.push (this.axios.post("http://142.93.79.50:8080/backend-drii/options/create", {
-                text: cols[i],
-                position: i,
-                question: data,
-              })
-              .then(response => {
-                  op.push(response)
-              })
-            )
-          }
-          Promise.all(promises).then(() => console.log(op));
     },
 
-
-  editQuestion () {
-    this.axios.put(
-          "http://142.93.79.50:8080/backend-drii/questions/edit/" +
-            this.item.id,
-          {
-            tittle: this.name,
-            questionType: 3,
-            selectionType: this.selectOption(this.option),
-            required: this.answerRequired,
-            help: this.help,
-            form: this.form,
-        });     
+    add(index) {
+      this.inputs.push({ text: "" });
+      this.count += 1;
+    },
+    remove(index) {
+      if (this.count !== 1) {
+        this.inputs.splice(this.count - 1, 1);
+        this.count -= 1;
+      }
     },
 
      add(index) {
-      this.inputs.push({ name: "" });
+      this.inputs.push({ text: "" });
       this.count += 1;
     },
      addRows(index) {
-      this.rows.push({ name: "" });
+      this.rows.push({ text: "" });
       this.countRows += 1;
     },
     remove(index) {
@@ -230,6 +368,8 @@ export default {
     }
   },
   computed: {
+        ...mapState(["infoQuestion", "idQuestion",'idForm']),
+
     nameErrors() {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
@@ -244,38 +384,35 @@ export default {
         return errors; */
     },
 
-    show: {
-      get() {
-        return this.value;
-      },
-      set(value) {
-        this.$emit("input", value);
-      },
-    },
+   
   },
 
 
   data: () => ({
+
+    seccions: [],
+    selectSeccion: "",
+
     count: 1, 
-    name: null,
+    name: '',
     answerRequired: null,
     help: null,
     option: null, 
 
-       countRows: 1,
+    countRows: 1,
 
     // tittle: "", // titulo
    // multiple o no.
 
      rows: [
       {
-        name: "",
+        text: "",
       },
     ],
 
     inputs: [
       {
-        name: "",
+        text: "",
       },
     ], // preguntas para la  selección
   }),

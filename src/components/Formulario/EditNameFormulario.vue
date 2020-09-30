@@ -86,6 +86,9 @@ export default {
         }).then(function (response) {
             console.log(response.data)
         });
+        route.push({
+                name:'NewFormulario',
+        })
     },
 
     async submit() {

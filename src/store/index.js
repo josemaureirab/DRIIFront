@@ -34,17 +34,20 @@ export default new Vuex.Store({
     idQuestion: -1,
     infoQuestion: [],
     
-    idStudent: -1,
+    idStudent: 2,
 
-    
+   
+
     idConvocatoria: -1,
-    convocatoria:[],
+    infoConvocatoria:[],
     convocatorias:[],
 
     // all question//
     question: [],
   },
   mutations: {
+
+
 
     updateIdConvocatoria(state, payload){
       state.idConvocatoria = payload;
@@ -200,10 +203,10 @@ export default new Vuex.Store({
       .catch((error) => console.log(error));
     },
 
-    async getAgressment(){
+    async getAgreement(){
       await axios
       .get("http://142.93.79.50:8080/backend-drii/agreements/"+this.state.idConvocatoria)
-      .then((response) => (this.state.convocatoria = response.data))
+      .then((response) => (this.state.infoConvocatoria = response.data))
       .catch((error) => console.log(error));
     },
 

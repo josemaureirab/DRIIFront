@@ -11,6 +11,7 @@ import ConvocatoriaOutStudent from '../components/OutStudent/Convocatorias.vue'
 import PostulacionesOutStudent from '../components/OutStudent/Postulaciones.vue'
 import PerfilOutStudent from '../components/OutStudent/Perfil.vue'
 import IntercambioOutStudent from '../components/OutStudent/Intercambio.vue'
+import ViewConvocatoria from '../components/OutStudent/ViewConvocatoria.vue'
 ////
 
 /// ADMINISTRATOR ///
@@ -19,9 +20,10 @@ import MenuAdministrator from '../components/Administrator/Menu.vue'
 import ListConvocatorias from '../components/Administrator/Convocatorias/ListConvocatorias.vue'
 import NewConvocatoria from '../components/Administrator/Convocatorias/NewConvocatoria.vue'
 import EditConvocatoria from '../components/Administrator/Convocatorias/EditConvocatoria.vue' // NO DEBERIA IR! 
-import ViewConvocatoria from '../components/Administrator/Convocatorias/ViewConvocatoria.vue' // NO DEBERIA IR 
+import ViewConvocatoriaAdmin from '../components/Administrator/Convocatorias/ViewConvocatoria.vue' // NO DEBERIA IR 
 // Formularios//
 import ListFormularios from '../components/Administrator/Formularios/ListFormularios.vue'
+import ViewFormularioAdmin from '../components/Administrator/Formularios/ViewFormulario.vue'
 /////
 
 
@@ -140,6 +142,13 @@ Vue.use(VueRouter)
   name: 'IntercambioOutStudent',
   component: IntercambioOutStudent
 },
+{
+  path: '/ViewConvocatoria',
+  name: 'ViewConvocatoria',
+  component: ViewConvocatoria
+},
+
+
 
 // ADMINISTRATOR 
 {
@@ -191,9 +200,9 @@ Vue.use(VueRouter)
   component: EditConvocatoria
 },
 {
-  path: '/ViewConvocatoria',
-  name: 'ViewConvocatoria',
-  component: ViewConvocatoria
+  path: '/ViewConvocatoriaAdmin',
+  name: 'ViewConvocatoriaAdmin',
+  component: ViewConvocatoriaAdmin
 },
 
 /// Formulario Administrator
@@ -202,6 +211,11 @@ Vue.use(VueRouter)
   path: '/ListFormularios',
   name: 'ListFormularios',
   component: ListFormularios
+},
+{
+  path: '/ViewFormularioAdmin',
+  name: 'ViewFormularioAdmin',
+  component: ViewFormularioAdmin
 },
 
 /// Postulaciones Administrator
