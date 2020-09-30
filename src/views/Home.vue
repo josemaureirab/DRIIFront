@@ -10,7 +10,7 @@
 <script>
 // @ is an alias to /src
 //import HelloWorld from '@/components/HelloWorld.vue'
-import Select from '@/components/Auth/Select.vue'
+import Select from '@/components/auth/select.vue'
 export default {
   name: 'Home',
   components: {
