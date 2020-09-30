@@ -1,68 +1,61 @@
 
  <template>
-  <div>
-    <v-row align="center" v-for="item in abiertas" :key="item.id" >
-        
-     
-        <v-expansion-panel>
-          <v-expansion-panel-header>
-            <v-alert color="blue" dark icon="mdi-account-card-details" dense>{{item.name}}</v-alert>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-                   <v-list> 
-      <v-list-item
-        v-for="item in items3"
-        :key="item.title"
-      >
-        <v-list-item-avatar>
-         <v-icon color="grey lighten-1">mdi-folder</v-icon>
-        </v-list-item-avatar>
-
-        <v-list-item-content>
-          <v-list-item-title v-text="item.title"> </v-list-item-title>
-          <v-list-item-subtitle v-text="item.subtitle +' | Status: '+ item.status"></v-list-item-subtitle>
-
-
-        </v-list-item-content>
-
-        <v-list-item-action>
-           <v-row cols="12" justify="center">     
-
-                          <v-col cols="4" >
-                            <v-btn href="/ViewPostulacionAdministrator" icon color="orange">
-                              <v-icon>mdi-eye</v-icon>
-                            </v-btn>
-                          </v-col>
-                          <v-col cols="4" >
-                            <v-btn icon color="orange">
-                              <v-icon>mdi-download</v-icon>
-                            </v-btn>
-                          </v-col>
-                           
-                        </v-row>
-        </v-list-item-action>
-      </v-list-item>
-    </v-list>
-              
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
-    </v-row>
-
 
   
 
 
-  </div>
+
+  <v-expansion-panels color="red" multiple v-model="panel">
+        <v-expansion-panel  v-for="item in postulaciones" :key="item.id">
+          <v-expansion-panel-header>
+            <v-alert color="blue" dark icon="mdi-format-list-checks" dense>{{item[0].name}}</v-alert>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-list v-for="post in item[1]" :key="post.id">
+              <v-list-item>
+                <v-list-item-avatar>
+                  <v-icon color="grey lighten-1">mdi-folder</v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title v-text="post.suitor.name"></v-list-item-title>
+                  <v-list-item-subtitle v-text="post.suitor.rut"></v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-row cols="12" justify="center">
+                    <v-col cols="2" align="center">
+                      <v-btn icon @click="view(post)"  color="orange">
+                        <v-icon>mdi-eye</v-icon>
+                      </v-btn>
+                    </v-col>
+                    <v-col cols="2" align="center">
+                      <v-btn @click="download(post.id)" icon color="orange">
+                        <v-icon>mdi-download</v-icon>
+                      </v-btn>
+                    </v-col>
+                    
+                  </v-row>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+</v-expansion-panels>
+
+
 
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
+import axios from "axios";
+
 export default {
 
   async created() {
     await this.filtrarAgreements();
+    await this.list();
+  
+
   },
 
   computed: {
@@ -70,7 +63,23 @@ export default {
   },
    methods: {
     ...mapActions(["getAgreements"]),
-    
+
+    download(id){
+      return id;
+    },
+ 
+    async  list() {
+      let opt = [];
+      this.abiertas.forEach(function (valor) {
+        axios.get("http://142.93.79.50:8080/backend-drii/postulations/byAgreement/"+valor.id).then(
+          response =>  opt.push([valor,response.data])
+        )
+      });
+     this.postulaciones = opt;
+     console.log(this.postulaciones)
+    },
+
+
       async filtrarAgreements() {
       let close = [];
       let open = [];
@@ -86,17 +95,10 @@ export default {
    },
 
   data: () => ({
-
+    postulaciones : [],
     abiertas: [],
-
     panel: [0],
          dialog: false,
-      items2: [
-        {  title: 'Rut: 19.386.607-7', status: ' Aceptado', subtitle: 'Universidad de Lisboa' },
-        {  title: 'Rut: 18.886.502-1', status: ' Rechazado', subtitle: 'Universidad de Manchester' },
-      ],
-      items3: [
-      ],
   }),
 };
 
