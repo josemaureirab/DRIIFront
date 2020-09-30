@@ -37,7 +37,7 @@ import ShowUsers from '../components/Administrator/Users/ShowUsers.vue'
 /// Manage Users // 
 import ShowCareers from '../components/Administrator/Careers/ShowCareers.vue'
 import AddCarreer from '../components/Administrator/Careers/Create.vue'
-import AddAdministrator from '../components/Auth/create.vue'
+import AddAdministrator from '../components/auth/create.vue'
 /// ADMINISTRATOR/// 
 
 //FORMULARIOS//
@@ -63,7 +63,7 @@ import EditNameFormulario from '../components/Formulario/EditNameFormulario.vue'
 /// 
 
 import SignIn from '../views/Auth/SignIn.vue'
-import SignInAdm from '../components/Auth/SignInAdm.vue'
+import SignInAdm from '../components/auth/SignInAdm.vue'
 import SignUp from '../views/Auth/SignUp.vue'
 import SignUpUsach from '../views/Auth/SignUpUsach.vue'
 import Account from '../views/Accounts/Account.vue'
@@ -78,6 +78,11 @@ Vue.use(VueRouter)
 
 // TEMPORAL HOME //
 
+{
+  path: '/',
+  name: '',
+  component: MenuAdministrator
+},
 {
   path: '/home',
   name: 'Home',
