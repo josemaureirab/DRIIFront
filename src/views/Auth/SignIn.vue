@@ -1,5 +1,5 @@
 <template>
-<div class="sign Bground">
+<div class="Bground sign">
   <v-row
     justify="center"
     >

@@ -92,9 +92,3 @@ export default {
   transform: scale(1.1);
 }
 </style>
-
-<style scoped>
-  .Bground {
-    background-color: rgb(43, 41, 41) !important;
-  }
-</style>

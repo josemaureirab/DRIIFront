@@ -80,7 +80,7 @@ import router from "@/router";
 
 <style scoped>
   .Bground {
-    background-color: rgb(255, 255, 255) !important;
+    background-color: rgb(65, 63, 63) !important;
   }
 </style>
 
