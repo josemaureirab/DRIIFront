@@ -27,7 +27,7 @@ export default new Vuex.Store({
 
     account: [],
 
-    serverURL: "hhttp://142.93.79.50:8080/backend-drii", // DEVELOPMENT
+    serverURL: "http://142.93.79.50:8080/backend-drii", // DEVELOPMENT
     idForm: -1,
     info: [],
     

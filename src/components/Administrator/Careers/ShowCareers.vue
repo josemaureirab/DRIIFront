@@ -43,36 +43,40 @@
 <script>
 
 import router from "@/router";
+import {mapActions, mapState} from 'vuex'
+import axios from 'axios'
 
 export default {
   data: () => ({
     headersCareersList: [
+      { text: 'Id', value: 'id', align: 'center' },
       { text: 'Nombre', value: 'name', align: 'center' },
-      { text: 'Departamento', value: 'dept', align: 'center' },
-      { text: 'Facultad', value: 'facult', align: 'center' },
-      { text: 'Postgrado', value: 'post', align: 'center' },
+      { text: 'Facultad', value: 'faculty', align: 'center' },
+      { text: 'Sección', value: 'section', align: 'center' },
       { text: 'Acciones', value: 'action', align: 'center' }
       /* { text: 'Acciones', value: 'action', sortable: false, align: 'center' } */
     ],
     panel: [0],
     careers: [
-    {
-      name: 'Ingeniería Civil Informática',
-      dept: 'Informática',
-      facult: 'Ingeniería',
-      post: 'No'
-    },
-    {
-      name: 'Ingeniería Ejecución Mecánica',
-      dept: 'Mecánica',
-      facult: 'Ingeniería',
-      post: 'No'
-    }
     ],
   }),
+  async created(){
+    this.showCareers()
+  },
   methods: {
     goCreateCarreer() {
       router.push({name: 'AddCarreer'})
+    },
+    async showCareers(){
+      await axios
+      .get(this.serverURL + '/careers/')
+      .then(response => {
+        console.log(response.data)
+        this.careers=response.data
+      })
+      .catch(e => {
+        console.log(e, e.response)
+      })
     },
     editCareer(){
 
@@ -80,7 +84,12 @@ export default {
     deleteCareer(){
 
     }
-  }
+  },
+  computed: {
+    ...mapState([
+      'serverURL'
+    ]),
+  },
 };
 </script>
 

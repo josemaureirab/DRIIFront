@@ -6,16 +6,9 @@
     <v-col cols="12">
       <v-card class="mx-auto" max-width="90%">
         <v-form ref="form" class="mx-10 py-10" lazy-validation>
-          <v-text-field v-model="name" label="Nombre" required></v-text-field>
-          <v-text-field v-model="semestre" label="Departamento" required></v-text-field>
-          <v-text-field v-model="duracion" label="Facultad" required></v-text-field>
-          <v-row>
-            <v-col cols="4">
-              <v-checkbox v-model="disabled" class="mx-2" label="Postgrado"></v-checkbox>
-            </v-col>
-        </v-row>
+          <v-text-field v-model="career.name" label="Nombre" required></v-text-field>
           <div class="text-center">
-            <v-btn class="ma-2" @click="add(k)" tile outlined color="success">
+            <v-btn class="ma-2" @click="createCareer()" tile outlined color="success">
             <v-icon left>mdi-plus</v-icon>Crear Carrera
             </v-btn>
             <v-btn class="ma-2" @click="cancel()" tile color="red" dark>Cancelar</v-btn>
@@ -30,51 +23,47 @@
 <script>
 
 import router from "@/router"
+import {mapActions, mapState} from 'vuex'
+import axios from 'axios'
+import ShowCareersVue from './ShowCareers.vue';
 
 export default {
   async created(){
   },
 
-  methods: {
-      cancel () {
-          router.push({name: 'ShowCareers'})
-      }
+methods: {
+  ...mapActions([
+  ]),
+  cancel () {
+    router.push({name: 'ShowCareers'})
   },
-
-  computed: {
+  async createCareer (){
+    console.log(this.career);
+    await axios
+      .post(this.serverURL + '/careers/create', this.career)
+      .then(response => {
+        console.log('vamos bien')
+        this.career.name = ''
+        this.cancel()
+      })
+      .catch(e => {
+        console.log(e, e.response)
+      })
+    },
   },
+computed: {
+  ...mapState([
+    'serverURL'
+  ]),
+},
 
   data: () => ({
     
-      
-    menu: false,
-   
-    menu2: false,
-
-    formularios: [],
-    name: null,
-    semestre: null,
-    duracion: null,
-    inicio: new Date().toISOString().substr(0, 10), // TIENE UQE SER TIPO DATA.
-    cierre: new Date().toISOString().substr(0, 10), // TIENE QUE SER TIPO DATA.
-    link: null,
-    texto: null,
-    beneficio: null,
-    dirigido: null,
-    photoPortada: null,
-    photoPagina: null,
-    csvUniversidades: null,
-    formulario: null,
-    listRequerimiento: null,
-    listAcademicos: null,
-    listPersonales: null,
-
-    count: 1,
-    inputs: [
-      {
-        name: "",
-      },
-    ],
+    career: {
+      name: '',
+      faculty: null,
+      section: null
+    },
   }),
 };
 </script>
