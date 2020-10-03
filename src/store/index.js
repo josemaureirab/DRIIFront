@@ -29,6 +29,7 @@ export default new Vuex.Store({
 
     //others
     career: {},
+    university: {},
     account: [],
 
     serverURL: "http://142.93.79.50:8080/backend-drii", // DEVELOPMENT
@@ -86,10 +87,15 @@ export default new Vuex.Store({
     updateActualFileName(state, payload) {
       state.actualFileName = payload;
     },
-    //user
+    //career
 
     updateCareer(state, payload) {
       state.career = payload;
+    },
+    //university
+
+    updateUniversity(state, payload) {
+      state.university = payload;
     }
   },
   actions: {

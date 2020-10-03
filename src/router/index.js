@@ -43,6 +43,10 @@ import EditCareer from '../components/Administrator/Careers/Update.vue'
 import AddAdministrator from '../components/auth/create.vue'
 /// ADMINISTRATOR/// 
 
+import ShowUniversities from '../components/Administrator/Universities/ShowUniversities.vue'
+import AddUniversity from '../components/Administrator/Universities/Create.vue'
+import EditUniversity from '../components/Administrator/Universities/Update.vue'
+
 //FORMULARIOS//
 import NewFormulario from '../components/Formulario/NewFormulario.vue'
 import EditFormulario from '../components/Formulario/EditFormulario.vue' // ESTA NO DEBERIA IR! 
@@ -186,7 +190,20 @@ Vue.use(VueRouter)
   name: 'EditCareer',
   component: EditCareer
 },
-
+// Gestion de Univesidades Administrador //
+{
+  path: '/ShowUniversities',
+  name: 'ShowUniversities',
+  component: ShowUniversities
+}, {
+  path: '/AddUniversity',
+  name: 'AddUniversity',
+  component: AddUniversity
+}, {
+  path: '/EditUniversity',
+  name: 'EditUniversity',
+  component: EditUniversity
+},
 
 // Convocatorias Administrator //
 
