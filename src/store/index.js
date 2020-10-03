@@ -22,9 +22,13 @@ export default new Vuex.Store({
     alerts: [],
     alertsByRut: [],
     actualAlert: {},
+    snackbarColor: '',
+    activeSnackbar: false,
+    snackbarMessage: '',
+    snackbarTimeout: 0,
 
     //others
-
+    career: {},
     account: [],
 
     serverURL: "http://142.93.79.50:8080/backend-drii", // DEVELOPMENT
@@ -47,7 +51,10 @@ export default new Vuex.Store({
   },
   mutations: {
 
-
+    updateSnackbarColor(state, payload) { state.snackbarColor = payload },
+    updateActiveSnackbar(state, payload) { state.activeSnackbar = payload },
+    updateSnackbarMessage(state, payload) { state.snackbarMessage = payload },
+    updateSnackbarTimeout(state, payload) { state.snackbarTimeout = payload },
 
     updateIdConvocatoria(state, payload){
       state.idConvocatoria = payload;
@@ -79,10 +86,19 @@ export default new Vuex.Store({
     updateActualFileName(state, payload) {
       state.actualFileName = payload;
     },
+    //user
 
+    updateCareer(state, payload) {
+      state.career = payload;
+    }
   },
   actions: {
-  
+    setSnackbarAlert({ commit }, payload) {
+      commit('updateSnackbarColor', payload.color)
+      commit('updateSnackbarMessage', payload.message)
+      commit('updateSnackbarTimeout', payload.timeout)
+      commit('updateActiveSnackbar', true)
+    },
     // Alerts
 
     async createAlert() {

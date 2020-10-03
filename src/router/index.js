@@ -39,6 +39,7 @@ import ShowUsers from '../components/Administrator/Users/ShowUsers.vue'
 /// Manage Users // 
 import ShowCareers from '../components/Administrator/Careers/ShowCareers.vue'
 import AddCarreer from '../components/Administrator/Careers/Create.vue'
+import EditCareer from '../components/Administrator/Careers/Update.vue'
 import AddAdministrator from '../components/auth/create.vue'
 /// ADMINISTRATOR/// 
 
@@ -179,6 +180,11 @@ Vue.use(VueRouter)
   path: '/AddCarreer',
   name: 'AddCarreer',
   component: AddCarreer
+},
+{
+  path: '/EditCareer',
+  name: 'EditCareer',
+  component: EditCareer
 },
 
 
