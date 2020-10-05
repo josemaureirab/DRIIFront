@@ -74,8 +74,9 @@
 
           <v-col class="d-flex" cols="12" sm="6">
         <v-select
-          :items="items"
+          :items="formularios"
           label="Seleccionar"
+          item-text="tittle"
         ></v-select>
       </v-col>
         </v-list-item-content>
@@ -145,6 +146,7 @@
 <script>
 export default {
   data: () => ({
+    formularios: [],
     panel: [0, 1],
          dialog: false,
       items: ['Formulario 1', 'Formulario 2', 'Formulario 3'],
@@ -153,6 +155,24 @@ export default {
         {  title: 'Universidad de Manchester', subtitle: 'Rechazado' },
       ],
   }),
+  async created(){
+    await this.getFormularios()
+  },
+  methods:{
+    getFormularios(){
+      return this.axios.get("http://142.93.79.50:8080/backend-drii/forms/")
+      .then((response) => ((this.formularios = this.filterPublished(response.data)), console.log(response.data)))
+      .catch((error) => console.log(error));
+    },  
+    filterPublished(data){
+      let cols = [];
+      data.forEach(function (valor) {
+          if(valor.published == true)
+                cols.push(valor);     
+      });
+      return cols;
+    },
+  }
 };
 
 // TODO : IMAGENES ESTANDERIZADAS ( ANOTARLO Y BUSCARLO!!)
