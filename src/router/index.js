@@ -47,6 +47,10 @@ import ShowUniversities from '../components/Administrator/Universities/ShowUnive
 import AddUniversity from '../components/Administrator/Universities/Create.vue'
 import EditUniversity from '../components/Administrator/Universities/Update.vue'
 
+import ShowSteps from '../components/Administrator/Steps/ShowSteps.vue'
+import AddStep from '../components/Administrator/Steps/Create.vue'
+import EditStep from '../components/Administrator/Steps/Update.vue'
+
 //FORMULARIOS//
 import NewFormulario from '../components/Formulario/NewFormulario.vue'
 import EditFormulario from '../components/Formulario/EditFormulario.vue' // ESTA NO DEBERIA IR! 
@@ -203,6 +207,21 @@ Vue.use(VueRouter)
   path: '/EditUniversity',
   name: 'EditUniversity',
   component: EditUniversity
+},
+
+// Gestion de Steps Administrador //
+{
+  path: '/ShowSteps',
+  name: 'ShowSteps',
+  component: ShowSteps
+}, {
+  path: '/AddStep',
+  name: 'AddStep',
+  component: AddStep
+}, {
+  path: '/EditStep',
+  name: 'EditStep',
+  component: EditStep
 },
 
 // Convocatorias Administrator //

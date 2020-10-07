@@ -29,6 +29,7 @@ export default new Vuex.Store({
 
     //others
     career: {},
+    step: {},
     university: {},
     account: [],
 
@@ -91,6 +92,10 @@ export default new Vuex.Store({
 
     updateCareer(state, payload) {
       state.career = payload;
+    },
+    //step
+    updateStep(state, payload) {
+      state.step = payload;
     },
     //university
 
