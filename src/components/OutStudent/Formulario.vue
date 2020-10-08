@@ -107,7 +107,6 @@ import axios from "axios";
     this.steps = this.sections.length;
     //console.log(this.sections)
     await this.getQuestions() 
-    console.log(2,this.questions[1][1] )
   
 
   },

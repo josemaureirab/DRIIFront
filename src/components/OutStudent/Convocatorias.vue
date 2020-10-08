@@ -71,7 +71,7 @@
                         <div>Cierre de postulaciones: {{item.deadLine}}</div>
                       </v-card-text>
                       <v-card-actions>
-                        <v-btn color="orange" text @click="submit(item.id)">Ingresar</v-btn>
+                    <v-btn color="orange" text @click="send(item.informationLink)">Ver Más</v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-col>
@@ -113,7 +113,9 @@ export default {
   methods: {
     ...mapActions(["getAgreements"]),
 
-
+    send(url){
+      window.location.href = url;
+    },
 
     submit(id) {
       this.idConvocatoria = id;
@@ -122,33 +124,29 @@ export default {
       });
     },
      async filtrarAgreements() {
-     
+       
       let countAbiertas = 0;
       let countCerradas = 0;
       let close = [];
       let open = [];
 
-
-      //   var today = new Date();
-      //   let fecha = new Date();
       let cols = [];
        await this.getAgreements(), 
        this.convocatorias.forEach(function (valor) {
-           console.log('entre')
-        // if(fecha < today){
-            console.log(valor)
-        if (valor.published == true) {
-         // if (valor.expiration == true) {
+    
+        if (valor.type == "abierta") {
           countAbiertas += 1,
           open.push(valor);
-         /* } else {
-            countCerradas = 0;
-            close.push(valor);
-          } */ 
         }
+        if ( valor.type =="cerrada"){
+             countCerradas += 1;
+            close.push(valor);
+        } 
       });
       this.cAbiertas = countAbiertas;
       this.abiertas = open;
+      this.cCerradas = countCerradas;
+      this.cerradas = close;
     },
   },
 

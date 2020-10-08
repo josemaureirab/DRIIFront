@@ -9,12 +9,10 @@
             <v-alert color="blue" dark icon="mdi-format-list-checks" dense>Primera Fase</v-alert>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-
-
             <v-col cols="12" align="center">
                     <Postulacion/>        
             </v-col>
-       
+      
           </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -25,11 +23,10 @@
           <v-expansion-panel-content>
 
     
-               
             <v-data-table
               dense
               :headers="headers"
-              :items="Universidad"
+              :items="historial"
               item-key="name"
               class="elevation-1"
             ></v-data-table>
@@ -50,61 +47,67 @@
 import Postulacion from  '../Formulario/ViewFormulario.vue'
 import Wait from '../Extra/Wait.vue'
 
+import { mapState , mapActions } from "vuex";
+import route from "@/router";
+import axios from "axios";
 
 export default {
-    components: {
-   Postulacion,
-   Wait,
-
+  components: {
+    Postulacion,
+    Wait,
+  },
+  async created(){
+    await this.getSuitor();
+    await this.getHistorial();
+    console.log(this.historial)
 
   },
+  computed: {
+    ...mapState(["infoSuitor"]),
+  },
+
+  methods: {
+  ...mapActions(['getSuitor']),
+
+    async getHistorial(){
+      await axios.post("http://142.93.79.50:8080/backend-drii/suitors/postulations/"+this.infoSuitor.id).then((response) => (this.filtrar(response.data)))
+        .catch((error) => console.log(error));
+  
+    },
+
+    filtrar(data){
+      let post = [];
+      let hist = [];
+      data.forEach(function (valor) {
+          if (valor.status !== "actual") hist.push(valor);
+          else post.push(valor);
+        });
+      this.historial = hist;
+      this.actual = post;
+    }
+
+   
+  },
+
 
   data: () => ({
+
+    actual:[],
+    historial:[],
     panel: [0, 1],
     e1: 1,
-    Universidad: [
-      {
-        name: "1-2018",
-        calories: "Convenio Bilateral",
-        fat: 'Seleccionado',
     
-      },
-      {
-        name: "2-2018",
-        calories: "AUGM",
-        fat: 'Rechazado',
-        
-      },
-      {
-        name: "1-2019",
-        calories: "Convenio Bilateral",
-        fat: 'No Ejecutada',
-        carbs: 23,
-        carbs: 'Francia',
-        protein: 'Universidad de Metz',
-      },
-      {
-        name: "2-2021",
-        calories:  "AUGM",
-        fat: 'Ejecutada',
-        carbs: 'Alemania',
-        protein: 'Universidad de Koln',
-     
-      },
-    
-    ],
+  
+  
     headers: [
       {
         text: "Semestre de Postulación",
         align: "start",
         sortable: false,
-        value: "name",
+        value: "agreement.semester" ,
       },
-      { text: "Programa", value: "calories" },
-      { text: "Status", value: "fat" },
-      { text: "Pais", value: "carbs" },
-      { text: "Universidad", value: "protein" },
- 
+      { text: "Programa", value:  "agreement.name" },
+      { text: "Status", value: "status" }, 
     ],
   }),
 };

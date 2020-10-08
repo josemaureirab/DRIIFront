@@ -12,6 +12,7 @@ import PostulacionesOutStudent from '../components/OutStudent/Postulaciones.vue'
 import PerfilOutStudent from '../components/OutStudent/Perfil.vue'
 import IntercambioOutStudent from '../components/OutStudent/Intercambio.vue'
 import ViewConvocatoria from '../components/OutStudent/ViewConvocatoria.vue'
+import Postulacion from '../components/OutStudent/Postulacion.vue'
 ////
 
 /// ADMINISTRATOR ///
@@ -126,6 +127,14 @@ Vue.use(VueRouter)
 },
 
 // OUT STUDENT // 
+
+
+{
+  path: '/PostulacionOutStudent',
+  name: 'PostulacionOutStudent',
+  component: Postulacion
+},
+
 {
   path: '/MenuOutStudent',
   name: 'MenuOutStudent',

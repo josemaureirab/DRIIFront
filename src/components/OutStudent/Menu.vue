@@ -14,10 +14,10 @@
           </v-col>
           <v-col cols="4">
             <v-card color="#1F7087" dark class="cuadra">
-              <v-card-title class="headline">Mis Postulaciones</v-card-title>
+              <v-card-title class="headline">Mi Postulacion</v-card-title>
               <v-card-subtitle>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</v-card-subtitle>
               <v-card-actions>
-                <v-btn text href="/PostulacionesOutStudent">Ingresar</v-btn>
+                <v-btn text @click="myPostultion()">Ingresar</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -50,14 +50,23 @@
 <!-- TODO: * Si Status =  Aceptado => Intercambio es visible -->
 
 <script>
-
+import route from "@/router";
 import { mapState, mapActions } from "vuex";
 export default {
   async created(){
     await this.getAccount()
   },
+
+    
   methods: {
+    
     ...mapActions(["getAccount"]),
+
+     myPostultion(){    
+        route.push({
+        name: "PostulacionOutStudent",
+      });
+     }
   }
 }
 </script>

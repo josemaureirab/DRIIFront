@@ -85,7 +85,9 @@ export default {
       let open = [];
       await this.getAgreements(),
         this.convocatorias.forEach(function (valor) {
-          if (valor.published == true) open.push(valor);
+          if (valor.type == "cerrada") open.push(valor);
+          if (valor.type == "abierta") open.push(valor);
+
         });
       this.abiertas = open;
       console.log(this.abiertas);
