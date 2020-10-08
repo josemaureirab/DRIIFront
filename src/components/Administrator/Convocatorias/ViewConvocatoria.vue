@@ -50,45 +50,15 @@
             <v-expansion-panel-header>Requisitos</v-expansion-panel-header>
             <v-expansion-panel-content >
 
-              <v-list-item-group  color="indigo" mandatory>
+              <v-list-item-group  v-for="docR  in docRequisitos"  :key="docR.id" color="indigo" mandatory>
                 <v-list-item-content class="pt-0 pb-0">
                   <v-list-item >
-                    <v-list-item-title > Debes ser estudiante regular de pregado de la Usach, al postular y durante el periodo de la movilidad </v-list-item-title>
+                    <v-list-item-title >{{docR.text}}</v-list-item-title>
                   </v-list-item>
                 </v-list-item-content>
               </v-list-item-group>
 
-              <v-list-item-group two-line >
-                <v-list-item-content class="pt-0 pb-0">
-                  <v-list-item>
-                    <v-list-item-title> Haber aprobado el 40% de la carrera que estás cursando </v-list-item-title>
-                  </v-list-item>
-                </v-list-item-content>
-              </v-list-item-group>
-
-              <v-list-item-group  color="indigo"  mandatory three-line >
-                <v-list-item-content class="pt-0 pb-0">
-                  <v-list-item>
-                    <v-list-item-title> Convalidad minimo 2 asignatura </v-list-item-title>
-                  </v-list-item>
-                </v-list-item-content>
-              </v-list-item-group>
-
-               <v-list-item-group two-line >
-                <v-list-item-content class="pt-0 pb-0">
-                  <v-list-item>
-                    <v-list-item-title> No tener impedimientos academicos </v-list-item-title>
-                  </v-list-item>
-                </v-list-item-content>
-              </v-list-item-group>
-
-                <v-list-item-group  color="indigo" mandatory three-line >
-                <v-list-item-content class="pt-0 pb-0">
-                  <v-list-item>
-                    <v-list-item-title> No tener cargos docentes </v-list-item-title>
-                  </v-list-item>
-                </v-list-item-content>
-              </v-list-item-group> 
+     
             </v-expansion-panel-content>
           </v-expansion-panel>
 
@@ -97,26 +67,11 @@
             <v-expansion-panel-header>Documentos Académicos</v-expansion-panel-header>
             <v-expansion-panel-content >
 
-              <v-list-item-group  color="indigo" mandatory>
+              
+            <v-list-item-group  v-for="docA  in docAcademicos"  :key="docA.id" color="indigo" mandatory>
                 <v-list-item-content class="pt-0 pb-0">
                   <v-list-item >
-                    <v-list-item-title > Certificado de alumno regular</v-list-item-title>
-                  </v-list-item>
-                </v-list-item-content>
-              </v-list-item-group>
-
-              <v-list-item-group two-line >
-                <v-list-item-content class="pt-0 pb-0">
-                  <v-list-item>
-                    <v-list-item-title>Constancia de respaldo académico firmado y timbrado </v-list-item-title>
-                  </v-list-item>
-                </v-list-item-content>
-              </v-list-item-group>
-
-              <v-list-item-group  color="indigo"  mandatory three-line >
-                <v-list-item-content class="pt-0 pb-0">
-                  <v-list-item>
-                    <v-list-item-title> Certificado de notas</v-list-item-title>
+                    <v-list-item-title >{{docA.text}}</v-list-item-title>
                   </v-list-item>
                 </v-list-item-content>
               </v-list-item-group>
@@ -130,35 +85,12 @@
             <v-expansion-panel-content >
 
 
-              <v-list-item-group  color="indigo" mandatory>
-                <v-list-item-content class="pt-0 pb-0">
-                  <v-list-item >
-                    <v-list-item-title >  PDF del carnet de identidad</v-list-item-title>
-                  </v-list-item>
-                </v-list-item-content>
-              </v-list-item-group>
-
-               <v-list-item-group >
-                <v-list-item-content class="pt-0 pb-0">
-                  <v-list-item >
-                    <v-list-item-title >  PDF del pasaporte</v-list-item-title>
-                  </v-list-item>
-                </v-list-item-content>
-              </v-list-item-group>
-
+             
           
-              <v-list-item-group  color="indigo" mandatory>
+             <v-list-item-group  v-for="docP in docPersonales"  :key="docP.id" color="indigo" mandatory>
                 <v-list-item-content class="pt-0 pb-0">
                   <v-list-item >
-                    <v-list-item-title > Curriculum Vitae</v-list-item-title>
-                  </v-list-item>
-                </v-list-item-content>
-              </v-list-item-group>
-
-              <v-list-item-group two-line >
-                <v-list-item-content class="pt-0 pb-0">
-                  <v-list-item>
-                    <v-list-item-title> Ficha de protección social actualizada</v-list-item-title>
+                    <v-list-item-title >{{docP.text}}</v-list-item-title>
                   </v-list-item>
                 </v-list-item-content>
               </v-list-item-group>
@@ -266,6 +198,7 @@ components: {
 
   async created(){
     await this.getAgreement();
+    await this.getRequeriments();
     // await this.getAccount()
   },
  methods: {
@@ -273,9 +206,28 @@ components: {
   //  ...mapActions(['getAgressment','getAccount']),
 
    async getRequeriments(){
-      
-   }
+    await axios.get("http://142.93.79.50:8080/backend-drii/requirements/byAgreement/"+this.infoConvocatoria.id).then((response) => (this.filterRequeriments(response.data)))
+        .catch((error) => console.log(error));
+   },
 
+    filterRequeriments(data){
+      let a = [];
+      let b = [];
+      let c = [];
+      data.forEach(function (valor) {
+          if(valor.type == 1)
+                a.push(valor);     
+          if (valor.type ==2)
+                b.push(valor);
+          if (valor.type ==3)
+                c.push(valor);
+      });
+    
+      this.docRequisitos = a,
+      this.docAcademicos = b,
+      this.docPersonales = c
+    }
+  
 
 
   /*async postular(){
@@ -296,6 +248,10 @@ components: {
   },
 
   data: () => ({
+
+    docRequisitos: [],
+    docAcademicos: [],
+    docPersonales: [],
     Universidad: [
       {
         name: "Universidad de Berlin",

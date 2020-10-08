@@ -17,8 +17,8 @@ export default new Vuex.Store({
     idQuestion: -1,
     infoQuestion: [],
     
-    idStudent: 2,
-
+    idSuitor: 2,
+    infoSuitor:[],
    
 
     idConvocatoria: -1,
@@ -40,6 +40,9 @@ export default new Vuex.Store({
     },
     updateIdQuestion(state, payload) {
       state.idQuestion = payload;
+    },
+    updateIdSuitor(state, payload) {
+      state.idSuti = payload;
     },
 
   },
@@ -92,14 +95,22 @@ export default new Vuex.Store({
 
    
     async getQuestion() {
-      console.log('id ENTRANTE:'+this.state.idQuestion);
       await axios
         .get("http://142.93.79.50:8080/backend-drii/questions/"+this.state.idQuestion)
         .then((response) => ((this.state.infoQuestion = response.data)))
         .catch((error) => console.log(error));
-        console.log(this.state.infoQuestion);
         
     },
+
+
+    async getSuitor() {
+      await axios
+        .get("http://142.93.79.50:8080/backend-drii/suitors/"+this.state.idSuitor)
+        .then((response) => ((this.state.infoSuitor = response.data)))
+        .catch((error) => console.log(error));
+        
+    },
+
 
 
 

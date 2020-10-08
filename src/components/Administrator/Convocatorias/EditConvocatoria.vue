@@ -262,6 +262,7 @@ export default {
                //pagePhoto: this.photoPagina,
                // coverPhoto:  this.photoPortada,
                // university: this.csvUniversidades,
+                type: "guardada",
                 published: false,
                 form: this.selectFormulario 
         })
