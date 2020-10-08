@@ -76,6 +76,7 @@ export default {
     headersUniversitiesList: [
       { text: 'Id', value: 'id', align: 'center' },
       { text: 'Nombre', value: 'name', align: 'center' },
+      { text: 'Formulario', value: 'form.tittle', align: 'center' },
       { text: 'Acciones', value: 'action', align: 'center' }
       /* { text: 'Acciones', value: 'action', sortable: false, align: 'center' } */
     ],

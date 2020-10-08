@@ -7,12 +7,25 @@
       <v-card class="mx-auto" max-width="90%">
         <v-form ref="form" class="mx-10 py-10" lazy-validation>
           <v-text-field v-model="step.text" label="Nombre" required></v-text-field>
-        <v-select
-          :items="formularios"
-          label="Seleccionar formulario"
-          item-text="tittle"
-          v-model="step.form"
-        ></v-select>
+          <v-autocomplete
+            label="Seleccione un Formulario"
+            :items="formularios"
+            autocomplete="off"
+            v-model="step.form"
+            item-color="black"
+            item-text="`${data.item.tittle}`"
+            item-value="`${data.item.tittle}`"
+          >
+            <template slot="selection" slot-scope="data">
+              {{data.item.tittle}}
+            </template>
+            <template slot="item" slot-scope="data">
+              <v-list-item-content>
+                <v-list-item-title v-html="`${data.item.tittle}`">
+                </v-list-item-title>
+              </v-list-item-content>
+            </template>
+          </v-autocomplete>
           <div class="text-center">
             <v-btn class="ma-2" @click="createStep()" tile outlined color="success">
             <v-icon left>mdi-plus</v-icon>Crear Step
@@ -58,7 +71,7 @@ methods: {
     router.push({name: 'ShowSteps'})
   },
   async createStep (){
-    console.log(this.step);
+    console.log(this.step.form);
     await axios
       .post(this.serverURL + '/steps/create', this.step)
       .then(response => {

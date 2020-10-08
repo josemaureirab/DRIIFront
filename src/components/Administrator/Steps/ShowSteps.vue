@@ -76,7 +76,7 @@ export default {
     headersStepsList: [
       { text: 'Id', value: 'id', align: 'center' },
       { text: 'Nombre', value: 'text', align: 'center' },
-      { text: 'Formulario', value: 'form.title', align: 'center' },
+      { text: 'Formulario', value: 'form.tittle', align: 'center' },
       { text: 'Acciones', value: 'action', align: 'center' }
       /* { text: 'Acciones', value: 'action', sortable: false, align: 'center' } */
     ],
