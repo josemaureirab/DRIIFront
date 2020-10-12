@@ -9,7 +9,7 @@
     <v-expansion-panels color="red" multiple v-model="panel">
       <v-expansion-panel>
         <v-expansion-panel-header>
-          <v-alert color="blue" dark icon="mdi-microsoft" dense>Convocatorias Guardadas</v-alert>
+          <v-alert color="blue" dark icon="mdi-microsoft" dense>Convocatorias en preparación</v-alert>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-row justify="center">
@@ -51,8 +51,60 @@
                           </v-btn>
                         </v-col>
                         <v-col cols="3" align="center">
-                          <v-btn @click="cerrar(item)" icon color="orange">
+                          <v-btn @click="publish(item)" icon color="orange">
                             <v-icon>mdi-clipboard-check</v-icon>
+                          </v-btn>
+                        </v-col>
+                      </v-row>
+                    </v-card-actions>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-row>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    <v-expansion-panel>
+        <v-expansion-panel-header>
+          <v-alert color="green" dark icon="mdi-microsoft" dense>Convocatorias Abiertas</v-alert>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-row justify="center">
+            <v-container>
+              <v-row dense>
+                <v-col cols="4" v-for="item in abiertas" :key="item.id">
+                  
+                  <v-card class="mx-auto" max-width="400">
+                    <v-img
+                      class="white--text align-end"
+                      height="200px"
+                      src="https://brocku.ca/international/wp-content/uploads/sites/17/Website_Carousel_CONAHEC-1800x1100.png"
+                    ></v-img>
+                    <v-card-title>{{item.name}}</v-card-title>
+                    <v-card-subtitle
+                      class="pb-0"
+                    >Intercambios a realizar el semestre {{item.semester}}</v-card-subtitle>
+                    <v-card-text class="text--primary">
+                      <div>Inicio de postulaciones: {{item.startLine}}</div>
+                      <div>Cierre de postulaciones: {{item.deadLine}}</div>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-row cols="12" justify="center">
+                        <v-col cols="3" align="center">
+                          <v-btn @click="viewAgreement(item.id)" icon color="orange">
+                            <v-icon>mdi-eye</v-icon>
+                          </v-btn>
+                        </v-col>
+                         
+                        <v-col cols="2" align="center">
+                          <v-btn icon  @click="unPublish(item)" color="orange">
+                            <v-icon>mdi-close-circle</v-icon>
+                          </v-btn>
+                        </v-col>
+                       
+                        <v-col cols="3" align="center">
+                          <v-btn icon  @click="cerrar(item)" color="orange">
+                            <v-icon>mdi-bookmark-remove</v-icon>
                           </v-btn>
                         </v-col>
                       </v-row>
@@ -97,12 +149,7 @@
                           </v-btn>
                         </v-col>
                         
-                       
-                        <v-col cols="2" align="center">
-                          <v-btn icon  @click="unPublish(item)" color="orange">
-                            <v-icon>mdi-close-circle</v-icon>
-                          </v-btn>
-                        </v-col>
+                      
                          <v-col cols="2" align="center">
                           <v-btn icon  @click="publish(item)" color="orange">
                             <v-icon> mdi-checkbox-multiple-marked-outline</v-icon>
@@ -117,52 +164,7 @@
           </v-row>
         </v-expansion-panel-content>
       </v-expansion-panel>
-       <v-expansion-panel>
-        <v-expansion-panel-header>
-          <v-alert color="green" dark icon="mdi-microsoft" dense>Convocatorias Abiertas</v-alert>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <v-row justify="center">
-            <v-container>
-              <v-row dense>
-                <v-col cols="4" v-for="item in abiertas" :key="item.id">
-                  
-                  <v-card class="mx-auto" max-width="400">
-                    <v-img
-                      class="white--text align-end"
-                      height="200px"
-                      src="https://brocku.ca/international/wp-content/uploads/sites/17/Website_Carousel_CONAHEC-1800x1100.png"
-                    ></v-img>
-                    <v-card-title>{{item.name}}</v-card-title>
-                    <v-card-subtitle
-                      class="pb-0"
-                    >Intercambios a realizar el semestre {{item.semester}}</v-card-subtitle>
-                    <v-card-text class="text--primary">
-                      <div>Inicio de postulaciones: {{item.startLine}}</div>
-                      <div>Cierre de postulaciones: {{item.deadLine}}</div>
-                    </v-card-text>
-                    <v-card-actions>
-                      <v-row cols="12" justify="center">
-                        <v-col cols="3" align="center">
-                          <v-btn @click="viewAgreement(item.id)" icon color="orange">
-                            <v-icon>mdi-eye</v-icon>
-                          </v-btn>
-                        </v-col>
-                       
-                        <v-col cols="3" align="center">
-                          <v-btn icon  @click="cerrar(item)" color="orange">
-                            <v-icon>mdi-bookmark-remove</v-icon>
-                          </v-btn>
-                        </v-col>
-                      </v-row>
-                    </v-card-actions>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-row>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
+   
     </v-expansion-panels>
   </v-row>
 </template>

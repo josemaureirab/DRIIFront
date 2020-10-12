@@ -31,7 +31,7 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-row dense>
+        <v-row dense  v-if="aceptado.length !==  0">
           <v-col cols="4">
             <v-card color="#385F73" dark class="cuadra">
               <v-card-title class="headline">Mi Intercambio</v-card-title>
@@ -52,15 +52,44 @@
 <script>
 import route from "@/router";
 import { mapState, mapActions } from "vuex";
+import axios from "axios";
+
 export default {
   async created(){
-    await this.getAccount()
+    await this.getPostulacion();
+
   },
 
+  data () {
+    return {
+     aceptado : []
+      }
+  },
     
+      computed: {
+   ...mapState(["idSuitor"]),
+  },
+
+
   methods: {
     
-    ...mapActions(["getAccount"]),
+  async getPostulacion(){
+      await axios.post("http://142.93.79.50:8080/backend-drii/suitors/postulations/"+this.idSuitor).then((response) => (this.filtrar(response.data)))
+        .catch((error) => console.log(error));
+          
+    },
+
+ filtrar(data){
+   console.log(data)
+      let acep = [];
+      data.forEach(function (valor) {
+          if (valor.status == "aceptado" && valor.delete == false) acep.push(valor);
+        });
+        console.log(acep)
+      this.aceptado = acep;
+      console.log(this.aceptado.length)
+      //console.log(this.id.idForm)
+    },
 
      myPostultion(){    
         route.push({

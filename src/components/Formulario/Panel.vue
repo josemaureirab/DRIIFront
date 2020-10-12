@@ -2,6 +2,10 @@
 <div>
   <v-bottom-navigation
   >
+    <v-btn @click="showDialogSeccion" >
+      <span >Secciones</span>
+      <v-icon>mdi-format-color-text</v-icon>
+    </v-btn>
     <v-btn @click="showDialogShort" >
       <span>Simple</span>
       <v-icon >mdi-comment-text-outline</v-icon>
@@ -10,18 +14,13 @@
       <span >Selección</span>
       <v-icon>mdi-format-list-bulleted</v-icon>
     </v-btn>
-     <v-btn  @click="showDialogGrid" >
-      <span >Grid</span>
+     <v-btn  @click="showUniversidad" >
+      <span >Universidad</span>
       <v-icon>mdi-grid</v-icon>
     </v-btn>
 
-     <v-btn @click="showDialogSeccion" >
-      <span >Secciones</span>
-      <v-icon>mdi-format-color-text</v-icon>
-    </v-btn>
-
 <v-btn @click="showDialogName" >
-      <span>Nombre</span>
+      <span>Título Formulario</span>
       <v-icon>mdi-format-title</v-icon>
     </v-btn>
   
@@ -64,9 +63,9 @@ export default {
           name:'DialogSelectAnswer',
       })
      },
-    showDialogGrid (){
+    showUniversidad (){
         route.push({
-          name:'DialogGridAnswer',
+          name:'DialogUniversidad',
       })
      },
      showDialogName(){

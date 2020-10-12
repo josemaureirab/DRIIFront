@@ -43,7 +43,7 @@
           <ViewStudentSelectAnswer
             v-if="item.questionType == '2'" v-bind:item="item"
           />
-          <ViewStudentGrid
+          <ViewStudentUniversidadAns
             v-if="item.questionType == '3'"
             v-bind:item="item"
           />
@@ -77,7 +77,8 @@
 import { mapState , mapActions } from "vuex";
 import ViewStudentShortAnswer from "../../Formulario/ShortAnswer/ViewStudentShortAnswer";
 import ViewStudentSelectAnswer from "../../Formulario/SelectAnswer/ViewStudentSelectAnswer";
-import ViewStudentGrid from "../../Formulario/GridAnswer/ViewStudentGrid";
+import ViewStudentUniversidadAnswer from "../../Formulario/Universidad/ViewStudentUniversidadAnswer";
+
 import axios from "axios";
 
   export default {
@@ -85,7 +86,7 @@ import axios from "axios";
 
     ViewStudentShortAnswer,
     ViewStudentSelectAnswer,
-    ViewStudentGrid
+    ViewStudentUniversidadAnswer
   },
 
     data () {

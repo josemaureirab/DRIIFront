@@ -153,7 +153,7 @@ export default {
   data: () => ({
     abiertas: [],
     cerradas: [],
-    cAbiertas: -1,
+    cAbiertas: 0,
     cCerradas: 0,
     panel: [0, 1],
   }),

@@ -66,9 +66,8 @@ import DialogSeccion from  '../components/Formulario/Seccion/DialogSeccion.vue'
 import DialogSelectAnswer from '../components/Formulario/SelectAnswer/DialogSelectAnswer.vue'
 import DialogEditSelectAnswer from '../components/Formulario/SelectAnswer/DialogEditSelectAnswer.vue'
 
-
-import DialogGridAnswer from  '../components/Formulario/GridAnswer/DialogGridAnswer.vue'
-import DialogEditGridAnswer from  '../components/Formulario/GridAnswer/DialogEditGridAnswer.vue'
+import DialogUniversidad from '../components/Formulario/Universidad/DialogUniversidad.vue'
+import DialogEditUniversidad from  '../components/Formulario/Universidad/DialogEditUniversidad.vue'
 
 import EditNameFormulario from '../components/Formulario/EditNameFormulario.vue'
 
@@ -315,14 +314,14 @@ Vue.use(VueRouter)
   component: DialogEditSelectAnswer
 },
 {
-  path: '/DialogGridAnswer',
-  name: 'DialogGridAnswer',
-  component: DialogGridAnswer
+  path: '/DialogUniversidad',
+  name: 'DialogUniversidad',
+  component: DialogUniversidad
 },
 {
-  path: '/DialogEditGridAnswer',
-  name: 'DialogEditGridAnswer',
-  component: DialogEditGridAnswer
+  path: '/DialogEditUniversidad',
+  name: 'DialogEditUniversidad',
+  component: DialogEditUniversidad
 },
 
 {

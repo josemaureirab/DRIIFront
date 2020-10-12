@@ -60,20 +60,25 @@
           cols="12"
           md="3"
         >
-          <v-text-field
-            v-model="incomeSemester"
-            label="Semestre de Ingreso"
-            required
-            :disabled="edit"
-          ></v-text-field>
 
-          
+        <v-select
+        
+            v-model="incomeSemester"
+            :items="itemsSemester"
+            label="Semestre de Ingreso"
+             :disabled="edit"
+          ></v-select>
+
+
+   
             </v-col> 
 
               <v-col
           cols="12"
           md="3"
         >
+         
+
           <v-text-field
             v-model="incomeYear"
             label="Año de Ingreso"
@@ -85,11 +90,14 @@
           cols="12"
           md="3"
         >
-          <v-text-field
+
+          <v-select        
             v-model="actualSemester"
-            label="Semestre Actual"
-            :disabled="edit"
-          ></v-text-field>
+            :items="itemsNivel"
+             label="Nivel Actual"
+             :disabled="edit"
+          ></v-select>
+
             </v-col> 
             <v-col
           cols="12"
@@ -188,7 +196,11 @@ import axios from "axios";
    },
     data: () => ({
         e: 0,
+        itemsSemester:['1','2'],
+        itemsNivel:['2','3','4','5','6','7','8','9','10','11','12','13','14'],
         selectCarrer:[],
+        selectNivel:[],
+        selectSemester:[],
         carrers: [],
         edit: true,
         name : '',

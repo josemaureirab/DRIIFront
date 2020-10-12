@@ -68,7 +68,7 @@
                       item-text="name"
                       return-object
                       required
-                      label="Seccion"
+                      label="Sección"
                       outlined
             ></v-select>
                   </v-row>

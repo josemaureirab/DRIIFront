@@ -64,11 +64,7 @@
                         <v-icon>mdi-tooltip-edit</v-icon>
                       </v-btn>
                     </v-col>
-                    <v-col cols="2" align="center">
-                      <v-btn icon @click="copy(item)" color="orange">
-                        <v-icon>mdi-content-copy</v-icon>
-                      </v-btn>
-                    </v-col>
+                 
 
                     <v-col cols="2" align="center">
                       <v-btn icon @click="deleteForm(item.id)" color="orange">
@@ -114,11 +110,7 @@
                         <v-icon>mdi-tooltip-edit</v-icon>
                       </v-btn>
                     </v-col>
-                    <v-col cols="2" align="center">
-                      <v-btn icon @click="copy(item)" color="orange">
-                        <v-icon>mdi-content-copy</v-icon>
-                      </v-btn>
-                    </v-col>
+                  
 
                     <v-col cols="2" align="center">
                       <v-btn icon @click="deleteForm(item.id)" color="orange">

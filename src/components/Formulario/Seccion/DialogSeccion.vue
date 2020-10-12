@@ -49,31 +49,7 @@
 
                   <v-divider></v-divider>
 
-                  <v-list three-line subheader>
-                    <v-subheader>Carreras Asociadas</v-subheader>
-                    <v-card flat>
-                      <v-card-text>
-                        <v-col class="d-flex" cols="12" sm="12">
-                          <v-container fluid>
-                            <v-row align="center">
-                              <v-select
-                                v-model="selectCarrer"
-                                :items="carrers"
-                                item-text="name"
-                                return-object
-                                :error-messages="selectErrors"
-                                label="Carreras"
-                                required
-                                multiple
-                                outlined
-                              ></v-select>
-                              {{ selectCarrer}}
-                            </v-row>
-                          </v-container>
-                        </v-col>
-                      </v-card-text>
-                    </v-card>
-                  </v-list>
+                
                 </v-col>
 
                 <v-divider></v-divider>
@@ -116,30 +92,7 @@
 
                   <v-divider></v-divider>
 
-                  <v-list three-line subheader>
-                    <v-subheader>Carreras Asociadas</v-subheader>
-                    <v-card flat>
-                      <v-card-text>
-                        <v-col class="d-flex" cols="12" sm="12">
-                          <v-container fluid>
-                            <v-row align="center">
-                              <v-select
-                                v-model="selectCarrerEdit"
-                                :items="carrers"
-                                item-text="name"
-                                return-object
-                                label="Carreras"
-                                required
-                                multiple
-                                outlined
-                              ></v-select>
-                              {{ selectCarrer}}
-                            </v-row>
-                          </v-container>
-                        </v-col>
-                      </v-card-text>
-                    </v-card>
-                  </v-list>
+                
                 </v-col>
                 <v-divider></v-divider>
                 <v-card-actions>

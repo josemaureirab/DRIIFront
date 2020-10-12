@@ -38,7 +38,7 @@
                   item-text="name"
                   return-object
                   required
-                  label="Seccion"
+                  label="Sección"
                   outlined
                 ></v-select>
               </v-row>
@@ -80,7 +80,7 @@
           <v-col cols="10" sm="10" md="10">
             <v-switch
               v-model="option"
-              label="Selección Multiple"
+              label="Selección Múltiple"
               color="green"
               value="Multiple"
               hide-details
