@@ -16,7 +16,7 @@
                 dense
                 required
                 outlined
-                v-model="suitor.firstName"
+                v-model="suitor.name"
                 :rules="[rules.required]"
                 label="Nombre Completo"/>
                 
