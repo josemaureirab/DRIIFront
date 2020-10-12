@@ -42,7 +42,7 @@
           <v-expansion-panel-content>
             <v-data-table
                 :headers="headersOutList"
-                :items="usersOut"
+                :items="suitors"
                 :items-per-page="10"
                 loading-text="Cargando alumnos salientes"
                 no-data-text="No se han alumnos salientes"
@@ -99,6 +99,8 @@
 <script>
 
 import router from "@/router";
+import { mapState, mapActions } from "vuex";
+import axios from "axios";
 
 export default {
   data: () => ({
@@ -111,10 +113,13 @@ export default {
       /* { text: 'Acciones', value: 'action', sortable: false, align: 'center' } */
     ],
     headersOutList: [
-      { text: 'Nombre', value: 'firstName', align: 'center' },
-      { text: 'Apellido', value: 'lastName', align: 'center' },
+      { text: 'Id', value: 'id', align: 'center' },
+      { text: 'Nombre', value: 'name', align: 'center' },
+      { text: 'Email', value: 'email', align: 'center' },
       { text: 'Rut', value: 'rut', align: 'center' },
-      { text: 'Carrera', value: 'carrera', align: 'center' },
+      { text: 'Año ingreso', value: 'incomeYear', align: 'center' },
+      { text: 'Semestre ingreso', value: 'incomeSemester', align: 'center' },
+      { text: 'Semestre actual', value: 'actualSemester', align: 'center' },
       { text: 'Acciones', value: 'action', align: 'center' }
       /* { text: 'Acciones', value: 'action', sortable: false, align: 'center' } */
     ],
@@ -127,6 +132,7 @@ export default {
       { text: 'Acciones', value: 'action', align: 'center' }
       /* { text: 'Acciones', value: 'action', sortable: false, align: 'center' } */
     ],
+    suitors: [],
     panel: [0, 1, 2],
     usersAdministrators: [
       {
@@ -137,29 +143,23 @@ export default {
         
       }
     ],
-    usersOut: [
-      {
-      firstName: 'José',
-      lastName: 'Maureira ',
-      rut: '18.074.514-9',
-      carrera: 'Ingeniería Ejecución Informática',
-    },
-    {
-      firstName: 'Guillermo',
-      lastName: 'Campos',
-      rut: '19.074.514-9',
-      carrera: 'Ingeniería Ejecución Informática',
-    },
-    {
-      firstName: 'Nicolás',
-      lastName: 'Alarcón',
-      rut: '20.074.514-9',
-      carrera: 'Ingeniería Civil Informática',
-    },
-    ],
     usersIn: []
   }),
+  async created(){
+    await this.getSuitors();
+  },
   methods: {
+    async getSuitors(){
+      await axios
+      .get(this.serverURL + '/suitors/')
+      .then(response => {
+        console.log(response.data)
+        this.suitors=response.data
+      })
+      .catch(e => {
+        console.log(e, e.response)
+      })
+    },
     goShowUser(){
       router.push({name: 'AddAdministrator'})
     },
@@ -181,7 +181,10 @@ export default {
     delteIn(){
 
     },
-  }
+  },
+  computed: {
+    ...mapState(['serverURL']),
+  },
 };
 </script>
 

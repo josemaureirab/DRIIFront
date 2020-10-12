@@ -16,64 +16,54 @@
                 dense
                 required
                 outlined
-                v-model="signUpInformation.firstName"
+                v-model="suitor.name"
                 :rules="[rules.required]"
-                label="Nombres"/>
-              <v-text-field
-                dense
-                required
-                outlined
-                v-model="signUpInformation.lastName"
-                :rules="[rules.required]"
-                label="Apellidos"/>
-              <v-text-field
-                dense
-                required
-                outlined
-                v-model="signUpInformation.phoneNumber"
-                :rules="[rules.required, rules.min]"
-                auto-complete=false
-                label="Número telefónico (+569)"/>
+                label="Nombre Completo"/>
                 
               <v-text-field
                 dense
                 outlined
                 required
                 auto-complete=false
-                v-model="signUpInformation.rut"
+                v-model="suitor.rut"
                 :rules="[rules.required, rules.min]"
                 label="Rut"/>
               <v-text-field
                 dense
+                type="number"
                 outlined
                 required
-                v-model="signUpInformation.streetName"
+                v-model="suitor.incomeYear"
                 :rules="[rules.required]"
-                label="Calle (Dirección)"/>
+                label="Año de Ingreso"/>
               <v-text-field
                 dense
+                type="number"
+                outlined
+                required
+                v-model="suitor.incomeSemester"
+                :rules="[rules.required]"
+                label="Semestre de Ingreso"/>
+              <v-text-field
+                dense
+                type="number"
                 outlined
                 required
                 :rules="[rules.required]"
-                v-model="signUpInformation.directionNumber"
-                label="Nº calle (Dirección)"/>
-              <v-text-field
-                dense
-                outlined
-                v-model="signUpInformation.complement"
-                label="Nº dpto. (Opcional)"/>
+                v-model="suitor.actualSemester"
+                label="Semestre Actual"/>
               <v-text-field
                 dense
                 outlined
                 required
                 :rules="[rules.required, rules.email]"
-                v-model="signUpInformation.email"
+                v-model="suitor.email"
                 label="Correo electrónico"/>
-              <v-text-field
+              <!-- <v-text-field
                 dense
                 outlined
                 required
-                v-model="signUpInformation.password"
+                v-model="suitor.password"
                 label="Contraseña"
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="[rules.required, rules.min]"
@@ -85,16 +75,14 @@
                 dense
                 outlined
                 required
-                v-model="signUpInformation.passwordConfirmation"
+                v-model="suitor.passwordConfirmation"
                 label="Confirmar contraseña"
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="[rules.required, rules.min, confirmRules]"
                 :type="show ? 'text' : 'password'"
                 hint="6 caracteres mínimo"
                 counter
-                @click:append="show = !show"/>
-              <v-select dense outlined :rules="[rules.required]" v-model="selectedRegion" :items="addressStuffs"  item-text="regionName" return-object required label="Seleccionar región"/>
-              <v-select dense outlined :rules="[rules.required]" @change="saveAddress" v-show="typeof selectedRegion.communeListString !== 'undefined'" required v-model="selectedCommune" :items="selectedRegion.communeListString" return-object label="Seleccionar comuna"/>
+                @click:append="show = !show"/> -->
               <v-row justify="center">
                 <v-checkbox
                   color="primary"
@@ -103,7 +91,7 @@
                   required/>
               </v-row>
               <v-row justify="center">
-                <v-btn @keyup.enter="trySignUp" @click="trySignUp" :disabled="signUpLoader" :loading="signUpLoader" class="dea2-btn my-5" color="primary">
+                <v-btn @keyup.enter="createUser" @click="createUser" :disabled="signUpLoader" :loading="signUpLoader" class="dea2-btn my-5" color="primary">
                   Registrarse
                 </v-btn>
               </v-row>
@@ -119,12 +107,14 @@
 <script>
 
 import { mapActions, mapState } from 'vuex'
-
+import axios from "axios"
+import router from '@/router'
 export default {
   name: 'auth-signUp',
   components: {
   },
   data: () => ({
+    suitor: {},
     show: false,
     valid: true,
     cardWidth: 0,
@@ -150,7 +140,6 @@ export default {
     rules: {
       email: value => /.+@.+\..+/.test(value) || 'Ingrese un correo electrónico valido',
       required: value => !!value || 'Campo requerido',
-      min: value => value.length >= 6 || '6 caracteres mínimo'
     }
   }),
   mounted () {
@@ -160,17 +149,29 @@ export default {
   },
   async created () {
     this.onResize()
-    await this.getAddressStuffs()
-    console.log(this.addressStuffs)
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.onResize)
   },
   methods: {
     ...mapActions([
-      'signUp',
-      'getAddressStuffs'
     ]),
+    goToAccountUsach () {
+      router.push({ name: 'MenuOutStudent' })
+    },
+    async createUser (){
+      console.log(this.suitor);
+      await axios
+      .post(this.serverURL + '/suitors/create', this.suitor)
+        .then(response => {
+          console.log(response.data);
+          this.idSuitor = response.data.id
+          this.goToAccountUsach()
+        })
+        .catch(e => {
+          console.log(e, e.response)
+        })
+    },
     saveAddress () {
       this.signUpInformation.region = this.selectedRegion.regionName
       this.signUpInformation.commune = this.selectedCommune
@@ -204,11 +205,16 @@ export default {
   },
   computed: {
     ...mapState([
-      'addressStuffs'
+      'addressStuffs',
+      'serverURL'
     ]),
     newUser: {
       get () { return this.$store.state.newUser },
       set (payload) { this.$store.commit('setNewUser', payload) }
+    },
+    idSuitor: {
+      get () { return this.$store.state.idSuitor },
+      set (payload) { this.$store.commit('setIdSuiter', payload) }
     },
     confirmRules () {
       if (this.signUpInformation.password) {

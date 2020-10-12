@@ -19,17 +19,18 @@
                 <v-list-item-content>
                   <v-list-item-title v-text="post.suitor.name"></v-list-item-title>
                   <v-list-item-subtitle v-text="post.suitor.rut"></v-list-item-subtitle>
+                  <v-list-item-title v-text="post.status"></v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-row cols="12" justify="center">
                     <v-col cols="2" align="center">
-                      <v-btn icon @click="view(post)"  color="orange">
-                        <v-icon>mdi-eye</v-icon>
+                      <v-btn class="leftbutton" @click="editStatus(post)">
+                        Editar estado
                       </v-btn>
                     </v-col>
                     <v-col cols="2" align="center">
-                      <v-btn @click="download(post.id)" icon color="orange">
-                        <v-icon>mdi-download</v-icon>
+                      <v-btn @click="download(post.id)" color="blue">
+                        Descargar
                       </v-btn>
                     </v-col>
                     
@@ -46,6 +47,7 @@
 </template>
 
 <script>
+import router from "@/router";
 import { mapState, mapActions } from "vuex";
 import axios from "axios";
 
@@ -54,12 +56,17 @@ export default {
   async created() {
     await this.filtrarAgreements();
     await this.list();
-  
-
   },
 
   computed: {
-    ...mapState(["convocatorias"]),
+    ...mapState([
+      'serverURL',
+      'convocatorias'
+    ]),
+    actualPostulation: {
+      get () { return this.$store.state.actualPostulation },
+      set (payload) { this.$store.commit('updateActualPostulation', payload) }
+    },
   },
    methods: {
     ...mapActions(["getAgreements"]),
@@ -67,7 +74,10 @@ export default {
     download(id){
       return id;
     },
- 
+    async editStatus(post) {
+      this.actualPostulation = post
+      router.push({name: 'EditStatus'})
+    },
     async  list() {
       let opt = [];
       this.abiertas.forEach(function (valor) {
@@ -76,6 +86,7 @@ export default {
         )
       });
      this.postulaciones = opt;
+     console.log('soy yo');
      console.log(this.postulaciones)
     },
 
@@ -106,6 +117,14 @@ export default {
 
 // TODO : IMAGENES ESTANDERIZADAS ( ANOTARLO Y BUSCARLO!!)
 </script>
+
+<style>
+
+.leftbutton{
+  margin-left: -600% !important;
+}
+  
+</style>
 
 
 
