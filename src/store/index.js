@@ -47,6 +47,7 @@ export default new Vuex.Store({
     idConvocatoria: -1,
     infoConvocatoria:[],
     convocatorias:[],
+    actualPostulation:{},
 
     // all question//
     question: [],
@@ -99,6 +100,10 @@ export default new Vuex.Store({
     //step
     updateStep(state, payload) {
       state.step = payload;
+    },
+    //postulation
+    updateActualPostulation(state, payload) {
+      state.actualPostulation = payload;
     },
     //university
 

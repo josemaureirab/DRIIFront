@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import router from "@/router";
 import { mapState, mapActions } from "vuex";
 import axios from "axios";
 
@@ -55,13 +56,17 @@ export default {
   async created() {
     await this.filtrarAgreements();
     await this.list();
-
-  
-
   },
 
   computed: {
-    ...mapState(["convocatorias"]),
+    ...mapState([
+      'serverURL',
+      'convocatorias'
+    ]),
+    actualPostulation: {
+      get () { return this.$store.state.actualPostulation },
+      set (payload) { this.$store.commit('updateActualPostulation', payload) }
+    },
   },
    methods: {
     ...mapActions(["getAgreements"]),
@@ -69,7 +74,10 @@ export default {
     download(id){
       return id;
     },
- 
+    async editStatus(post) {
+      this.actualPostulation = post
+      router.push({name: 'EditStatus'})
+    },
     async  list() {
       let opt = [];
       this.abiertas.forEach(function (valor) {

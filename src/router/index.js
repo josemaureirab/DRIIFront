@@ -31,6 +31,7 @@ import ViewFormularioAdmin from '../components/Administrator/Formularios/ViewFor
 // Postulaciones //
 import ListPostulaciones from '../components/Administrator/Postulaciones/ListPostulaciones.vue'
 import ViewPostulacionAdministrator from  '../components/Administrator/Postulaciones/ViewPostulacion.vue' // NO DEBERIA IR!
+import EditStatus from '../components/Administrator/Postulaciones/EditStatus.vue'
 //// 
 /// Step's // 
 import EditSteps from '../components/Administrator/Steps/EditSteps.vue'
@@ -280,8 +281,11 @@ Vue.use(VueRouter)
   name: 'ViewPostulacionAdministrator',
   component: ViewPostulacionAdministrator
 },
-
-
+{
+  path: '/EditStatus',
+  name: 'EditStatus',
+  component: EditStatus
+},
 
 //// Step's Administrator //
 
