@@ -40,7 +40,7 @@ export default new Vuex.Store({
     idQuestion: -1,
     infoQuestion: [],
     
-    idSuitor: 2,
+    idSuitor: 17,
     infoSuitor:[],
    
 

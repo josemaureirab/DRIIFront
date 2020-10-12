@@ -63,7 +63,7 @@ computed: {
 
   data: () => ({
       items: [
-          'revisión',
+          'revision',
           'aceptado',
           'rechazado',
           'nueva universidad'

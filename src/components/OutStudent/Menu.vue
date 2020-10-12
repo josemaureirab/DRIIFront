@@ -83,11 +83,12 @@ export default {
    console.log(data)
       let acep = [];
       data.forEach(function (valor) {
-          if (valor.status == "aceptado" && valor.delete == false) acep.push(valor);
+          if (valor.status == "aceptado" && valor.deleted == false) {
+                acep.push(valor)
+           }
+       
         });
-        console.log(acep)
       this.aceptado = acep;
-      console.log(this.aceptado.length)
       //console.log(this.id.idForm)
     },
 
