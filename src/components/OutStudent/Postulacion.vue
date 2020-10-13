@@ -452,7 +452,7 @@ import axios from "axios";
            else if (valor.status == "aceptado" && valor.deleted == false) acep.push(1);
            else if (valor.status == "rechazado" && valor.deleted == false) recha.push(1);
            else if (valor.status == "nueva universidad" && valor.deleted == false)form.push(1);
-           else if (valor.status == "cerrada" && valor.deleted ==false)cerr.push('');
+           else if (valor.status == "cerrada" && valor.deleted ==false)cerr.push(1);
          
       });
       await Promise.all(acep).then( 

@@ -1,17 +1,23 @@
-<template>
+<template >
   <div>
-    <BaseSection>
-      <v-row  justify="center">
+
+<v-img
+                        class="white--text align-center"
+                        height="400px"
+                        :src="require('../Extra/Recurso_2.png')" 
+                      >
+           
         <v-col cols="12" align="center">
+            <h1 > {{infoConvocatoria.name}}</h1>
+             <v-col cols="12" align="center">
           <v-text>{{infoConvocatoria.semester}}</v-text>
         </v-col>
-
-        <v-col cols="12" align="center">
-  
-            <h1 > {{infoConvocatoria.name}}</h1>    <br> 
              <v-text>Cierre de postulaciones: {{infoConvocatoria.deadLine}}</v-text> <br> <br> 
         </v-col>
 
+</v-img>
+    <BaseSection>
+ <v-row  justify="center">
 
         <v-col cols="4">
           <br> <br>  
@@ -22,26 +28,40 @@
         <v-col cols="1">
         </v-col>
 
-        <v-col cols="4" >
+        <v-col  class=" align-center" cols="4" >
             <h2  align="center"> Condiciones</h2> <br>  
             <p> 
               <ul>
-                 <li> Dirigido a: {{infoConvocatoria.guided}} </li>
-                 <li> Semestre de intercambio: {{infoConvocatoria.semester}}</li>
-                 <li> Beneficios: {{infoConvocatoria.benefits}}</li>
+                 <li> <b> Dirigido a</b>: {{infoConvocatoria.guided}} </li>
+                 <li> <b> Semestre de intercambio</b>: {{infoConvocatoria.semester}}</li>
+                 <li> <b> Beneficios</b>: {{infoConvocatoria.benefits}}</li>
                </ul>
               </p> 
         </v-col>
       </v-row>
     </BaseSection>
 
-      <BaseSection>
-      <v-row  justify="center">
-      
-        <v-col cols="12" align="center">
-            <h1 > Requerimientos</h1> <br> <br> <br>    
+  <v-container  >
+    <v-row no-gutters >
+      <v-col>
+         <v-img
+                        class="white--text align-end"
+                        height="400"
+                        width="500"
+                        :src="require('../Extra/Recurso_5.png')" 
+                      />
+      </v-col>
+
+
+
+
+      <v-col  class=" align-center"> 
+          <v-row   class="mb-12" justify="center">
+
+        <v-col cols="6" align="center">
+            <h1 > Requerimientos</h1>   
         </v-col>
-       <v-col cols="10"   >
+       <v-col cols="12"   >
 
            <v-expansion-panels>
               
@@ -50,7 +70,7 @@
             <v-expansion-panel-header>Requisitos</v-expansion-panel-header>
             <v-expansion-panel-content >
 
-              <v-list-item-group  v-for="docR  in docRequisitos"  :key="docR.id" color="indigo" mandatory>
+              <v-list-item-group  v-for="docR  in docRequisitos"  :key="docR.id"  color="indigo" mandatory>
                 <v-list-item-content class="pt-0 pb-0">
                   <v-list-item >
                     <v-list-item-title >{{docR.text}}</v-list-item-title>
@@ -108,12 +128,18 @@
         </v-col>
 
         </v-row>
-      </BaseSection>
-  <BaseSection>
+   
+      </v-col>
+      
+    </v-row>
+  </v-container>
+
+ 
+     
       <v-row  justify="center">
       
         <v-col cols="12" align="center">
-            <h1 > Universidades</h1> <br> <br> <br>    
+            <h1 > Universidades</h1>  
         </v-col>
        <v-col cols="10"   >
           <v-expansion-panels>
@@ -158,17 +184,17 @@
         </v-expansion-panels>
        </v-col>
       </v-row>
-  </BaseSection>
   
       <BaseSection>
+   
       <v-img
-        src="https://atencionciudadana.minvu.gob.cl/wp-content/uploads/2018/08/Postulacion_Linea_Subsidios_250718.jpg"
-        class="white--text"
-        gradient="to right, rgba(5, 11, 31, .8), rgba(5, 11, 31, .8)"
-      >
+                        class="white--text align-end"
+                        height="600px"
+                        :src="require('../Extra/Recurso_2.png')" 
+                      >
         <v-container class="fill-height px-4 py-12">
-          <v-responsive class="d-flex align-center" height="100%" max-width="700" width="100%">
-             <heading title="POSTULAS A LA "/>  
+          <v-responsive class="d-flex align-center pb-10" height="100%" max-width="700" width="100%">
+             <heading title="POSTULA A LA "/>  
                <heading title="CONVOCATORIA "/>  
             <div class="d-flex flex-wrap">
                 <v-btn  @click="postular()">Postular</v-btn>
@@ -236,6 +262,7 @@ components: {
     await this.getRequeriments();
     await this.getSuitor();
     await this.getPostulacion();
+
     // await this.getAccount()
   },
  methods: {
@@ -266,25 +293,43 @@ components: {
     },
 
 
- async getPostulacion(){
-      await axios.post("http://142.93.79.50:8080/backend-drii/suitors/postulations/"+this.infoSuitor.id).then((response) => (this.filtrar(response.data)))
-        .catch((error) => console.log(error));
-  
+  async getPostulacion(){
+       let op = ['']  
+      await axios.post("http://142.93.79.50:8080/backend-drii/suitors/postulations/"+this.infoSuitor.id)
+      .then(function (response) {
+         op.push(response.data)
+      });
+        await Promise.all(op).then( 
+              this.filtrar(op[1])
+          )
+              
     },
 
-    filtrar(data){
+    async filtrar(data){
       let post = [];
-      data.forEach(function (valor) {
-          if (valor.status == "en proceso" && valor.delete == false) post.push(valor);
-        });
-      this.count = post.length
-      //console.log(this.id.idForm)
+      let rev = [];
+      let acep = [];
+      let recha = [];
+      let form =[];
+ 
+      await data.forEach(function (valor) {
+           if (valor.status == "en proceso" && valor.deleted==false) post.push(valor);
+           else if (valor.status == "revision" && valor.deleted == false) rev.push(1);
+           else if (valor.status == "aceptado" && valor.deleted == false) acep.push(1);
+           else if (valor.status == "rechazado" && valor.deleted == false) recha.push(1);
+           else if (valor.status == "nueva universidad" && valor.deleted == false)form.push(1);         
+      });
+      await Promise.all(acep).then( 
+        this.count = post.length + rev.length + acep.length +recha.length, +form.length,
+      )     
     },
+
+
 
 
   async postular(){
-
-      if (this.count ==0){
+      console.log('entre ')
+        if (this.count ==0 ){
         await axios.post("http://142.93.79.50:8080/backend-drii/postulations/create",{
             agreement: this.infoConvocatoria,  
             suitor: this.infoSuitor,
@@ -298,7 +343,8 @@ components: {
       }
       else 
         {this.dialog = true
-        }
+      
+        } 
       
   },
 

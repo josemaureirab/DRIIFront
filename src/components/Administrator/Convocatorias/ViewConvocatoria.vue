@@ -1,17 +1,23 @@
-<template>
+<template >
   <div>
-    <BaseSection>
-      <v-row  justify="center">
+
+<v-img
+                        class="white--text align-center"
+                        height="400px"
+                        :src="require('../../Extra/Recurso_2.png')" 
+                      >
+           
         <v-col cols="12" align="center">
+            <h1 > {{infoConvocatoria.name}}</h1>
+             <v-col cols="12" align="center">
           <v-text>{{infoConvocatoria.semester}}</v-text>
         </v-col>
-
-        <v-col cols="12" align="center">
-  
-            <h1 > {{infoConvocatoria.name}}</h1>    <br> 
              <v-text>Cierre de postulaciones: {{infoConvocatoria.deadLine}}</v-text> <br> <br> 
         </v-col>
 
+</v-img>
+    <BaseSection>
+ <v-row  justify="center">
 
         <v-col cols="4">
           <br> <br>  
@@ -22,26 +28,40 @@
         <v-col cols="1">
         </v-col>
 
-        <v-col cols="4" >
+        <v-col  class=" align-center" cols="4" >
             <h2  align="center"> Condiciones</h2> <br>  
             <p> 
               <ul>
-                 <li> Dirigido a: {{infoConvocatoria.guided}} </li>
-                 <li> Semestre de intercambio: {{infoConvocatoria.semester}}</li>
-                 <li> Beneficios: {{infoConvocatoria.benefits}}</li>
+                 <li> <b> Dirigido a</b>: {{infoConvocatoria.guided}} </li>
+                 <li> <b> Semestre de intercambio</b>: {{infoConvocatoria.semester}}</li>
+                 <li> <b> Beneficios</b>: {{infoConvocatoria.benefits}}</li>
                </ul>
               </p> 
         </v-col>
       </v-row>
     </BaseSection>
 
-      <BaseSection>
-      <v-row  justify="center">
-      
-        <v-col cols="12" align="center">
-            <h1 > Requerimientos</h1> <br> <br> <br>    
+  <v-container  >
+    <v-row no-gutters >
+      <v-col>
+         <v-img
+                        class="white--text align-end"
+                        height="400"
+                        width="500"
+                        :src="require('../../Extra/Recurso_5.png')" 
+                      />
+      </v-col>
+
+
+
+
+      <v-col  class=" align-center"> 
+          <v-row   class="mb-12" justify="center">
+
+        <v-col cols="6" align="center">
+            <h1 > Requerimientos</h1>   
         </v-col>
-       <v-col cols="10"   >
+       <v-col cols="12"   >
 
            <v-expansion-panels>
               
@@ -50,7 +70,7 @@
             <v-expansion-panel-header>Requisitos</v-expansion-panel-header>
             <v-expansion-panel-content >
 
-              <v-list-item-group  v-for="docR  in docRequisitos"  :key="docR.id" color="indigo" mandatory>
+              <v-list-item-group  v-for="docR  in docRequisitos"  :key="docR.id"  color="indigo" mandatory>
                 <v-list-item-content class="pt-0 pb-0">
                   <v-list-item >
                     <v-list-item-title >{{docR.text}}</v-list-item-title>
@@ -108,12 +128,18 @@
         </v-col>
 
         </v-row>
-      </BaseSection>
-  <BaseSection>
+   
+      </v-col>
+      
+    </v-row>
+  </v-container>
+
+ 
+     
       <v-row  justify="center">
       
         <v-col cols="12" align="center">
-            <h1 > Universidades</h1> <br> <br> <br>    
+            <h1 > Universidades</h1>  
         </v-col>
        <v-col cols="10"   >
           <v-expansion-panels>
@@ -158,36 +184,70 @@
         </v-expansion-panels>
        </v-col>
       </v-row>
-  </BaseSection>
   
       <BaseSection>
+   
       <v-img
-        src="https://atencionciudadana.minvu.gob.cl/wp-content/uploads/2018/08/Postulacion_Linea_Subsidios_250718.jpg"
-        class="white--text"
-        gradient="to right, rgba(5, 11, 31, .8), rgba(5, 11, 31, .8)"
-      >
+                        class="white--text align-end"
+                        height="600px"
+                        :src="require('../../Extra/Recurso_2.png')" 
+                      >
         <v-container class="fill-height px-4 py-12">
-          <v-responsive class="d-flex align-center" height="100%" max-width="700" width="100%">
-             <heading title="POSTULAS A LA "/>  
+          <v-responsive class="d-flex align-center pb-10" height="100%" max-width="700" width="100%">
+             <heading title="POSTULA A LA "/>  
                <heading title="CONVOCATORIA "/>  
             <div class="d-flex flex-wrap">
-                <v-btn disabled small>Postular</v-btn>
+                <v-btn  @click="postular()">Postular</v-btn>
             </div>
           </v-responsive>
         </v-container>
       </v-img>
     </BaseSection>
+
+
+  <div class="text-center">
+    <v-dialog
+      v-model="dialog"
+      width="500"
+    >
+    
+      <v-card>
+        <v-card-title class="headline grey lighten-2">
+          Error
+        </v-card-title>
+
+        <v-card-text>
+          <br>
+            Ya  tienes una postuación. Elimina tu postulación actual e intenta nuevamente.
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="dialog = false"
+          >
+            Cerrar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
+
   </div>
 </template>
 
 
 <script>
 //TODO: Si no es estudiante entonces boton postulado desactivado 
-import heading from "../../Extra/Heading.vue";
-import BaseSection from "../../Extra/BaseSection.vue";
-import { mapState , mapActions } from "vuex";
-import route from "@/router";
-import axios from "axios";
+import BaseSection from "../../Extra/BaseSection"
+import heading from "../../Extra/Heading"
+  import { mapState , mapActions } from "vuex";
+  import route from "@/router";
+  import axios from "axios";
 
 
 export default {
@@ -197,12 +257,15 @@ components: {
   },
 
   async created(){
+
     await this.getAgreement();
     await this.getRequeriments();
+    
+
     // await this.getAccount()
   },
  methods: {
-  ...mapActions(['getAgreement']),
+  ...mapActions(['getAgreement','getSuitor']),
   //  ...mapActions(['getAgressment','getAccount']),
 
    async getRequeriments(){
@@ -226,29 +289,45 @@ components: {
       this.docRequisitos = a,
       this.docAcademicos = b,
       this.docPersonales = c
-    }
+    },
+
+
   
+    
 
 
-  /*async postular(){
-      await axios.post("http://142.93.79.50:8080/backend-drii/postulations/create",{
-          "agreement": this.convocatoria,  
-           "suitor": this.account,
 
-      }).then((response) => (console.log(response.data)))
-        .catch((error) => console.log(error));
-      route.push({
-        name: "PostulacionesOutStudent",
-      });
-  }, */
+
+
+  async postular(){
+      /*console.log('entre ')
+        if (this.count ==0 ){
+        await axios.post("http://142.93.79.50:8080/backend-drii/postulations/create",{
+            agreement: this.infoConvocatoria,  
+            suitor: this.infoSuitor,
+            status: "en proceso",
+
+        }).then((response) => (console.log(response.data)))
+          .catch((error) => console.log(error));
+        route.push({
+          name: "PostulacionOutStudent",
+        });
+      }
+      else 
+        {this.dialog = true
+      
+        } 
+      */
+  },
 
   },
   computed: {
-    ...mapState(["infoConvocatoria"]),
+    ...mapState(["infoConvocatoria","infoSuitor"]),
   },
 
   data: () => ({
-
+    dialog: false,
+    count: 0,
     docRequisitos: [],
     docAcademicos: [],
     docPersonales: [],
