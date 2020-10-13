@@ -63,10 +63,12 @@ computed: {
 
   data: () => ({
       items: [
+          'en proceso',
           'revision',
           'aceptado',
           'rechazado',
-          'nueva universidad'
+          'nueva universidad',
+          'cerrada'
       ]
   }),
 };
