@@ -72,6 +72,25 @@
               </v-card-actions>
             </v-card>
           </v-col>
+          <v-col cols="4">
+            <v-card color="#385F73" dark class="cuadra">
+              <v-card-title class="headline">Vicedecanato</v-card-title>
+              <v-card-subtitle>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</v-card-subtitle>
+              <v-card-actions>
+                <v-btn text href="/Vicedecanato">Ingresar</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+           <v-col cols="4">
+            <v-card color="#385F73" dark class="cuadra">
+              <v-card-title class="headline">Jefe de Carrera</v-card-title>
+              <v-card-subtitle>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</v-card-subtitle>
+              <v-card-actions>
+                <v-btn text href="/JefeCarrera">Ingresar</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+
         </v-row>
       </v-container>
     </v-row>

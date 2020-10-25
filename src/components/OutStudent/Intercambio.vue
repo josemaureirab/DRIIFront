@@ -1,127 +1,153 @@
 <template>
-  <v-stepper v-model="e1">
-    <v-stepper-header>
-      <v-stepper-step
-        :complete="e1 > 1"
-        step="1"
-      >Documentos y Postulación a la Universidad de Destino</v-stepper-step>
+  <div>
+    <v-row align="center">
+      <v-expansion-panels color="red" multiple v-model="panel">
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <v-alert color="blue" dark icon="mdi-format-list-checks" dense
+              >Documentos Universidad de Destino</v-alert
+            >
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-list v-for="item in documentosUniversidad" :key="item">
+              <v-list-item>
+                <v-row justify="center">
+                  <v-col cols="6" align="left">
+                    <v-file-input show-size counter :label="item.name" />
+                  </v-col>
 
-      <v-divider></v-divider>
+                  <v-col cols="2" align="right">
+                    <v-btn class="ma-4" color="blue" dark>
+                      Enviar
+                      <v-icon dark right>mdi-upload</v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="1" align="right">
+                    <v-btn class="ma-4" color="green" dark>
+                      Descargar 
+                      <v-icon dark right>mdi-download</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-list-item>
+            </v-list>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </v-row>
 
-      <v-stepper-step :complete="e1 > 2" step="2">Trámites</v-stepper-step>
+      <v-row align="center">
+      <v-expansion-panels color="red" multiple v-model="panel">
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <v-alert color="blue" dark icon="mdi-format-list-checks" dense
+              >Documentos Intercambio</v-alert
+            >
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-list v-for="item in documentos2" :key="item">
+              <v-list-item>
+                <v-row justify="center">
+                  <v-col cols="6" align="left">
+                    <v-file-input show-size counter :label="item.name" />
+                  </v-col>
 
-      <v-divider></v-divider>
-    </v-stepper-header>
+                  <v-col cols="2" align="right">
+                    <v-btn class="ma-4" color="blue" dark>
+                      Enviar
+                      <v-icon dark right>mdi-upload</v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="1" align="right">
+                    <v-btn class="ma-4" color="green" dark>
+                      Descargar 
+                      <v-icon dark right>mdi-download</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-list-item>
+            </v-list>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </v-row>
 
-    <v-stepper-items>
-      <v-stepper-content step="1">
-        <v-row justify="center">
+     <v-row align="center">
+      <v-expansion-panels color="red" multiple v-model="panel">
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <v-alert color="blue" dark icon="mdi-format-list-checks" dense
+              >Contrato de estudio</v-alert
+            >
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-list v-for="item in documentos3" :key="item">
+              <v-list-item>
+                <v-row justify="center">
+                  <v-col cols="6" align="left">
+                    <v-file-input show-size counter :label="item.name" />
+                  </v-col>
 
-            <v-col cols="1" align="right" class="ma-4">
-              <v-tooltip  v-model="show" top>
-                <template  v-slot:activator="{ on, attrs }">
-                  <v-btn icon v-bind="attrs" v-on="on">
-                    <v-icon color="grey lighten-1">mdi-help</v-icon>
-                  </v-btn>
-                </template>
-                <span>
-                  Carta de recomendación del profesor blablablablabal
-                  <br />blablalbablablabl
-                </span>
-              </v-tooltip>
-            </v-col>
-      
-          <v-col cols="6" align="left">
-              <v-file-input show-size counter label="Carta de Compromiso" />
-          </v-col>
-          
-          <v-col cols="2"  align="right">
-            <v-btn class="ma-2" color="green" dark>
-              Enviar Archivo
-              <v-icon dark right>mdi-upload</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-
-          <v-row justify="center">
-
-            <v-col cols="1" align="right" class="ma-4">
-              <v-tooltip  v-model="show" top>
-                <template  v-slot:activator="{ on, attrs }">
-                  <v-btn icon v-bind="attrs" v-on="on">
-                    <v-icon color="grey lighten-1">mdi-help</v-icon>
-                  </v-btn>
-                </template>
-                <span>
-                  Carta de recomendación del profesor blablablablabal
-                  <br />blablalbablablabl
-                </span>
-              </v-tooltip>
-            </v-col>
-      
-          <v-col cols="6" align="left">
-              <v-file-input show-size counter label="Pasaporte" />
-          </v-col>
-          
-          <v-col cols="2"  align="right">
-            <v-btn class="ma-2" color="green" dark>
-              Enviar Archivo
-              <v-icon dark right>mdi-upload</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-
-       <v-row justify="center">
-
-            <v-col cols="1" align="right" class="ma-4">
-              <v-tooltip  v-model="show" top>
-                <template  v-slot:activator="{ on, attrs }">
-                  <v-btn icon v-bind="attrs" v-on="on">
-                    <v-icon color="grey lighten-1">mdi-help</v-icon>
-                  </v-btn>
-                </template>
-                <span>
-                  Carta de recomendación del profesor blablablablabal
-                  <br />blablalbablablabl
-                </span>
-              </v-tooltip>
-            </v-col>
-      
-          <v-col cols="6" align="left">
-              <v-file-input show-size counter label="Notas" />
-          </v-col>
-          
-          <v-col cols="2"  align="right">
-            <v-btn class="ma-2" color="green" dark>
-              Enviar Archivo
-              <v-icon dark right>mdi-upload</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
+                  <v-col cols="2" align="right">
+                    <v-btn class="ma-4" color="blue" dark>
+                      Enviar
+                      <v-icon dark right>mdi-upload</v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="1" align="right">
+                    <v-btn class="ma-4" color="green" dark>
+                      Descargar 
+                      <v-icon dark right>mdi-download</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-list-item>
+            </v-list>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </v-row>
 
 
-        <v-btn color="primary" @click="e1 = 2">Continuar</v-btn>
-      </v-stepper-content>
+     <v-row align="center">
+      <v-expansion-panels color="red" multiple v-model="panel">
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <v-alert color="blue" dark icon="mdi-format-list-checks" dense
+              >Notas</v-alert
+            >
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-list v-for="item in documentos4" :key="item">
+              <v-list-item>
+                <v-row justify="center">
+                  <v-col cols="6" align="left">
+                    <v-file-input show-size counter :label="item.name" />
+                  </v-col>
 
-      <v-stepper-content step="2">
-        <v-card class="mb-12" color="grey lighten-1"></v-card>
+                  <v-col cols="2" align="right">
+                    <v-btn class="ma-4" color="blue" dark>
+                      Enviar
+                      <v-icon dark right>mdi-upload</v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="1" align="right">
+                    <v-btn class="ma-4" color="green" dark>
+                      Descargar 
+                      <v-icon dark right>mdi-download</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-list-item>
+            </v-list>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </v-row>
 
-        <v-btn color="primary" @click="e1 = 3">Continuar</v-btn>
-      </v-stepper-content>
 
-      <v-stepper-content step="3">
-        <v-card class="mb-12" color="grey lighten-1"></v-card>
-
-        <v-btn color="primary" @click="e1 = 4">Continuar</v-btn>
-      </v-stepper-content>
-
-      <v-stepper-content step="4">
-        <v-card class="mb-12" color="grey lighten-1"></v-card>
-
-        <v-btn color="primary" @click="e1 = 1">Continuar</v-btn>
-      </v-stepper-content>
-    </v-stepper-items>
-  </v-stepper>
+  
+  </div>
 </template>
 
 <script>
@@ -129,7 +155,94 @@ export default {
   data() {
     return {
       e1: 1,
+
+
+      documentosUniversidad: [
+        {
+          name: "Pasaporte",
+          id: 1
+        },
+        {
+          name: "Notas",
+          id: 1
+        },
+        {
+          name: "Otros",
+          id: 1
+        },
+
+      ],
+        documentos2: [
+        {
+          name: "Compromiso estudiante seleccionado",
+          id: 1
+        },
+        {
+          name: "Certificado de alumno regular",
+          id: 1
+        },
+        {
+          name: "Certificado de notas",
+          id: 1
+        },
+        {
+          name: "Traducción del Certificado de notas",
+          id: 1
+        },
+        {
+          name: "Pasaporte",
+          id: 1
+        },
+        {
+          name: "Carta de aceptación",
+          id: 1
+        },
+        {
+          name: "Pasajes aéreos",
+          id: 1
+        },
+        {
+          name: "Seguro médico y de viaje",
+          id: 1
+        },
+         {
+          name: "Visa de estudiante",
+          id: 1
+        },
+         {
+          name: "Constancia de llegada",
+          id: 1
+        },
+         {
+          name: "Constancia de salida",
+          id: 1
+        },
+
+      ],
+
+
+      documentos3: [
+        {
+          name: "Contrato de estudio",
+          id: 1
+        },
+        {
+          name: "Modificación contrato de estudio",
+          id: 1
+        },
+      ],
+
+
+      documentos4: [
+        {
+          name: "Notas del intercambio",
+          id: 1
+        },
+      ],
+
+
     };
+    
   },
 };
 </script>

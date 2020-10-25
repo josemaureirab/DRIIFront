@@ -74,6 +74,13 @@ import EditNameFormulario from '../components/Formulario/EditNameFormulario.vue'
 
 /// 
 
+// 
+import ShowVicedecanato  from '../components/Other/Vicedecanato.vue'
+import ShowJefeCarera from '../components/Other/JefeCarrera.vue'
+// 
+
+
+
 import SignIn from '../views/Auth/SignIn.vue'
 import SignInAdm from '../components/auth/SignInAdm.vue'
 import SignUp from '../views/Auth/SignUp.vue'
@@ -204,6 +211,17 @@ Vue.use(VueRouter)
   component: EditCareer
 },
 // Gestion de Univesidades Administrador //
+{
+  path: '/Vicedecanato',
+  name: 'Vicedecanato',
+  component: ShowVicedecanato 
+},
+{
+  path: '/JefeCarrera',
+  name: 'JefeCarrera',
+  component: ShowJefeCarera
+},
+
 {
   path: '/ShowUniversities',
   name: 'ShowUniversities',

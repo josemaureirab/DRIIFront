@@ -40,9 +40,11 @@ export default new Vuex.Store({
     idQuestion: -1,
     infoQuestion: [],
     
-    idSuitor: 17,
+    idSuitor: 1,
     infoSuitor:[],
-   
+    
+    idPostulacion: -1,
+
 
     idConvocatoria: -1,
     infoConvocatoria:[],
@@ -70,6 +72,9 @@ export default new Vuex.Store({
     },
     updateIdSuitor(state, payload) {
       state.idSuti = payload;
+    },
+    updateIdPostulacion(state, payload) {
+      state.idPostulacion = payload;
     },
 
     //alerts

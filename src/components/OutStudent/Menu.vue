@@ -31,7 +31,9 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-row dense  v-if="aceptado.length !==  0">
+     <!--          <v-row dense  v-if="aceptado.length !==  0"> -->
+
+        <v-row dense>
           <v-col cols="4">
             <v-card color="#385F73" dark class="cuadra">
               <v-card-title class="headline">Mi Intercambio</v-card-title>

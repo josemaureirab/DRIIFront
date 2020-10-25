@@ -244,7 +244,7 @@
                 <v-list-item v-for="(item, i) in questions[n-1]" :key="i">
       <v-list-item-content>
         <v-col cols="9" justify="center">
-          <ViewStudentShortAnswer   v-if="item.questionType == '1'" v-bind:item="item" />
+          <ViewStudentShortAnswer   v-if="item.questionType == '1'"  :postulacion="postulacion" v-bind:item="item" />
           <ViewStudentSelectAnswer
             v-if="item.questionType == '2'" v-bind:item="item"
           />
@@ -375,11 +375,6 @@ import axios from "axios";
       this.steps = this.sections.length;
       //console.log(this.sections)
       await this.getQuestions();  
-      console.log(this.proceso)
-      console.log(this.cerrada)
-      console.log(this.aceptado)
-      console.log(this.revision)
-      console.log(this.formulario)
   },
   
     watch: {
@@ -520,7 +515,9 @@ import axios from "axios";
          rechazado : [],
         formulario :[],
         cerrada:[],
-        proceso:[]
+        proceso:[],
+
+        respuesta : ''
 
 
 

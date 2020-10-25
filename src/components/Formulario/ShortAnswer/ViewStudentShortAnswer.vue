@@ -6,6 +6,7 @@
           <v-card-text>
             <v-subheader class="pa-0">
               {{this.item.tittle}}
+  
               <v-tooltip v-if="item.help !== ''" top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn icon v-bind="attrs" v-on="on">
@@ -16,6 +17,7 @@
               </v-tooltip>
             </v-subheader>
             <v-text-field
+              v-model="respuesta"
               v-if="item.selectionType == 'Respuesta Corta'"
               label="Respuesta Corta"
               single-line
@@ -51,7 +53,7 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="date"
+                  v-model="respuesta"
                   label="Picker in menu"
                   readonly
                   v-bind="attrs"
@@ -66,6 +68,10 @@
             </v-menu>
             <v-card-subtitle v-if="item.required == false" single-line solo>Pregunta Obligatoria</v-card-subtitle>
           </v-card-text>
+              <v-btn icon v-on:click="submit">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn> 
+
         </v-col>
       </v-row>
     </v-container>
@@ -80,12 +86,16 @@ import { mapState , mapActions } from "vuex";
 import route from '@/router';
 
 export default {
+
+
   components: {
     DialogEditShortAnswer,
   },
 
+
   props: {
     item: Object,
+    postulacion:Object
   },
 
  computed: {
@@ -102,48 +112,33 @@ export default {
 
   methods: {
     ...mapActions(['getQuestions']),
-     buttonEdit() {
-      this.idQuestion = this.item.id
-    
 
-      route.push({
-          name:'DialogEditShortAnswer',
-      })
-    },
-
-  async buttonCopy(){
-await this.axios
-        .post("http://142.93.79.50:8080/backend-drii/questions/create", {
-          tittle: this.item.name,
-          questionType: this.item.questionType,
-          selectionType: this.item.select,
-          required: this.item.answerRequired,
-          form: this.item.formulario,
-          help: this.item.help,
-          section: this.item.selectSeccion
+     async createRespuesta(){
+         return await axios.post("http://142.93.79.50:8080/backend-drii/responses/create",{
+              postulation : this.postulacion,
+              text : this.respuesta,
         })
-        .then(function (response) {
-          console.log(response);
+     },
 
+     async createPostulationRespuesta(data){
+          await axios.post("http://142.93.79.50:8080/backend-drii/responsePostulations/create",{
+              postulation : this.postulacion,
+              question: this.item,
+              response : data
+        })
+     },
+    async submit() {
+        await this.createRespuesta().then(({ data }) => {
+          this.createPostulationRespuesta(data);
         });
-        this.getQuestions()           
-  },
-
-    async buttonDelete () {
-      await this.axios
-        .delete(
-          "http://142.93.79.50:8080/backend-drii/questions/delete/" +
-            this.item.id
-        )
-        .then(function (response) {
-          console.log(response);
-        });
-      await this.getQuestions();
+    
     },
+
   },
   data: () => ({
     date: "",
     menu: "",
+    respuesta: ""
   }),
 };
 </script>

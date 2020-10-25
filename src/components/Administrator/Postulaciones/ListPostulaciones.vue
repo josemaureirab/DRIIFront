@@ -21,20 +21,38 @@
                   <v-list-item-subtitle v-text="post.suitor.rut"></v-list-item-subtitle>
                   <v-list-item-title v-text="post.status"></v-list-item-title>
                 </v-list-item-content>
+
+                
+
                 <v-list-item-action>
-                  <v-row cols="12" justify="center">
-                    <v-col cols="2" align="center">
-                      <v-btn class="leftbutton" @click="editStatus(post)">
-                        Editar estado
-                      </v-btn>
-                    </v-col>
-                    <v-col cols="2" align="center">
-                      <v-btn @click="download(post.id)" color="blue">
-                        Descargar
-                      </v-btn>
-                    </v-col>
+
+                   <v-card flat class="py-12">
+                <v-card-text>
+                  <v-row align="center" justify="center">
                     
+                    <v-btn-toggle v-model="toggle_exclusive" mandatory>
+                     
+                      <v-btn v-if="post.status == 'aceptado'" color="green" @click="goDocument(post.id)">
+                              Documentos
+                      </v-btn>
+                      <v-btn @click="editStatus(post)" color="blue">
+                            Editar estado
+                      </v-btn>
+
+                       <v-btn @click="download(post.id)" color="green">
+                                Descargar
+                      </v-btn>
+                     
+                    </v-btn-toggle>
                   </v-row>
+                </v-card-text>
+              </v-card>
+
+
+
+               
+                    
+                
                 </v-list-item-action>
               </v-list-item>
             </v-list>
@@ -67,9 +85,24 @@ export default {
       get () { return this.$store.state.actualPostulation },
       set (payload) { this.$store.commit('updateActualPostulation', payload) }
     },
+    idPostulacion:{
+       get() { return this.$store.state.idPostulacion;},
+       set(payload) {this.$store.commit("updateIdPostulacion", payload);},
+    }
+    
   },
+
+
+
+
    methods: {
     ...mapActions(["getAgreements"]),
+
+    // id suitor
+    goDocument(id){
+       this.idPostulacion = id
+       router.push({name: 'ViewPostulacionAdministrator'})
+    },
 
     download(id){
       return id;
@@ -86,8 +119,6 @@ export default {
         )
       });
      this.postulaciones = opt;
-     console.log('soy yo');
-     console.log(this.postulaciones)
     },
 
 
