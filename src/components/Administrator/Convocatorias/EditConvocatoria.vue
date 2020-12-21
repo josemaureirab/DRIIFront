@@ -74,15 +74,6 @@
     <v-col cols="12">
       <v-card class="mx-auto" max-width="90%">
         <v-form ref="form" class="mx-10 py-10" v-model="valid" lazy-validation>
-          <v-file-input v-model="photoPortada" accept="image/*" label="Foto Portada"></v-file-input>
-          <v-file-input v-model="photoPagina" accept="image/*" label="Foto Pagina"></v-file-input>
-        </v-form>
-      </v-card>
-    </v-col>
-
-    <v-col cols="12">
-      <v-card class="mx-auto" max-width="90%">
-        <v-form ref="form" class="mx-10 py-10" v-model="valid" lazy-validation>
           <v-list three-line subheader>
             <v-subheader>Lista de Requisitos</v-subheader>
             <v-form v-for="(input,k) in inputs" :key="k">

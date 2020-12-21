@@ -37,15 +37,6 @@
         </v-row>
         <v-row dense>
           <v-col cols="4">
-            <v-card color="#385F73" dark class="cuadra">
-              <v-card-title class="headline"> Gestión de Step's</v-card-title>
-              <v-card-subtitle>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</v-card-subtitle>
-              <v-card-actions>
-                <v-btn text href="/ShowSteps">Ingresar</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-          <v-col cols="4">
             <v-card color="#1F7087" dark class="cuadra">
               <v-card-title class="headline"> Gestión de Usuarios</v-card-title>
               <v-card-subtitle>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</v-card-subtitle>

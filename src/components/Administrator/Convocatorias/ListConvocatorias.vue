@@ -17,16 +17,11 @@
               <v-row dense>
                 <v-col cols="4" v-for="item in guardadas" :key="item.id">
                   <v-card class="mx-auto" max-width="400">
-                    <v-img
-                      class="white--text align-end"
-                      height="200px"
-                      src="https://brocku.ca/international/wp-content/uploads/sites/17/Website_Carousel_CONAHEC-1800x1100.png"
-                    ></v-img>
                     <v-card-title>{{item.name}}</v-card-title>
                     <v-card-subtitle
                       class="pb-0"
                     >
-               
+  
                     Intercambios a realizar el semestre {{item.semester}}</v-card-subtitle>
                     <v-card-text class="text--primary">
                       <div>Inicio de postulaciones: {{item.startLine}}</div>
@@ -38,11 +33,6 @@
                         
                           <v-btn  @click="viewAgreement(item.id)" icon color="orange">
                             <v-icon>mdi-eye</v-icon>
-                          </v-btn>
-                        </v-col>
-                        <v-col cols="3" align="center">
-                          <v-btn @click="editAgreement(item.id)" icon color="orange">
-                            <v-icon>mdi-tooltip-edit</v-icon>
                           </v-btn>
                         </v-col>
                         <v-col cols="3" align="center">
@@ -75,11 +65,6 @@
                 <v-col cols="4" v-for="item in abiertas" :key="item.id">
                   
                   <v-card class="mx-auto" max-width="400">
-                    <v-img
-                      class="white--text align-end"
-                      height="200px"
-                      src="https://brocku.ca/international/wp-content/uploads/sites/17/Website_Carousel_CONAHEC-1800x1100.png"
-                    ></v-img>
                     <v-card-title>{{item.name}}</v-card-title>
                     <v-card-subtitle
                       class="pb-0"
@@ -126,13 +111,7 @@
             <v-container>
               <v-row dense>
                 <v-col cols="4" v-for="item in cerradas" :key="item.id">
-                  
                   <v-card class="mx-auto" max-width="400">
-                    <v-img
-                      class="white--text align-end"
-                      height="200px"
-                      src="https://brocku.ca/international/wp-content/uploads/sites/17/Website_Carousel_CONAHEC-1800x1100.png"
-                    ></v-img>
                     <v-card-title>{{item.name}}</v-card-title>
                     <v-card-subtitle
                       class="pb-0"

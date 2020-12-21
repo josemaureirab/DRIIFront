@@ -156,7 +156,6 @@ export default {
     return {
       e1: 1,
 
-
       documentosUniversidad: [
         {
           name: "Pasaporte",

@@ -101,24 +101,6 @@
         </v-form>
       </v-card>
     </v-col>
-
-    <v-col cols="12">
-      <v-card class="mx-auto" max-width="90%">
-        <v-form ref="form" class="mx-10 py-10">
-          <v-file-input
-            v-model="objConv.photoPortada"
-            accept="image/*"
-            label="Foto Portada"
-          ></v-file-input>
-          <v-file-input
-            v-model="objConv.photoPagina"
-            accept="image/*"
-            label="Foto Pagina"
-          ></v-file-input>
-        </v-form>
-      </v-card>
-    </v-col>
-
     <v-col cols="12">
       <v-card class="mx-auto" max-width="90%">
         <v-form ref="form" class="mx-10 py-10">
